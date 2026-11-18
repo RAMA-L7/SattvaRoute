@@ -1,0 +1,41 @@
+# REVIEW_LOG — engineering review history
+
+> What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
+> Newest entry first.
+
+## R-003 — Milestone 1C-R DRT-0305 root-cause review (2026-11-18, orchestrator)
+
+- **Inspected:** four independent subagent reports (`reports/agent_{A,B,C,D}_*.md`); installed OpenROAD source (`drt/src/io/io.cpp:1031-1070`, `odb/src/db/dbTypes.cpp:392-397`, `sta/verilog/VerilogReader.cc:117,2019-2020`, `dbSta/src/dbReadVerilog.cc:768-773`, `src/OpenRoad.tcl:367-413`); ODB DBs across stages; all preserved route logs and `preflight.txt`; a read-only in-memory probe of `$net setSpecial`.
+- **Findings:** DRT-0305 is a DB-import guard (`supply sigtype && !isSpecial`) raised by `pin_access`, not a routing algorithm failure. `zero_` is a constant-tie net (six macro SIGNAL sinks) typed GROUND without SPECIAL, caused by `SYNTH_NETLIST_FILES` bypassing `hilomap`. `set_special_nets` does not exist. D-013 failed for four independent reasons (invalid command, wrong `D:\tools` checkout, unreachable insertion after `pin_access`, no preserved evidence). PDN/VDD/VSS and DB consistency are correct.
+- **Risks:** marking `zero_` SPECIAL unblocks global routing but leaves six macro signal inputs without physical tie geometry — potential detailed-route opens/DRC. Must be disclosed, not hidden.
+- **Decisions:** D-013 retired as FAILED; D-014 proposed (OpenDB `$net setSpecial` in mirror before `pin_access`), approval required.
+- **Validation:** four independent agents converged; source + DB + execution-log + runtime-probe evidence; primitive probe `rc=0`, `isSpecial` 0→1.
+- **Conclusion:** root cause adjudicated with HIGH confidence; no fix applied pending approval.
+- **Follow-up:** approval gate; controlled run with new run ID; report-level verification per D-007.
+
+### R-003 addendum — D-014 experiment (2026-11-18T22:47+05:30)
+- **Inspected:** `runs/orfs_baseline_20261118T171712Z/evidence/preflight.txt`, `stage_route.log`, `work/logs/.../5_1_grt.log`; mirror and `D:\tools` hashes.
+- **Findings:** D-014 applied only to the mirror (hash 3968898c…→cd86b587…), `D:\tools` unchanged, preflight shows the modified mirror. DRT-0305 eliminated; design imports 3 snets (was 2), confirming `zero_` SPECIAL. New blocker DRT-0073 `No access point for u_sram/clk` at pin access (`FlexPA_acc_point.cpp:1524–1533`), with DRT-0419 warnings for macro D/Q pin centers. No `5_*.odb`/`route.guide`.
+- **Conclusion:** D-014 is a verified fix for DRT-0305 but is NOT a completion claim — global routing is blocked by a distinct macro pin-access issue.
+- **Risk/next:** do not stack a second fix; new decision ID and evidence required for DRT-0073; routing/extraction/timing remain NOT EVALUATED.
+
+## R-001 — Milestone 0 environment & toolchain review (2026-11-18, orchestrator)
+
+- **Inspected:** Windows/WSL/hardware; `D:\tools\EDA_TOOL_REGISTRY.md`; ORFS clone; ASAP7 platform; OpenFinRAM source (flow order, Calibre touchpoints, Yosys requirements).
+- **Findings:**
+  - WSL sees only 7.6 GiB (default 50% cap, no `.wslconfig`) — risk for large designs, accepted for small benchmark (D-006).
+  - ORFS `SYNTH_NETLIST_FILES` confirmed in clone (`flow/scripts/synth_preamble.tcl:17-25`).
+  - ASAP7 platform in clone is complete for PnR but fakeram macros have **no GDS** (abstract-only) — acceptable fallback, not primary benchmark.
+  - OpenFinRAM hard-fails on missing Calibre `v2lvs` at `openroad_manager.cpp:159`, **after** GDS (line 128) and **before** nothing else critical; LVS already non-fatal in `main.cpp:127`.
+  - OpenFinRAM `sram_control.v:50` needs Yosys ≥0.55 (multi-dim packed array ports); system Yosys 0.33 fails with parse error at `sram_control.v:50`.
+- **Decisions:** D-003 (ORFS path), D-004 (v2lvs patch), D-005 (yowasp shim), D-006 (WSL RAM).
+- **Validation:** OpenFinRAM full run EXIT=0; GDS top cell `sram_x4x4x1` (65 cells, dbu 0.00025); LEF CLASS BLOCK 3.672×13.608 µm, 22 pins; Liberty present (estimated).
+- **Conclusion:** Environment is sufficient for Milestone 1 baseline. Macro flow is reproducible via `scripts/gen_sram_macro.sh`.
+- **Follow-up:** (1) controller RTL + netlist provenance; (2) first ORFS run may expose OpenROAD-version or PDN incompatibilities — treat as evidence, not failure; (3) macro Liberty is estimated — document as limitation.
+
+## R-002 — OpenFinRAM v2lvs patch review (2026-11-18, orchestrator)
+
+- **Inspected:** `src/openroad_manager.cpp:159-166` patch (fatal→warning).
+- **Problem addressed:** commercial Calibre absent; SPICE output feeds LVS only.
+- **Risk:** controller SPICE for LVS is silently absent — mitigated: LOGW emitted at run time (log line 48-49 of run) and LVS itself reports non-fatal skip; signoff LVS out of scope for M1.
+- **Conclusion:** Acceptable for Milestone 1. Must be disclosed in every baseline report (see REPORT_LOG limitations).

@@ -1,0 +1,9 @@
+# SattvaRoute local ABC mapping script (yosys 0.33 bundled abc).
+# Deviation from ORFS flow/scripts/abc_speed.script — recorded as D-009.
+# Reason: yosys 0.33's yosys-abc segfaults in `buffer`/`&nf` with the ASAP7
+# NLDM libs ("cannot detect the buffer gate"); ORFS assumes a newer yosys.
+# Flow: strash -> if (delay-driven, target 950 ps) -> map.
+# yosys's abc pass appends `write_blif` itself — do NOT add it here.
+strash
+if -D 950
+map

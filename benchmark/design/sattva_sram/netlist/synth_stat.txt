@@ -1,0 +1,24 @@
+
+16. Printing statistics.
+
+=== sattva_ctrl ===
+
+   Number of wires:                 62
+   Number of wire bits:             62
+   Number of public wires:          17
+   Number of public wire bits:      17
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 57
+     DFFHQNx1_ASAP7_75t_R           10
+     NAND2xp33_ASAP7_75t_R          36
+     NAND3xp33_ASAP7_75t_R           4
+     NAND4xp25_ASAP7_75t_R           1
+     XOR2x2_ASAP7_75t_R              5
+     sram_x4x4x1                     1
+
+   Area for cell type \sram_x4x4x1 is unknown!
+
+   Chip area for module '\sattva_ctrl': 6.196500
+

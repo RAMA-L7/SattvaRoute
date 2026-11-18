@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Build / cache
+build/
+dist/
+tmp/
+temp/
+.cache/
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Secrets and local environment
+.env
+.env.*
+*.pem
+*.key
+id_rsa*
+*.pfx
+*.p12
+*.token
+*credentials*
+local.env
+secrets/
+
+# EDA work and generated databases
+runs/
+*.odb
+*.def
+*.gds
+*.oas
+*.sdc.bak
+*.rpt.tmp
+*.log.tmp
+work/
+results/
+logs_raw/
+*.swp
+
+# External clone / third-party tool trees
+benchmark/design/OpenFinRAM/
+tools/
+third_party_downloads/
+
+# Large generated collateral
+*.gz
+*.zip
+*.tar
+*.tar.gz
+qrcTechFile*
+calibre/

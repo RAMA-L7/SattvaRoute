@@ -1,0 +1,21 @@
+Source: runs/orfs_baseline_20261118T171712Z/work/logs/asap7/sattva_sram/base/5_1_grt.log
+
+DRT-0305 occurrences: 0 (verified by grep)
+
+L16: pin_access
+L33: Number of snets:          3
+L34: Number of nets:           72
+L36: [WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/D[0]
+L37: [WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/D[1]
+L38: [WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/D[2]
+L39: [WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/D[3]
+L40: [WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/Q[0]
+L41: [WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/Q[1]
+L42: [WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/Q[2]
+L43: [WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/Q[3]
+L108: [ERROR DRT-0073] No access point for u_sram/clk (sram_x4x4x1).
+L109: DRT-0073
+L111: "drt::pin_access_cmd $db_process_node  $via_access_layer $verbose $min_access_points  $via_in_pin_bottom_layer $via_in_pin_top_layer"
+L112:     (procedure "pin_access" line 65)
+L114: "pin_access"
+L120: "log_cmd pin_access {*}$additional_args"

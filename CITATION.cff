@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it."
+title: "SattvaRoute: Evidence-driven AI-assisted physical design orchestration and approval-gated recovery"
+type: software
+authors:
+  - family-names: "SattvaRoute contributors"
+version: 0.1.0
+date-released: 2026-11-18
+repository-code: "https://github.com/RAMA-L7/SattvaRoute"
+license: MIT
+keywords:
+  - physical design
+  - EDA
+  - OpenROAD
+  - AI agents
+  - failure diagnosis
+  - reproducibility
+abstract: >
+  SattvaRoute is a research prototype for evidence-grounded physical-design
+  orchestration. It executes OpenROAD-flow stages with immutable run evidence,
+  diagnoses failures using logs and OpenDB state, requires human approval for
+  bounded changes, and reports execution and engineering status separately.

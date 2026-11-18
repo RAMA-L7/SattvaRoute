@@ -1,0 +1,5 @@
+Source: runs/orfs_baseline_20261118T152845Z/evidence/stage_route.log
+
+L1: make: Entering directory '/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow'
+L39: [ERROR DRT-0305] Net zero_ of signal type GROUND is not routable by TritonRoute. Move to special nets.
+L40: DRT-0305
