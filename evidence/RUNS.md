@@ -11,6 +11,7 @@ All runs are preserved locally under `runs/`; full databases are not published. 
 | `orfs_baseline_20261118T163746Z` | floorplan | rc=2, STA-0562 | failed PDN-side `add_global_connection -net_type` experiment; reverted |
 | `orfs_baseline_d013_20261118T160213Z` | — | no evidence captured | failed attempt with no preserved proof |
 | `orfs_baseline_20261118T171712Z` | route | rc=2, DRT-0073 | **D-014 experiment**: DRT-0305 eliminated; macro clock-pin access blocker |
+| `orfs_baseline_20261119T131025284719666Z_9263` | route | rc=2, DRT-0073 | **FDE-003 real validation**: hardened runner, 18 evidence files, 56/56 hashes OK, process rc=2 matched `run.json`; no design change or recovery |
 
 ## Selected evidence files
 

@@ -147,3 +147,16 @@ Verification status: 25/25 + 14/14 offline tests PASS; no fabricated approvals; 
 Files modified: scripts/sattva_approval.py, scripts/run_baseline_orfs.sh, state/approval_policy.json, tests/test_approval.py, scripts/failure_case_1_workflow.py, scripts/routing_fix_demo.py, PROJECT_STATE.md, coordination/ACTIVE_WORK.md, coordination/TASK_BOARD.md, coordination/MILESTONE_ASSESSMENT.md, docs/decisions/D-014_proposal.md, logs/DAILY_LOG.md, logs/AGENT_ACTIVITY.md.
 Known problems: approval ledger is JSONL append-only (single-process serialization via target lock only); no UI; scope validation requires explicit operator-declared contiguous scope; DRT-0073 unresolved.
 Commit status: public commit 4aa059591811fcbe20ca657fd6aa1cb67211d588 pushed to origin/main (43ffebb..4aa0595); remote HEAD verified equal to local; publish working tree clean after final state sync.
+
+--- SESSION START/END — T-FDE-003 real baseline validation (2026-11-19) ---
+Agent/model: orchestrator + Agents A/B/C/D (read-only)
+Starting state: publish fc10d59 = remote; runner 0c790cc9…; D-014 mirror patch cd86b587…; source clone 3968898c…; no approval vars; no active EDA processes; 114 GiB free.
+Pre-execution: 4 agents audited tool identity, runner/state, artifacts, and plan; all SAFE/CONDITIONAL GO; coordinator re-verified hashes, approval-env absence, no duplicate processes, sentinel hash.
+Execution: exactly one `wsl -d Ubuntu-24.04 -- bash -c 'bash /mnt/d/SattvaRoute/scripts/run_baseline_orfs.sh'`; observed `$LASTEXITCODE=2`; new run `orfs_baseline_20261119T131025284719666Z_9263`; no second run, no fix, no approval record.
+Results: stages 0/0/0/0/0/0/2 (finish not launched); durations 0/1/7/19/33/11/7 s; run.json overall_rc=2 first_failed_stage=route; 18 evidence files; 56 work files = 56 hash lines (56 OK); DRT-0305=0, DRT-0073=2, DRT-0419=8; prior-run sentinel unchanged; no approval artifacts.
+Independent post-run: B 7/7 PASS; C all evidence expectations PASS (route FAIL expected); D overall GO, no overclaims.
+Files changed: new run dir, docs/FDE-003_REAL_BASELINE_VALIDATION.md, logs/sessions/FDE-003_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*, publish evidence/RUNS.md.
+Problems: DRT-0073 macro clk pin access (pre-existing, not fixed); OpenROAD `bazel-nostamp` not source-revision-pinned; klayout optional missing.
+Current status: T-FDE-003 DONE; one trustworthy real baseline validation; physical-design routing still BLOCKED.
+Next: FDE-004 DRT-0073 investigation only after new decision ID + approval.
+Safe for another agent to continue: YES; lock released; evidence preserved.

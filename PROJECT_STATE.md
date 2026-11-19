@@ -4,11 +4,11 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** FDE-002 — Exact-patch approval enforcement and state integrity
-- **Current status:** FDE-001 DONE (runner reliability, public commit `43ffebb`); FDE-002 approval boundary implemented and offline-verified: 25/25 approval tests + 14/14 runner tests PASS. Approval is now enforced in code at the runner's execution boundary; no EDA run was performed. T-M1-004 COMPLETE: DRT-0305 eliminated by D-014, global routing BLOCKED by distinct DRT-0073 (macro `clk` pin access). Original baseline immutable.
-- **Last updated:** 2026-11-19 (orchestrator, T-FDE-002)
-- **Current active task:** T-FDE-002 (approval enforcement + status corrections); no EDA recovery authorized
-- **Active agents:** orchestrator (this session)
+- **Current phase:** FDE-003 — Real baseline validation of the hardened runner
+- **Current status:** T-FDE-003 COMPLETE: one real run `orfs_baseline_20261119T131025284719666Z_9263` validated the hardened runner — process rc=2 matched `run.json`, 18 evidence files, 56/56 artifact hashes OK, no cross-run contamination; four independent reviewers converged on GO. Route stage FAIL at DRT-0073 (pre-existing macro `clk` pin-access blocker), not fixed here. FDE-001/FDE-002 remain complete. No routed baseline exists.
+- **Last updated:** 2026-11-19 (orchestrator, T-FDE-003)
+- **Current active task:** none; next requires new decision ID + approval for DRT-0073
+- **Active agents:** orchestrator; Agents A/B/C/D completed and released
 
 ## Completed milestones
 
