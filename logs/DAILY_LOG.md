@@ -160,3 +160,13 @@ Problems: DRT-0073 macro clk pin access (pre-existing, not fixed); OpenROAD `baz
 Current status: T-FDE-003 DONE; one trustworthy real baseline validation; physical-design routing still BLOCKED.
 Next: FDE-004 DRT-0073 investigation only after new decision ID + approval.
 Safe for another agent to continue: YES; lock released; evidence preserved.
+
+--- SESSION START/END — T-FDE-004 DRT-0073 investigation (2026-11-19) ---
+Agent/model: orchestrator + Agents A/B/C/D (read-only, parallel, disjoint scopes)
+Starting state: publish d273077 = remote; primary run orfs_baseline_20261119T131025284719666Z_9263; D-014 patch cd86b587… present; no design/config/run changes.
+Work: four independent investigations — A macro geometry (LEF/GDS/ODB), B tracks/vias, C FlexPA source/log diagnostics, D placement/Snapper. Coordinator reconciled findings and adjudicated.
+Results: ROOT CAUSE PROBABLE — thin single M4 clk pin (0.084x0.024 um) over full-macro M1-M5 OBS with no carve-outs; pin center exactly on M4 track #345; M3 tracks cross pin but via halves land inside OBS; FlexPA evaluated clk (CLOCK, non-special) and all APs were filtered, exact stage NOT EVALUATED. Placement legal/on-track, Snapper bypass irrelevant; grid misalignment, clock-layer/classification, D-014/zero_ refuted.
+Files: docs/FDE-004_DRT0073_ROOT_CAUSE_INVESTIGATION.md, logs/sessions/FDE-004_S001_handoff.md, docs/decisions/DECISIONS.md D-015, PROJECT_STATE.md, coordination/*, logs/*.
+Safety: no RTL/netlist/SDC/LEF/GDS/Liberty/PDN/placement/layer/via/OpenROAD/ORFS/D-014 change; no recovery patch; no second run; no expensive experiment.
+Current status: T-FDE-004 DONE; DRT-0073 still BLOCKED; no routed baseline; next experiment requires approval.
+Safe for another agent to continue: YES; lock released.

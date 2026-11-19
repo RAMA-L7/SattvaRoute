@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** FDE-003 — Real baseline validation of the hardened runner
-- **Current status:** T-FDE-003 COMPLETE: one real run `orfs_baseline_20261119T131025284719666Z_9263` validated the hardened runner — process rc=2 matched `run.json`, 18 evidence files, 56/56 artifact hashes OK, no cross-run contamination; four independent reviewers converged on GO. Route stage FAIL at DRT-0073 (pre-existing macro `clk` pin-access blocker), not fixed here. FDE-001/FDE-002 remain complete. No routed baseline exists.
-- **Last updated:** 2026-11-19 (orchestrator, T-FDE-003)
-- **Current active task:** none; next requires new decision ID + approval for DRT-0073
+- **Current phase:** FDE-004 — DRT-0073 macro pin-access root-cause investigation
+- **Current status:** T-FDE-004 COMPLETE (investigation only): four independent agents + coordinator adjudicated DRT-0073 as **ROOT CAUSE PROBABLE** — thin M4 `clk` pin over full-macro M1–M5 OBS leaves no legal via/escape access point. Placement, grid alignment, net classification, D-014/`zero_` refuted by evidence. Exact FlexPA filter stage NOT EVALUATED. No fix applied; no second run. Verdict recorded as D-015 (finding adopted, no remedy approved).
+- **Last updated:** 2026-11-19 (orchestrator, T-FDE-004)
+- **Current active task:** none; next requires new decision ID + approval for a controlled diagnostic experiment (D-015 next step)
 - **Active agents:** orchestrator; Agents A/B/C/D completed and released
 
 ## Completed milestones

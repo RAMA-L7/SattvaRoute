@@ -3,6 +3,15 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-004 — FDE-004 DRT-0073 root-cause review (2026-11-19, orchestrator)
+
+- **Inspected:** four parallel read-only agent reports; FDE-003 run `5_1_grt.log/.json`, `4_cts.odb`, macro LEF/GDS/Liberty, `macro_placement.tcl`, ASAP7 track/via definitions, installed OpenROAD FlexPA source.
+- **Findings:** `clk` single M4 pin 0.084×0.024 µm, center exactly on M4 track; full-macro M1–M5 OBS with no carve-outs; one geometric via candidate but M3/M5 halves inside OBS; FlexPA evaluated the pin and all APs were filtered, exact stage unproven. Placement legal and on-track; Snapper bypass irrelevant; grid/classification/D-014 refuted.
+- **Decisions:** D-015 finding adopted (root cause PROBABLE); no remedy approved.
+- **Validation:** LEF↔GDS↔Liberty↔ODB agreement; four independent agents converged on mechanism class.
+- **Conclusion:** ROOT CAUSE PROBABLE; missing per-candidate AP diagnostics prevent HIGH certainty on exact filter stage.
+- **Follow-up:** scratch-copy FlexPA AP diagnostic with via-in-pin control, only after approval.
+
 ## R-003 — Milestone 1C-R DRT-0305 root-cause review (2026-11-18, orchestrator)
 
 - **Inspected:** four independent subagent reports (`reports/agent_{A,B,C,D}_*.md`); installed OpenROAD source (`drt/src/io/io.cpp:1031-1070`, `odb/src/db/dbTypes.cpp:392-397`, `sta/verilog/VerilogReader.cc:117,2019-2020`, `dbSta/src/dbReadVerilog.cc:768-773`, `src/OpenRoad.tcl:367-413`); ODB DBs across stages; all preserved route logs and `preflight.txt`; a read-only in-memory probe of `$net setSpecial`.

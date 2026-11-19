@@ -16,6 +16,7 @@
 | D-012 | `macro_placement.tcl` with `-exact` bypasses MPL-0005 (floorplan rc=0) | 2026-11-18 | Active |
 | D-013 | `set_special_nets [list zero_]` in `global_route.tcl` — **FAILED execution attempt** (retired): command does not exist in this build, was targeted at the unused `D:\tools` copy, and was prescribed after the failing `pin_access`. Retained as evidence, not relabeled. | 2026-11-18 | Failed / retired |
 | D-014 | Mark `zero_` SPECIAL via OpenDB `$net setSpecial` in the **execution mirror** `global_route.tcl` before `pin_access` — minimal DB-level DRT-0305 recovery. Applied and tested in `runs/orfs_baseline_20261118T171712Z`: **DRT-0305 RESOLVED**, but global routing now blocked by a distinct `DRT-0073 No access point for u_sram/clk` (macro pin access). No second fix applied. | 2026-11-18 | APPLIED — partial success; new blocker DRT-0073 |
+| D-015 | FDE-004 adjudication: DRT-0073 root cause **PROBABLE** — thin M4 `clk` pin over full-macro M1–M5 OBS leaves no legal via/escape access point; placement, grid alignment, net classification and D-014/`zero_` refuted. Exact FlexPA filter stage NOT EVALUATED. | 2026-11-19 | FINDING ADOPTED — **no remedy approved**; full report `docs/FDE-004_DRT0073_ROOT_CAUSE_INVESTIGATION.md` |
 
 Details: D-001..D-006 rationale recorded in `docs/milestone0-environment-audit.md`;
 D-007 in Phase D rules; D-008 in `AGENTS.md`; D-009..D-012 in `logs/DAILY_LOG.md`

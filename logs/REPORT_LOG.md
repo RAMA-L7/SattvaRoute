@@ -4,6 +4,15 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## FDE-004 — DRT-0073 macro pin-access investigation (2026-11-19, orchestrator)
+
+- **Objective:** establish a defensible root cause for `DRT-0073 No access point for u_sram/clk` using geometry, tracks, vias, ODB and FlexPA source evidence.
+- **Work completed:** four independent read-only investigations; coordinator adjudication; D-015 finding record; report and session handoff.
+- **Evidence:** primary run `orfs_baseline_20261119T131025284719666Z_9263`; LEF/GDS/Liberty/ODB geometry; ASAP7 `make_tracks.tcl`; VIA34/VIA45 rules; FlexPA source; placement ODB.
+- **Failures/limitations:** exact FlexPA filter stage and per-candidate rejection reasons NOT EVALUATED; no routed DB exists; no detailed routing/extraction/timing.
+- **Milestone verdict:** **ROOT CAUSE PROBABLE** — thin M4 `clk` pin over full-macro M1–M5 OBS leaves no legal via/escape access point. No fix approved or applied; no second run.
+- **Remaining tasks:** approved scratch-copy AP diagnostic; then a new decision for any remedy.
+
 ## M1C-R — DRT-0305 Root Cause Investigation (2026-11-18, orchestrator)
 
 - **Objective:** explain why D-013 failed in the actual ORFS execution path, adjudicate root cause, propose a minimal justified fix, and establish a reliable path to detailed routing.
