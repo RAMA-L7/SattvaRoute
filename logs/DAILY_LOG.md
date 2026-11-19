@@ -146,4 +146,4 @@ Incomplete: no real EDA recovery run; no real approval for any actual patch; no 
 Verification status: 25/25 + 14/14 offline tests PASS; no fabricated approvals; remote verification after push recorded below.
 Files modified: scripts/sattva_approval.py, scripts/run_baseline_orfs.sh, state/approval_policy.json, tests/test_approval.py, scripts/failure_case_1_workflow.py, scripts/routing_fix_demo.py, PROJECT_STATE.md, coordination/ACTIVE_WORK.md, coordination/TASK_BOARD.md, coordination/MILESTONE_ASSESSMENT.md, docs/decisions/D-014_proposal.md, logs/DAILY_LOG.md, logs/AGENT_ACTIVITY.md.
 Known problems: approval ledger is JSONL append-only (single-process serialization via target lock only); no UI; scope validation requires explicit operator-declared contiguous scope; DRT-0073 unresolved.
-Commit status: see publication section after push.
+Commit status: public commit 4aa059591811fcbe20ca657fd6aa1cb67211d588 pushed to origin/main (43ffebb..4aa0595); remote HEAD verified equal to local; publish working tree clean after final state sync.
