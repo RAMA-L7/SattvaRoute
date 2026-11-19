@@ -1,0 +1,22 @@
+GATE 2 OFFLINE DRY-RUN — FDE-006
+CMD: bazelisk --output_base=/mnt/d/SattvaRoute/experiments/FDE-006/FDE-006-20261119T143807Z-7004/build/output_base build --nobuild --nofetch --jobs=8 --remote_cache= --repository_cache=/root/.cache/bazel/_bazel_root/cache/repos/v1 //:openroad
+2026-11-19T14:53:28+00:00
+SOURCE_HEAD=3d7b9363edea35e8c41d1403a91720dba1e54cd8
+SOURCE_DIRTY_COUNT=37
+INFO: Invocation ID: fa676912-ddc0-49e1-9e18-c7a4a1d7d9d2
+Computing main repo mapping: 
+Loading: 
+Loading: 0 packages loaded
+Analyzing: target //:openroad (0 packages loaded, 0 targets configured)
+ERROR: Analysis of target '//:openroad' failed; build aborted: to fix, run
+	bazel fetch //...
+External repository @@rules_go++go_sdk+go_toolchains not found and fetching repositories is disabled.
+INFO: Elapsed time: 0.879s
+INFO: 0 processes.
+ERROR: Build did NOT complete successfully
+RC=1
+--- CORRECTION: copied source intentionally has no .git; earlier git lines referred to enclosing SattvaRoute repo ---
+OPENROAD_SOURCE_HEAD=629aa76b94ae420170d18692016a7be9101a53e7
+OPENROAD_SOURCE_DIRTY_COUNT=2
+PRODUCTION_BINARY_SHA=c1b90e0af69bc9779cde8fd1579a92a10738ddebb9ea16e459f280556c349ee9
+SOURCE_ODB_SHA=35bff121b42b070023f7b9704ab2c8bd1d5dbb0027f403fde7dd8eb8161400e1

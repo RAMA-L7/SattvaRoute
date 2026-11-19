@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** FDE-005 — Controlled FlexPA access-point diagnostic experiment
-- **Current status:** T-FDE-005 COMPLETE: isolated A/B `pin_access` diagnostics on scratch copies of the FDE-003 CTS DB; both fail identically with DRT-0073 and aggregate reason `At least 3 sparse access points`; via-in-pin M4 window has no effect. Source ODB `35bff121…` byte-identical before/after. Root cause remains **ROOT CAUSE PROBABLE** (not upgraded; no candidate-level rejection data). D-016 finding adopted, no remedy approved. No fix, no second baseline.
-- **Last updated:** 2026-11-19 (orchestrator, T-FDE-005)
-- **Current active task:** none; next requires new approval for an instrumented candidate-level diagnostic (FDE-006)
+- **Current phase:** FDE-006 — Instrumented FlexPA candidate-level investigation
+- **Current status:** T-FDE-006 BLOCKED/INCONCLUSIVE: pipeline and narrow instrumentation design completed, but Gate 2 diagnostic build failed offline (`rules_go++go_sdk+go_toolchains` not cached, build image unmountable); no candidate-level evidence, no A/B experiments. Source ODB `35bff121…`, source HEAD `629aa76…`, production binary `c1b90e0a…` unchanged. Root cause remains **ROOT CAUSE PROBABLE** from FDE-004/005, not upgraded. D-017 records the blocker; no remedy approved.
+- **Last updated:** 2026-11-19 (orchestrator, T-FDE-006)
+- **Current active task:** none; next requires approval for offline Bazel cache/fetch or a prebuilt instrumented binary
 - **Active agents:** orchestrator; Agents A/B/C/D completed and released
 
 ## Completed milestones

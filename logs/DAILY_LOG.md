@@ -182,3 +182,14 @@ Safety: no RTL/netlist/SDC/LEF/GDS/PDN/placement/layer/via/OpenROAD/ORFS/D-014 c
 Current status: T-FDE-005 DONE; DRT-0073 remains BLOCKED; no routed baseline.
 Next: FDE-006 instrumented candidate-level diagnostic only after separate approval.
 Safe for another agent to continue: YES; lock released.
+
+--- SESSION START/END — T-FDE-006 instrumented FlexPA investigation (2026-11-19) ---
+Agent/model: orchestrator + Agents A/B/C/D (read-only source/geometry/build/review)
+Starting state: pub 6f338df = remote; OpenROAD source 629aa76 clean-ish (2 dirty files); production binary c1b90e0a…; source ODB 35bff121….
+Work: source pipeline mapped with exact file:line; narrow one-file instrumentation patch designed (NOT applied); geometry candidates reconstructed; isolated source copy created (13002 files, 1.85 GB, no .git), offline build attempted.
+Blocker: bazelisk 9.3.2 cached offline but repository cache empty; build image unmountable; --nofetch dry-run rc=1 with 'External repository @@rules_go++go_sdk+go_toolchains not found and fetching repositories is disabled'. Gate 2 NO-GO; Gate 3/4 not attempted. No network fetch or dependency install (out of scope).
+Result: INCONCLUSIVE for FDE-006; no candidate coordinates/rejection reasons obtained; root cause remains ROOT CAUSE PROBABLE from FDE-004/005; D-017 adopted (BLOCKED, no remedy).
+Safety: production source/binary/ODB/design/ORFS/D-014 unchanged; no fix; no full baseline; bazel servers shut down.
+Files: docs/FDE-006_INSTRUMENTED_FLEXPA_CANDIDATE_INVESTIGATION.md, experiments/FDE-006/FDE-006-20261119T143807Z-7004/** (proposed patch, gate2 log, manifests), logs/sessions/FDE-006_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: approval for offline repo cache or a prebuilt instrumented binary, then rerun Gates 1-4.
+Safe for another agent to continue: YES; lock released.

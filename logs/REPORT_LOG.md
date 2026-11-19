@@ -4,6 +4,15 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## FDE-006 — Instrumented FlexPA candidate-level investigation (2026-11-19, orchestrator)
+
+- **Objective:** expose candidate AP coordinates/rejection reasons for `u_sram/clk` via target-specific instrumentation and a scratch OBS control.
+- **Work completed:** source pipeline mapped, instrumentation patch designed (not applied), geometry candidates reconstructed, isolated source workspace created, offline build dry-run executed and captured.
+- **Evidence:** `experiments/FDE-006/FDE-006-20261119T143807Z-7004/build/gate2_nobuild.log`, `patches/FDE006_instrumentation_PROPOSED.diff`, manifests.
+- **Failures:** Gate 2 NO-GO — offline Bazel analysis fails on missing `rules_go` go_sdk; build image unmountable; no network/install permitted.
+- **Milestone verdict:** **INCONCLUSIVE** (build blocked); root cause remains ROOT CAUSE PROBABLE from earlier milestones; no fix approved or applied.
+- **Remaining tasks:** obtain offline cache/fetch authorization or a prebuilt instrumented binary; rerun FDE-006 gates.
+
 ## FDE-005 — Controlled FlexPA diagnostic (2026-11-19, orchestrator)
 
 - **Objective:** resolve FDE-004's remaining uncertainty about FlexPA candidate generation/rejection for `u_sram/clk`.

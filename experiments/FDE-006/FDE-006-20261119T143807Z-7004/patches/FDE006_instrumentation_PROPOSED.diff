@@ -1,0 +1,92 @@
+# FDE-006 proposed instrumentation patch — NOT APPLIED
+# Target: src/drt/src/pa/FlexPA_acc_point.cpp at OpenROAD commit 629aa76b94ae420170d18692016a7be9101a53e7
+# Source: Agent A report FDE006_A_source_instrumentation.md sections 6.2 and 7.
+# Status: DESIGN ONLY. Gate 2 (offline build) failed; this patch was never applied or compiled.
+
+--- a/src/drt/src/pa/FlexPA_acc_point.cpp
++++ b/src/drt/src/pa/FlexPA_acc_point.cpp   (PROPOSED — NOT APPLIED)
+
+@@ after line 39 (namespace drt) — target-only, thread-local gate
++// ---- FDE-006 target probe (compile-time target constants) ----
++namespace {
++constexpr const char* kFde006Inst = "u_sram";
++constexpr const char* kFde006Term = "clk";
++inline bool isFde006Target(const frInstTerm* it)
++{
++  return it && it->getInst()->getName() == kFde006Inst
++             && it->getTerm()->getName() == kFde006Term;
++}
++static thread_local bool g_fde006_active = false;
++static thread_local int  g_fde006_last_sparse = -1;
++#define FDE006_LOG(logger, ...)                                              \
++  do {                                                                       \
++    if (g_fde006_active) {                                                   \
++      (logger)->debug(utl::DRT, "pin_access", __VA_ARGS__);                  \
++    }                                                                        \
++  } while (0)
++}  // namespace
+
+@@ ~247  createSingleAccessPoint: outside maxrect
++    FDE006_LOG(logger_, "FDE006 DROP stage=create reason=outside_maxrect "
++               "x={} y={} lay={} L={} U={}", x, y, layer_num,
++               (int) lower_type, (int) upper_type);
+
+@@ ~252  createSingleAccessPoint: duplicate AP
++    FDE006_LOG(logger_, "FDE006 DROP stage=create reason=dup_apset "
++               "x={} y={} lay={} L={} U={}", x, y, layer_num,
++               (int) lower_type, (int) upper_type);
+
+@@ ~327  createSingleAccessPoint: created
++  FDE006_LOG(logger_, "FDE006 CREATE x={} y={} lay={} L={} U={} "
++             "allow_planar={} allow_via={}", x, y, layer_num,
++             (int) lower_type, (int) upper_type, allow_planar, allow_via);
+
+@@ ~669  filterPlanarAccess: endpoint inside pin shape
++    FDE006_LOG(logger_, "FDE006 DROP stage=planar reason=endpoint_inside "
++               "x={} y={} lay={} dir={}", begin_point.x(), begin_point.y(),
++               ap->getLayerNum(), (int) dir);
+
+@@ ~700  filterPlanarAccess: DRC result
++  FDE006_LOG(logger_, "FDE006 PLANAR-DRC x={} y={} lay={} dir={} clean={}",
++             begin_point.x(), begin_point.y(), ap->getLayerNum(),
++             (int) dir, no_drv);
+
+@@ ~945  filterViaAccess: via not enclosed in pin
++    FDE006_LOG(logger_, "FDE006 DROP stage=via reason=not_enclosed "
++               "x={} y={} lay={} via={}", begin_point.x(), begin_point.y(),
++               layer_num, via_def->getName());
+
+@@ ~950  filterViaAccess: via DRC accept
++    FDE006_LOG(logger_, "FDE006 VIA-ACCEPT x={} y={} lay={} via={} "
++               "try_all_vias={}", begin_point.x(), begin_point.y(), layer_num,
++               via_def->getName(), try_all_vias);
+
+@@ ~1240  EnoughSparsePoints: before threshold comparison
++  FDE006_LOG(logger_, "FDE006 SPARSE n_aps={} n_sparse={} thresh={} macro={}",
++             aps.size(), n_sparse_access_points,
++             is_macro_cell_pin ? router_cfg_->MINNUMACCESSPOINT_MACROCELLPIN
++                               : router_cfg_->MINNUMACCESSPOINT_STDCELLPIN,
++             is_macro_cell_pin);
++  g_fde006_last_sparse = n_sparse_access_points;
+
+@@ ~1319  genPinAccessCostBounded: final discard no access
++      FDE006_LOG(logger_, "FDE006 DROP stage=final reason=no_access "
++                 "x={} y={} lay={}", ap->getPoint().x(), ap->getPoint().y(),
++                 ap->getLayerNum());
+
+@@ ~1330  genPinAccessCostBounded: accepted
++    FDE006_LOG(logger_, "FDE006 ACCEPT x={} y={} lay={}",
++               ap->getPoint().x(), ap->getPoint().y(), ap->getLayerNum());
+
+@@ ~1414  genPinAccess: activate gate (clear before every return)
++  g_fde006_active = logger_->debugCheck(utl::DRT, "pin_access", 1)
++                    && isFde006Target(inst_term);
+
+@@ ~1473  genPinAccess: FDE-005 message site
++    FDE006_LOG(logger_, "FDE006 SUMMARY inst_term={} aps={} "
++               "n_sparse_last={} met={}", inst_term->getName(), aps.size(),
++               g_fde006_last_sparse, enough_access_points);
+
+# Constraints: one file; no header/signature/Tcl/config change; no decision
+# condition changed; pure logging plus two thread_local flags; gate must be
+# cleared on all exits of genPinAccess. NOT APPLIED — Gate 2 build failed.

@@ -3,6 +3,15 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-006 — FDE-006 instrumented FlexPA investigation (2026-11-19, orchestrator)
+
+- **Inspected:** four agent reports, isolated source copy, production source/binary/ODB hashes, Gate 2 dry-run log, proposed patch design.
+- **Findings:** pipeline and instrumentation points established from source; expected candidate set reconstructed geometrically; build blocked offline because `rules_go++go_sdk+go_toolchains` is not cached and the build image cannot be mounted; no candidate-level runtime data.
+- **Conflict resolved:** Agent D's "373 dirty source files" vs Agent C's clean claim — direct `git -C /mnt/d/tools/src/OpenROAD status --porcelain | wc -l` = 2; the larger count came from the copied tree being evaluated against the enclosing SattvaRoute repo.
+- **Decisions:** D-017 records BLOCKED/INCONCLUSIVE; root cause remains PROBABLE; no remedy approved.
+- **Conclusion:** stop condition met; do not fetch dependencies, install toolchains, or apply a fix without separate approval.
+- **Follow-up:** provide offline Bazel repo cache or a prebuilt instrumented binary, then rerun Gates 1–4.
+
 ## R-005 — FDE-005 controlled FlexPA diagnostic review (2026-11-19, orchestrator)
 
 - **Inspected:** four agent reports, `reports/EXPERIMENT_GO.md`, both arm logs/Tcl scripts, manifests, source ODB before/after proof.
