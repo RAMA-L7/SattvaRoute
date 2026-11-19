@@ -4,6 +4,16 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## FDE-005 — Controlled FlexPA diagnostic (2026-11-19, orchestrator)
+
+- **Objective:** resolve FDE-004's remaining uncertainty about FlexPA candidate generation/rejection for `u_sram/clk`.
+- **Work completed:** isolated A/B `pin_access` diagnostics on scratch copies; GO gate; four independent agent reviews; source-protection proof.
+- **Evidence:** `experiments/FDE-005/FDE-005-20261119T135453Z-4d06/` logs/manifests/scripts; source ODB `35bff121…` unchanged.
+- **Test results:** A rc=1, B rc=1; identical aggregate diagnostic and DRT-0073; via-in-pin M4 no effect.
+- **Failures/limitations:** no candidate coordinates or rejection reasons exposed by this build; exact filter stage NOT EVALUATED; via-in-pin may be a no-op.
+- **Milestone verdict:** FDE-005 accepted as an investigative milestone; root cause remains **ROOT CAUSE PROBABLE**; no fix approved or applied; no second baseline.
+- **Remaining tasks:** instrumented candidate-level diagnostic (FDE-006) only after approval.
+
 ## FDE-004 — DRT-0073 macro pin-access investigation (2026-11-19, orchestrator)
 
 - **Objective:** establish a defensible root cause for `DRT-0073 No access point for u_sram/clk` using geometry, tracks, vias, ODB and FlexPA source evidence.

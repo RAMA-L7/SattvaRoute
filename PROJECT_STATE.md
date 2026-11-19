@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** FDE-004 — DRT-0073 macro pin-access root-cause investigation
-- **Current status:** T-FDE-004 COMPLETE (investigation only): four independent agents + coordinator adjudicated DRT-0073 as **ROOT CAUSE PROBABLE** — thin M4 `clk` pin over full-macro M1–M5 OBS leaves no legal via/escape access point. Placement, grid alignment, net classification, D-014/`zero_` refuted by evidence. Exact FlexPA filter stage NOT EVALUATED. No fix applied; no second run. Verdict recorded as D-015 (finding adopted, no remedy approved).
-- **Last updated:** 2026-11-19 (orchestrator, T-FDE-004)
-- **Current active task:** none; next requires new decision ID + approval for a controlled diagnostic experiment (D-015 next step)
+- **Current phase:** FDE-005 — Controlled FlexPA access-point diagnostic experiment
+- **Current status:** T-FDE-005 COMPLETE: isolated A/B `pin_access` diagnostics on scratch copies of the FDE-003 CTS DB; both fail identically with DRT-0073 and aggregate reason `At least 3 sparse access points`; via-in-pin M4 window has no effect. Source ODB `35bff121…` byte-identical before/after. Root cause remains **ROOT CAUSE PROBABLE** (not upgraded; no candidate-level rejection data). D-016 finding adopted, no remedy approved. No fix, no second baseline.
+- **Last updated:** 2026-11-19 (orchestrator, T-FDE-005)
+- **Current active task:** none; next requires new approval for an instrumented candidate-level diagnostic (FDE-006)
 - **Active agents:** orchestrator; Agents A/B/C/D completed and released
 
 ## Completed milestones

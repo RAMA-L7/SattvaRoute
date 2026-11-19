@@ -1,0 +1,15 @@
+{
+  "experiment_id": "FDE-005-20261119T135453Z-4d06",
+  "source_run_id": "orfs_baseline_20261119T131025284719666Z_9263",
+  "source_odb": "/mnt/d/SattvaRoute/runs/orfs_baseline_20261119T131025284719666Z_9263/work/results/asap7/sattva_sram/base/4_cts.odb",
+  "source_sha256": "35bff121b42b070023f7b9704ab2c8bd1d5dbb0027f403fde7dd8eb8161400e1",
+  "source_size": 861482,
+  "source_mtime": "2026-11-19 13:11:43.658031900 +0000",
+  "source_ctime": "2026-11-19 13:11:43.658031900 +0000",
+  "arm_a_sha256": "35bff121b42b070023f7b9704ab2c8bd1d5dbb0027f403fde7dd8eb8161400e1",
+  "arm_b_sha256": "35bff121b42b070023f7b9704ab2c8bd1d5dbb0027f403fde7dd8eb8161400e1",
+  "source_is_symlink": false,
+  "copies_are_symlinks": false,
+  "openroad_sha256": "c1b90e0af69bc9779cde8fd1579a92a10738ddebb9ea16e459f280556c349ee9",
+  "orfs_revision": "25b6429c1644a8682852646bebf19ff164402c76"
+}

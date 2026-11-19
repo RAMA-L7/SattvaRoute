@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-005 — FDE-005 controlled FlexPA diagnostic review (2026-11-19, orchestrator)
+
+- **Inspected:** four agent reports, `reports/EXPERIMENT_GO.md`, both arm logs/Tcl scripts, manifests, source ODB before/after proof.
+- **Findings:** source ODB `35bff121…` unchanged; scratch copies hash-identical, distinct inodes, non-symlink; A/B logs differ only by the echoed command; both arms report the single aggregate unmet condition `At least 3 sparse access points` and DRT-0073; via-in-pin M4 control had no effect.
+- **Decisions:** D-016 finding adopted; root cause remains PROBABLE, not upgraded (no candidate-level rejection data).
+- **Conclusion:** experiment executed safely and is reproducible; diagnostic ceiling is a tool limitation, not an experiment defect.
+- **Follow-up:** instrumented candidate-level AP diagnostic requires separate approval.
+
 ## R-004 — FDE-004 DRT-0073 root-cause review (2026-11-19, orchestrator)
 
 - **Inspected:** four parallel read-only agent reports; FDE-003 run `5_1_grt.log/.json`, `4_cts.odb`, macro LEF/GDS/Liberty, `macro_placement.tcl`, ASAP7 track/via definitions, installed OpenROAD FlexPA source.

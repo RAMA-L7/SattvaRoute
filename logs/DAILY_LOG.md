@@ -170,3 +170,15 @@ Files: docs/FDE-004_DRT0073_ROOT_CAUSE_INVESTIGATION.md, logs/sessions/FDE-004_S
 Safety: no RTL/netlist/SDC/LEF/GDS/Liberty/PDN/placement/layer/via/OpenROAD/ORFS/D-014 change; no recovery patch; no second run; no expensive experiment.
 Current status: T-FDE-004 DONE; DRT-0073 still BLOCKED; no routed baseline; next experiment requires approval.
 Safe for another agent to continue: YES; lock released.
+
+--- SESSION START/END — T-FDE-005 controlled FlexPA diagnostic (2026-11-19) ---
+Agent/model: orchestrator + Agents A/B/C/D (read-only design/review)
+Starting state: pub a5d2b85 = remote; source run orfs_baseline_20261119T131025284719666Z_9263 ODB 35bff121… size 861482; OpenROAD c1b90e0a…; ORFS 25b6429 with D-014 patch.
+Work: 4 agents validated syntax, geometry, isolation and safety; GO gate recorded with 15 checked items incl. D-014 in-memory replication; two isolated scratch arms executed with pin_access debug level 1, B adding via-in-pin M4 window only.
+Results: A rc=1, B rc=1; both logs show DEBUG 'At least 3 sparse access points' + DRT-0073; census DEBUG=1 DRT0305=0 DRT0073=2 DRT0419=8 in both; log diff only echoed command/script path. Source ODB hash/size/mtime/ctime/inode/links unchanged; scratch inputs unchanged; no generated DB beyond copies.
+Verdict: ROOT CAUSE PROBABLE unchanged (refined: sparse-AP threshold unmet; via-in-pin no effect); exact filter stage NOT EVALUATED (no candidate-level data). D-016 adopted, no remedy approved.
+Files: experiments/FDE-005/FDE-005-20261119T135453Z-4d06/** (text artifacts; scratch ODBs excluded from Git), docs/FDE-005_CONTROLLED_FLEXPA_DIAGNOSTIC.md, docs/decisions/DECISIONS.md D-016, PROJECT_STATE.md, coordination/*, logs/*, logs/sessions/FDE-005_S001_handoff.md.
+Safety: no RTL/netlist/SDC/LEF/GDS/PDN/placement/layer/via/OpenROAD/ORFS/D-014 change; no fix; no full baseline; no detailed routing.
+Current status: T-FDE-005 DONE; DRT-0073 remains BLOCKED; no routed baseline.
+Next: FDE-006 instrumented candidate-level diagnostic only after separate approval.
+Safe for another agent to continue: YES; lock released.
