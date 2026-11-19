@@ -39,14 +39,21 @@ Immutable baseline: `orfs_baseline_20261118T152845Z` (6/7 stages pass, route rc=
 
 Investigations are performed by independent agents with disjoint read-only scopes. Each agent cites verbatim logs, exact ODB state, and installed tool source lines. Reports live in `docs/investigations/`. The orchestrator integrates and adjudicates; agents do not edit project-wide state.
 
-## 5. Approval service (implemented as a documented process)
+## 5. Approval service (implemented and offline-verified — FDE-002)
 
-A change requires a decision record with: ID, root cause, exact diff, side effects, affected stages, rollback, verification plan, and explicit approval. D-013 and D-014 are recorded in `docs/decisions/`. No flow-script change is applied before approval.
+`scripts/sattva_approval.py` is a standard-library-only deterministic boundary:
 
-## 6. Persistent run state (implemented, file-based)
+- durable approval JSON binds approval ID, decision ID, source run ID, input fingerprint, exact patch SHA-256, target file + expected original hash, earliest affected stage, contiguous rerun scope, approver, `APPROVED`/`REJECTED`, timestamp and optional note;
+- `validate` rejects missing/rejected/malformed records, unknown or altered patches, fingerprint/run/decision/scope/original-hash mismatches, and stale/reused approvals via an append-only JSONL ledger;
+- `apply` accepts only targets inside `state/approval_policy.json`'s explicit `allowed_roots`, rejects traversal and symlinks, applies a strict single-target unified diff atomically, preserves a backup, writes before/after hashes and rollback evidence, and refuses concurrent modification via an exclusive lock;
+- the runner calls `guard` before any patch application and again immediately before the affected stage(s); when an approval gate is configured it runs **only** the declared rerun scope after checking the source run's evidence-based input artifacts.
 
-`PROJECT_STATE.md` (single snapshot), `coordination/TASK_BOARD.md`, `coordination/ACTIVE_WORK.md`, `logs/DAILY_LOG.md`, `logs/AGENT_ACTIVITY.md`, `logs/REVIEW_LOG.md`, `logs/REPORT_LOG.md`, plus session handoffs under `logs/sessions/`.
+D-013 (failed) and D-014 (applied, partial) remain recorded in `docs/decisions/`. No real approval for a real patch was fabricated during FDE-002; all tests use temporary files.
+
+## 6. Persistent run state (implemented, file-based + JSON)
+
+`PROJECT_STATE.md`, `coordination/*`, `logs/*`, plus machine-readable per-run `evidence/preflight.json`, `evidence/run.json`, `evidence/approval_guard.json`, `evidence/approval_apply.json`, and the approval ledger under `state/`.
 
 ## 7. Not implemented in this release
 
-`app/`, `configs/`, `artifacts/`, `experiments/` and `tests/` are empty placeholders in the local project. There is no backend, worker, persistent database service, dashboard, or automated test suite in this publication. Do not assume these components exist.
+`app/`, `configs/`, `artifacts/` and `experiments/` are empty placeholders in the local project. There is no backend, worker, persistent database service, or dashboard in this publication. `tests/` now contains two **offline** suites (`test_runner.sh`, `test_approval.py`) — these are not an EDA integration suite; no real flow run is executed by them.

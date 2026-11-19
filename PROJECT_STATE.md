@@ -3,12 +3,12 @@
 > This is the FIRST file every agent reads. Update it before ending any session.
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
-- **Current milestone:** Milestone 1 — Baseline Execution
-- **Current phase:** Milestone 1C-R — DRT-0305 Root Cause Investigation and Routing Recovery
-- **Current status:** T-M1-004 COMPLETE: root cause adjudicated HIGH confidence; D-013 retired; D-014 approved/applied in mirror and tested in runs/orfs_baseline_20261118T171712Z — **DRT-0305 RESOLVED**, but global routing now BLOCKED by distinct **DRT-0073 No access point for u_sram/clk** (macro pin access). No second fix applied per directive. Original baseline runs/orfs_baseline_20261118T152845Z preserved immutable.
-- **Last updated:** 2026-11-18T22:47:00+05:30 (orchestrator, session M1C-R S001)
-- **Current active task:** T-M1-004 DONE; next requires new decision ID for DRT-0073 + approval
-- **Active agents:** orchestrator (this session); Agents A/B/C/D completed and released
+- **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
+- **Current phase:** FDE-002 — Exact-patch approval enforcement and state integrity
+- **Current status:** FDE-001 DONE (runner reliability, public commit `43ffebb`); FDE-002 approval boundary implemented and offline-verified: 25/25 approval tests + 14/14 runner tests PASS. Approval is now enforced in code at the runner's execution boundary; no EDA run was performed. T-M1-004 COMPLETE: DRT-0305 eliminated by D-014, global routing BLOCKED by distinct DRT-0073 (macro `clk` pin access). Original baseline immutable.
+- **Last updated:** 2026-11-19 (orchestrator, T-FDE-002)
+- **Current active task:** T-FDE-002 (approval enforcement + status corrections); no EDA recovery authorized
+- **Active agents:** orchestrator (this session)
 
 ## Completed milestones
 
@@ -40,8 +40,8 @@
   - LEF: CLASS BLOCK, SIZE 3.672 × 13.608 µm, 22 pins, SYMMETRY X Y
   - Liberty: **estimated** (skip-characterization) — not silicon-characterized
   - GDS: top cell `sram_x4x4x1`, 65 cells, dbu 0.00025
-- **Controller RTL:** NOT YET WRITTEN (T-M1-001)
-- **Synthesized netlist:** NOT YET CREATED (T-M1-001)
+- **Controller RTL:** DONE (T-M1-001) — `benchmark/design/sattva_sram/rtl/sattva_ctrl.v` (sha256 `3b7d6fa6…`, see `netlist/synth_provenance.txt`)
+- **Synthesized netlist:** DONE (T-M1-001) — `benchmark/design/sattva_sram/netlist/sattva_ctrl_synth.v` (sha256 `f3ae7aa3…4f0d`, POSTCHECK PASS). Correction applied 2026-11-19; earlier "NOT YET" text was stale.
 - Fallback: ORFS FakeRAM `fakeram7_256x32` (LEF+Lib, no GDS) — not in use
 
 ## Existing working components
@@ -49,6 +49,8 @@
 - `scripts/gen_sram_macro.sh` — reproducible macro generation (yosys shim encoded)
 - `scripts/` + `benchmark/design/OpenFinRAM/` — full macro flow, verified
 - Memory system itself: this file + logs/ + coordination/
+- **FDE-001 (verified):** `scripts/run_baseline_orfs.sh` — collision-safe run IDs, enforced preflight, process exit propagation, input/binary/patch fingerprinting, `run.json`/`preflight.json`; 14/14 offline tests in `tests/test_runner.sh` (public commit `43ffebb`).
+- **FDE-002 (offline-verified, no EDA run):** `scripts/sattva_approval.py` + `state/approval_policy.json` — durable approval records, deterministic validator, narrow atomic patch applier with rollback evidence, ledger-based reuse rejection, scope enforcement from `flow/Makefile` inputs; 25/25 offline tests in `tests/test_approval.py`. Approval enforcement is implemented in code; physical correctness of any patch remains a separate engineering decision.
 
 ## Known blockers
 

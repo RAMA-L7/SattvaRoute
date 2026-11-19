@@ -1,7 +1,7 @@
-# D-014 (PROPOSED — approval required): DRT-0305 recovery by marking `zero_` SPECIAL in the executed mirror before `pin_access`
+# D-014 (APPLIED — partial success): DRT-0305 recovery by marking `zero_` SPECIAL in the executed mirror before `pin_access`
 
 - **Decision ID:** D-014 (new — does NOT overwrite D-013)
-- **Status:** PROPOSED / **AWAITING APPROVAL** — not applied
+- **Status:** **APPROVED and APPLIED 2026-11-18**; DRT-0305 eliminated; global routing subsequently BLOCKED by distinct DRT-0073. See §10 for the executed experiment. Sections 1–9 are the **original pre-approval proposal**, preserved verbatim except where a verification claim was falsified (see §10).
 - **Task:** T-M1-004 (Milestone 1C-R)
 - **Proposed:** 2026-11-18T22:39:01+05:30
 - **Supersedes:** D-013 (retained in the record as a FAILED execution attempt, not erased or relabeled)
@@ -54,7 +54,7 @@ After:
 - No RTL / netlist / macro / SDC / floorplan / placement / routing-layer / design-parameter changes.
 - No other net is touched; the `findNet zero_` guard is a no-op if the net is absent.
 - The command is an OpenDB object method (`$net setSpecial`), **not** the nonexistent `set_special_nets`.
-- `log_cmd` echoes the two `set` lines but executes them directly — visible in the run's echoed command stream for verification.
+- The two `set` statements are **plain Tcl**, not `log_cmd`-wrapped. They are **not** echoed in the run logs (verified: zero matches for `d014|setSpecial|findNet` in the D-014 run logs). Execution is evidenced by the dirty-mirror preflight plus the post-fix design-import counts, not by a command echo. (Correction added 2026-11-19; original text retained above for history.)
 
 ## 4. Expected behavior
 
@@ -87,7 +87,7 @@ After:
 
 1. Record before/after sha256 of the mirror script; confirm `D:\tools` copy hash unchanged.
 2. New unique run ID `orfs_baseline_d014_YYYYMMDDTHHMMSSZ` via `scripts/run_baseline_orfs.sh`.
-3. Confirm `evidence/preflight.txt` shows `orfs_mirror_status` non-empty (patched), and `stage_route.log` shows the mirror path plus the echoed D-014 lines.
+3. Confirm `evidence/preflight.txt` shows `orfs_mirror_status` non-empty (patched) and the exact patched-script SHA-256 `cd86b587…`; no echoed D-014 lines exist (correction 2026-11-19).
 4. Confirm no DRT-0305; confirm `5_1_grt` rc=0 and route ODB/guide artifacts exist in the new run.
 5. Continue: detailed routing → parasitic extraction → final timing reports; capture status, violations, unavailable checks.
 6. If DRT-0305 persists or a new failure appears: STOP, preserve the failed run, do NOT apply a second speculative fix, analyze separately.
@@ -115,7 +115,7 @@ D-013 remains recorded as a FAILED execution attempt.
 **Run ID:** `runs/orfs_baseline_20261118T171712Z` (unique; runner-generated ID).
 
 **Result — PARTIAL / new blocker:**
-- **DRT-0305 RESOLVED.** `5_1_grt.log` no longer contains DRT-0305. Design import reports `Number of snets: 3` (was 2) and `Number of nets: 72` (was 75), confirming `zero_` was reclassified SPECIAL and moved into the special-net container.
+- **DRT-0305 RESOLVED.** `5_1_grt.log` no longer contains DRT-0305. Design import reports `Number of snets: 3` and `Number of nets: 72`. The comparator figures (2 special nets, 75 total) come from read-only ODB probes of `4_cts.odb` and inference — **the baseline route log aborts at line 26 before printing design-import counts** (source-attribution correction 2026-11-19).
 - **New failure:** `[ERROR DRT-0073] No access point for u_sram/clk (sram_x4x4x1).` at `pin_access` (`5_1_grt.log:108`; source `drt/src/pa/FlexPA_acc_point.cpp:1524–1533` — zero generated access points for the instance term). Preceded by `[WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/D[0..3]` and `Q[0..3]`.
 - Route stage still rc=2; no `5_*.odb` and no `route.guide` produced. Detailed routing / extraction / timing remain NOT EVALUATED.
 

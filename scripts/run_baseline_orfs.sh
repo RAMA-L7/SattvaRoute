@@ -44,6 +44,38 @@ fi
 EV=$RUN/evidence
 WORK=$RUN/work
 mkdir -p "$EV" "$WORK" || { echo "FATAL: cannot create evidence/work dirs" >&2; exit 1; }
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+APPROVAL_TOOL=$SCRIPT_DIR/sattva_approval.py
+
+# ---------------- optional approval gate (FDE-002) ---------------------------
+# When any SATTVA_APPROVAL_* variable is supplied, ALL of them are mandatory.
+# The guard validates/revalidates the exact patch and applies it narrowly
+# before any stage is launched. Without these variables the runner is a plain
+# baseline runner (no recovery action, no patch application).
+APPROVAL=${SATTVA_APPROVAL:-}
+PATCH_FILE=${SATTVA_PATCH:-}
+POLICY=${SATTVA_POLICY:-}
+SOURCE_RUN=${SATTVA_SOURCE_RUN:-}
+SOURCE_RUN_ID=${SATTVA_SOURCE_RUN_ID:-}
+DECISION_ID=${SATTVA_DECISION_ID:-}
+APPROVAL_ACTIVE=0
+STAGES=(check-yosys check-openroad synth floorplan place cts route finish)
+
+if [ -n "$APPROVAL$PATCH_FILE$POLICY$SOURCE_RUN$SOURCE_RUN_ID$DECISION_ID" ]; then
+  for pair in "approval:$APPROVAL" "patch:$PATCH_FILE" "policy:$POLICY" \
+              "source_run:$SOURCE_RUN" "source_run_id:$SOURCE_RUN_ID" \
+              "decision_id:$DECISION_ID"; do
+    if [ -z "${pair#*:}" ]; then
+      echo "FATAL: incomplete approval gate configuration ($pair missing)" >&2
+      exit 1
+    fi
+  done
+  python3 "$APPROVAL_TOOL" guard \
+    --approval "$APPROVAL" --patch "$PATCH_FILE" --policy "$POLICY" \
+    --design-root "$DESIGN" --run-id "$SOURCE_RUN_ID" \
+    --decision-id "$DECISION_ID" --evidence-dir "$EV" || exit 1
+  APPROVAL_ACTIVE=1
+fi
 
 OVERRIDES=(OPENROAD_EXE="$OPENROAD_EXE" YOSYS_EXE="$YOSYS_EXE" "WORK_HOME=$WORK")
 
@@ -145,8 +177,25 @@ if [ "$required_fail" -ne 0 ]; then
   exit 1
 fi
 
+# ------------- rerun scope enforcement + second revalidation ------------------
+if [ "$APPROVAL_ACTIVE" -eq 1 ]; then
+  python3 "$APPROVAL_TOOL" check-source-artifacts \
+    --approval "$APPROVAL" --policy "$POLICY" --source-work "$SOURCE_RUN/work" || exit 1
+  # Resume only the declared affected stages; prerequisite products come from
+  # the immutable source run, never from an inferred dependency graph.
+  cp -a "$SOURCE_RUN/work/results" "$WORK/" || exit 1
+  mapfile -t STAGES < <(python3 -c \
+    'import json,sys; print("\n".join(json.load(open(sys.argv[1]))["rerun_scope"]))' \
+    "$EV/approval_guard.json")
+  [ "${#STAGES[@]}" -gt 0 ] || { echo "FATAL: empty rerun scope" >&2; exit 1; }
+  # Revalidate immediately before the affected stage execution.
+  python3 "$APPROVAL_TOOL" guard \
+    --approval "$APPROVAL" --patch "$PATCH_FILE" --policy "$POLICY" \
+    --design-root "$DESIGN" --run-id "$SOURCE_RUN_ID" \
+    --decision-id "$DECISION_ID" --evidence-dir "$EV" || exit 1
+fi
+
 # ------------------------- stage loop ----------------------------------------
-STAGES=(check-yosys check-openroad synth floorplan place cts route finish)
 STAGE_TSV="$EV/stages.tsv"
 : > "$STAGE_TSV"
 overall=0

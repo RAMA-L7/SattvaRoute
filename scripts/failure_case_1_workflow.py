@@ -2,14 +2,24 @@
 """
 Failure Case 1: Missing macro timing-view configuration — full workflow.
 
+SIMULATED DEMO (not an approval gate). "Approval" here is a boolean derived
+from whether the failure was injected; it is NOT a human decision and MUST NOT
+be interpreted as authorization. Real approval enforcement is implemented in
+scripts/sattva_approval.py and exercised at the runner boundary.
+
+By default this demo runs in DRY-RUN mode and writes no files. Set
+SATTVA_DEMO_WRITE=1 only against a disposable copy of the design.
+
 Demonstrates:
   1. Detection of missing/incompatible .lib file
   2. Diagnosis from ORFS-style error patterns
   3. Patch proposal for approval
-  4. Recovery after approval
+  4. Recovery after simulated approval
   5. Verification that downstream stages proceed
 """
 import os, re, subprocess, shutil
+
+DRY_RUN = os.environ.get("SATTVA_DEMO_WRITE") != "1"
 
 # ---- Paths ----
 LEF_PATH = "/mnt/d/SattvaRoute/benchmark/design/sattva_sram/macro/sram_x4x4x1.lef"
@@ -36,6 +46,9 @@ def find_lib_ref_in_config(content):
 def main():
     print("=" * 60)
     print("FAILURE CASE 1: Missing macro timing-view configuration")
+    print("SIMULATED DEMO — approval is NOT a real human authorization")
+    if DRY_RUN:
+        print("DRY RUN: no files will be modified (set SATTVA_DEMO_WRITE=1 to opt in)")
     print("=" * 60)
     print()
 
@@ -53,14 +66,13 @@ def main():
 
     # === Step 2: Inject failure ===
     print("[Step 2] Injecting failure: redirecting .lib reference to non-existent path...")
-    # Save backup
-    shutil.copy2(CONFIG_PATH, BACKUP_CONFIG)
-    # Modify config to point to a non-existent lib file
     modified_config = orig_config.replace(
         lib_ref,
         "$(DESIGN_DIR)/macro/sram_x4x4x1_INVALID.lib"
     )
-    write_config(modified_config)
+    if not DRY_RUN:
+        shutil.copy2(CONFIG_PATH, BACKUP_CONFIG)
+        write_config(modified_config)
     new_lib_ref = find_lib_ref_in_config(modified_config)
     print(f"  Modified config.lib ref: {new_lib_ref}")
     print(f"  .lib file status: exists={file_status(LIB_PATH)['exists']}")
@@ -122,18 +134,21 @@ def main():
     print()
 
     # === Step 5: Simulate approval ===
-    print("[Step 5] Approval simulation...")
+    print("[Step 5] Approval simulation (NOT a real approval)...")
     approval = diag_results["failure_injected"]
     approval_str = "given" if approval else "withheld"
-print(f"  Approval {approval_str} for the patch")
+    print(f"  Simulated approval {approval_str} for the patch")
     print()
 
     # === Step 6: Apply patch (if approved) ===
     print("[Step 6] Applying approved patch...")
     if approval:
-        write_config(orig_config)  # Restore original config
-        print("  Config restored to original state")
-        print(f"  Original lib ref reinstated: {find_lib_ref_in_config(read_config())}")
+        if not DRY_RUN:
+            write_config(orig_config)  # Restore original config
+            print("  Config restored to original state")
+            print(f"  Original lib ref reinstated: {find_lib_ref_in_config(read_config())}")
+        else:
+            print("  DRY RUN: config write skipped")
     else:
         print("  Patch rejected — configuration left modified")
 

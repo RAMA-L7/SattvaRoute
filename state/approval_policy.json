@@ -1,0 +1,32 @@
+{
+  "policy_id": "SATTVA-APPROVAL-POLICY-001",
+  "description": "Explicit boundary and stage facts for exact-patch approval enforcement. Stage inputs are derived from flow/Makefile do-step rules (floorplan<=1_synth.odb, place<=2_floorplan.odb, cts<=3_place.odb, route<=4_cts.odb via 5_1_grt, finish<=5_route.odb).",
+  "allowed_roots": [
+    "/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/scripts"
+  ],
+  "stages": [
+    "check-yosys", "check-openroad", "synth", "floorplan", "place", "cts", "route", "finish"
+  ],
+  "stage_inputs": {
+    "check-yosys": [],
+    "check-openroad": [],
+    "synth": [],
+    "floorplan": ["1_synth.odb"],
+    "place": ["2_floorplan.odb"],
+    "cts": ["3_place.odb"],
+    "route": ["4_cts.odb"],
+    "finish": ["5_route.odb"]
+  },
+  "input_files": [
+    "config.mk",
+    "constraint.sdc",
+    "pdn_sattva.tcl",
+    "rtl/sattva_ctrl.v",
+    "rtl/sram_x4x4x1_bb.v",
+    "netlist/sattva_ctrl_synth.v",
+    "macro/sram_x4x4x1.lef",
+    "macro/sram_x4x4x1.lib",
+    "macro/sram_x4x4x1.gds"
+  ],
+  "ledger": "/mnt/d/SattvaRoute/state/approval_ledger.jsonl"
+}

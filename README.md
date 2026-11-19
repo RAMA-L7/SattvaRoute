@@ -52,7 +52,7 @@ The implemented system is deliberately small. Be aware of what is and is not cod
 | Tool adapters | ORFS platform files + design config (`config.mk`, `pdn_sattva.tcl`, `macro_placement.tcl`) | **Implemented** |
 | Evidence collection | per-run `evidence/` and `work/` trees; `preflight.txt`, `postflight.txt`, `stages.txt`, hash manifests | **Implemented** |
 | Diagnosis layer | documented multi-agent investigations stored under `docs/investigations/` | **Implemented as process** (agents are operators, not shipped code) |
-| Approval service | human gate recorded in `docs/decisions/` (`D-013`, `D-014`) | **Implemented as process** |
+| Approval service | `scripts/sattva_approval.py` + `state/approval_policy.json` — durable approval records, deterministic validator, narrow atomic patch applier, runner-boundary guard | **Implemented and offline-verified (FDE-002)**; no real EDA recovery run performed |
 | Persistent run state | `PROJECT_STATE.md`, `coordination/TASK_BOARD.md`, `logs/*` | **Implemented (file-based)** |
 | Artifact management | timestamped run directories, immutable baselines | **Implemented** |
 | Dashboard / backend / worker | `app/`, `configs/`, `artifacts/`, `experiments/`, `tests/` exist as **empty placeholders locally** | **NOT implemented — do not assume a service exists** |
@@ -190,7 +190,9 @@ Runner contract: required preflight checks block execution; a failed stage is re
 
 `tests/test_runner.sh` is an **offline, credential-free** suite that stubs `make`, `openroad`, and `yosys` in a temporary sandbox. It verifies failed-stage exit propagation, success exit, unique run IDs/directories, preflight blocking of missing inputs, valid JSON state, and patch fingerprinting. Verified result: **14 PASS / 0 FAIL** (2026-11-19). No EDA flow is executed by these tests.
 
-The `scripts/failure_case_1_*.py` files remain **failure-injection/diagnosis demonstrations**, not an automated test suite; two of them currently fail compilation and are not used by the test suite.
+`tests/test_approval.py` is an **offline** suite for the exact-patch approval boundary: missing/rejected/malformed approvals, patch/input/run/decision/scope/hash mismatches, path traversal and symlink escapes, atomic apply, rollback, concurrent modification, restart recovery, approval reuse, and runner-boundary enforcement. Verified result: **25 PASS / 0 FAIL** (2026-11-19). No real EDA run or real approval was used.
+
+`failure_case_1_workflow.py` is now a clearly labeled **SIMULATED** dry-run demo (no file writes by default); `routing_fix_demo.py` is **RETIRED** with an explanation because it advertised a D-013 fix that was proven failed. Neither is part of the automated suite.
 
 ## Configuration
 

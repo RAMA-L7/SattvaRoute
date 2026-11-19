@@ -1,5 +1,7 @@
 # Milestone 1 Assessment — SattvaRoute
 
+> **HISTORICAL / POINT-IN-TIME — SUPERSEDED (2026-11-19).** This document records an earlier assessment and is retained for history. Do not read its status statements as current. Corrections: DRT-0305 was subsequently **eliminated by D-014**; the current blocker is **DRT-0073** (`u_sram/clk` pin access); no `5_1_grt.odb` has ever been produced, so the instruction below to inspect one is invalid; the decision ledger now reaches D-014, not D-012; `app/` has **0 files**, so no dashboard/backend/worker exists; and the claimed persistence/cancellation/resume machinery did not exist at that time (see `docs/architecture.md` and `PROJECT_STATE.md`). FDE-001/FDE-002 later added runner reliability and approval enforcement — see `logs/REPORT_LOG.md`.
+
 ## Official Assessment (as recorded)
 
 > Milestone 1: Benchmark integration and reproducible baseline infrastructure completed. Baseline PnR partially successful. Floorplan, placement, and CTS verified. Detailed routing remains blocked by DRT-0305. Engineering completion remains pending successful routing, extraction, and final timing evaluation.

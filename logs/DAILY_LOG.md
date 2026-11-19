@@ -110,3 +110,40 @@ Run: runs/orfs_baseline_20261118T171712Z (unique runner ID).
 Result: DRT-0305 RESOLVED (absent from 5_1_grt.log; snets 2->3, nets 75->72 = zero_ now SPECIAL). NEW blocker: DRT-0073 No access point for u_sram/clk, at pin_access, source FlexPA_acc_point.cpp:1524-1533; preceded by DRT-0419 warnings on macro D/Q pin centers. Route rc=2; no 5_*.odb or route.guide.
 Action: STOP per directive; no second speculative fix applied. DRT-0073 requires a new decision ID + approval and separate evidence.
 Status: T-M1-004 DONE; global routing BLOCKED (new cause); extraction/timing NOT EVALUATED; signoff not claimed.
+
+--- SESSION START — T-FDE-001 / FDE adoption (2026-11-19) ---
+Agent/model: orchestrator (Hy4 flash Free) + 3 read-only reviewers (R1 runner, R2 approval/state, R3 engineering validity)
+Starting state: live tree uncommitted; public repo at eb8ba8e; runner always exited 0, second-resolution run IDs, non-blocking preflight, patch unhashed.
+Work performed: independent read-only inspection; rewrote scripts/run_baseline_orfs.sh (exit propagation, atomic nanosecond+PID run IDs, enforced preflight, exact-binary/binary hash/patch fingerprinting, preflight.json/mirror.patch/run.json, hash all artifacts, SATTVA_* parameterisation); added tests/test_runner.sh (14 offline stub tests); synced to public repo README/architecture; committed 43ffebb and pushed.
+Verification: bash -n OK; tests 14 PASS / 0 FAIL in both live and published trees; no EDA flow run; no RTL/netlist/SDC/config/routing change.
+Problems discovered: prior runner returned 0 on failure (R1 F1), collisions (F2), preflight not gating (F3), D-014 patch not fingerprinted (F5); approval remains documented-only, no machine-readable state, no parsers (R2); constant tie still physically undriven, macro pin access fails DRT-0073 (R3).
+Decisions made: FDE milestone 1 = runner reliability first; no LangGraph/dashboard added; no EDA fix applied.
+Current status: T-FDE-001 DONE; T-M1-004 remains DONE with DRT-0073 blocker unchanged.
+Next action: FDE milestone 2 — machine-readable approval binding + exact-patch gate, then one automated diagnosis path.
+Safe for another agent to continue: YES; lock released.
+
+--- SESSION END — T-FDE-001 (2026-11-19) ---
+Completed: runner reliability + offline test suite, published as 43ffebb.
+Incomplete: approval enforcement in code, structured state beyond run.json, report parsers, DRT-0073 investigation.
+Verification status: 14/14 offline tests PASS; remote commit 43ffebb == local main; working tree clean in publish tree.
+Files modified: live scripts/run_baseline_orfs.sh, tests/test_runner.sh, coordination/*, logs/DAILY_LOG.md; publish README.md, docs/architecture.md, scripts/run_baseline_orfs.sh, tests/test_runner.sh.
+Known problems: DRT-0073 still blocks global routing; zero_ remains physically undriven; two demo scripts fail py_compile; stale status docs still need correction.
+Commit status: publish 43ffebb pushed; live tree uncommitted by design (working tree with local evidence).
+
+--- SESSION START — T-FDE-002 / exact-patch approval enforcement (2026-11-19) ---
+Agent/model: orchestrator (Hy4 flash Free)
+Starting state: publish HEAD 43ffebb; live tree uncommitted; no approval code, no machine-readable approval record, two demo scripts failed py_compile, stale status claims present.
+Work performed: verified current revision and ORFS Makefile stage inputs; added scripts/sattva_approval.py (durable approval schema, deterministic validator, narrow atomic unified-diff application with backup/rollback, ledger reuse rejection, scope validation); added state/approval_policy.json; wired guard into scripts/run_baseline_orfs.sh (validate+revalidate+apply before stages, second revalidation, scoped stages, source-artifact check); added tests/test_approval.py (25 offline tests); corrected PROJECT_STATE.md, MILESTONE_ASSESSMENT.md (historical banner), D-014 proposal header/claims, TASK_BOARD/ACTIVE_WORK stale D-013 claim; fixed failure_case_1_workflow.py syntax + dry-run default + SIMULATED label; retired routing_fix_demo.py with explicit explanation.
+Verification: 25/25 approval tests PASS; 14/14 runner tests still PASS; py_compile OK for new/fixed scripts; bash -n OK; dry-run demo left config.mk hash unchanged; no EDA flow run.
+Safety: no RTL/netlist/SDC/macro/PDN/placement/layer/parameter change; D-014 patch untouched; DRT-0073 fix not attempted; no approval was fabricated for a real operation.
+Current status: T-FDE-002 milestone implemented and offline-verified; publication pending.
+Next action: sync to public repo, commit focused milestone, push, verify remote.
+Safe for another agent to continue: YES.
+
+--- SESSION END — T-FDE-002 (2026-11-19) ---
+Completed: approval records + validator + narrow applier + runner gate + 25 offline tests + status/demo corrections.
+Incomplete: no real EDA recovery run; no real approval for any actual patch; no dashboard; DRT-0073 remains blocked.
+Verification status: 25/25 + 14/14 offline tests PASS; no fabricated approvals; remote verification after push recorded below.
+Files modified: scripts/sattva_approval.py, scripts/run_baseline_orfs.sh, state/approval_policy.json, tests/test_approval.py, scripts/failure_case_1_workflow.py, scripts/routing_fix_demo.py, PROJECT_STATE.md, coordination/ACTIVE_WORK.md, coordination/TASK_BOARD.md, coordination/MILESTONE_ASSESSMENT.md, docs/decisions/D-014_proposal.md, logs/DAILY_LOG.md, logs/AGENT_ACTIVITY.md.
+Known problems: approval ledger is JSONL append-only (single-process serialization via target lock only); no UI; scope validation requires explicit operator-declared contiguous scope; DRT-0073 unresolved.
+Commit status: see publication section after push.
