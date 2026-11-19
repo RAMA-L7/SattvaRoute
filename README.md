@@ -180,13 +180,17 @@ The original full run directories (with ODB databases, ~144 MB) are kept locally
 bash scripts/run_baseline_orfs.sh
 ```
 
-Each run creates `runs/orfs_baseline_<UTC timestamp>/` with per-stage evidence; nothing is overwritten.
+Each run creates a collision-safe `runs/orfs_baseline_<UTC stamp>_<pid>/` directory with per-stage evidence; nothing is overwritten. Paths are parameterised by `SATTVA_ROOT`, `SATTVA_MIRROR`, `SATTVA_DESIGN`, `SATTVA_RUNS`, `OPENROAD_EXE`, `YOSYS_EXE`, and an optional `RUN_TAG`.
 
-**Note:** paths in the runner are environment-specific (`/mnt/d/...`); adapt `MIRROR`, `DESIGN`, and `RUN` for your machine. This is documented rather than hidden.
+Runner contract: required preflight checks block execution; a failed stage is reflected in the process exit code **and** in `evidence/stages.txt` / `evidence/run.json`; the executed binaries, design inputs, runner, and patched flow script are hashed. `evidence/preflight.json`, `evidence/mirror.patch`, and `evidence/run.json` are machine-readable.
+
+**Note:** the defaults are environment-specific (`/mnt/d/...`); adapt the variables above for your machine.
 
 ### Tests
 
-`tests/` is currently empty in this release. The `scripts/failure_case_1_*.py` files are **failure-injection/diagnosis demonstrations**, not an automated test suite. No test suite was executed or claimed as passing.
+`tests/test_runner.sh` is an **offline, credential-free** suite that stubs `make`, `openroad`, and `yosys` in a temporary sandbox. It verifies failed-stage exit propagation, success exit, unique run IDs/directories, preflight blocking of missing inputs, valid JSON state, and patch fingerprinting. Verified result: **14 PASS / 0 FAIL** (2026-11-19). No EDA flow is executed by these tests.
+
+The `scripts/failure_case_1_*.py` files remain **failure-injection/diagnosis demonstrations**, not an automated test suite; two of them currently fail compilation and are not used by the test suite.
 
 ## Configuration
 

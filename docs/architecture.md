@@ -6,12 +6,14 @@ This document describes what exists in this release. Empty placeholder directori
 
 `scripts/run_baseline_orfs.sh` is the workflow controller:
 
-- generates a UTC timestamp and a unique run directory `runs/orfs_baseline_<stamp>/`;
-- records `preflight.txt` (tool versions, hashes, git state of the ORFS mirror);
+- generates a nanosecond UTC stamp + PID and atomically creates `runs/orfs_baseline_<stamp>_<pid>/` (collision-safe);
+- runs required preflight checks and **blocks execution** if any required tool/input is missing; KLayout is optional/warned;
+- records `preflight.txt`, machine-readable `preflight.json`, and the exact `mirror.patch` diff; hashes inputs, the executed binaries, the runner and the patched `global_route.tcl`;
 - executes the fixed stage sequence `check-yosys → check-openroad → synth → floorplan → place → cts → route → finish`;
 - captures each stage's stdout/stderr into `evidence/stage_<stage>.log`;
-- stops at the first non-zero stage exit code and records `stages.txt` / `postflight.txt`;
-- never overwrites a previous run.
+- stops at the first non-zero stage exit code and records `stages.txt`, `stages.tsv`, machine-readable `run.json`, and `postflight.txt`; hashes all produced artifacts/reports;
+- exits with the failed stage's return code (or 1 for preflight failure), so schedulers can trust `$?`;
+- never overwrites a previous run. Paths are parameterised via `SATTVA_*` / `OPENROAD_EXE` / `YOSYS_EXE` environment variables.
 
 Each stage delegates to ORFS `make`, which invokes a single OpenROAD process with the stage Tcl script. The fail-fast rule is execution control, not evidence of engineering success.
 
@@ -26,7 +28,8 @@ Each stage delegates to ORFS `make`, which invokes a single OpenROAD process wit
 Per run:
 
 ```
-runs/<id>/evidence/   preflight.txt, postflight.txt, stages.txt, stage_*.log, artifact hashes
+runs/<id>/evidence/   preflight.txt/json, mirror.patch, stages.txt/tsv, run.json,
+                      stage_*.log, artifact_sha256.txt (all produced files)
 runs/<id>/work/       ORFS results/logs/databases scoped by per-run WORK_HOME
 ```
 
