@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** FDE-006 — Instrumented FlexPA candidate-level investigation
-- **Current status:** T-FDE-006 BLOCKED/INCONCLUSIVE: pipeline and narrow instrumentation design completed, but Gate 2 diagnostic build failed offline (`rules_go++go_sdk+go_toolchains` not cached, build image unmountable); no candidate-level evidence, no A/B experiments. Source ODB `35bff121…`, source HEAD `629aa76…`, production binary `c1b90e0a…` unchanged. Root cause remains **ROOT CAUSE PROBABLE** from FDE-004/005, not upgraded. D-017 records the blocker; no remedy approved.
-- **Last updated:** 2026-11-19 (orchestrator, T-FDE-006)
-- **Current active task:** none; next requires approval for offline Bazel cache/fetch or a prebuilt instrumented binary
+- **Current phase:** FDE-006R — Diagnostic build unblock and controlled resumption
+- **Current status:** T-FDE-006R BLOCKED/INCONCLUSIVE: dependencies recovered locally + authorized Go SDK fetch, offline Bazel dry-run RC=0, corrected target-only patch validated (valid diff, dry-run OK). Diagnostic build could not finish: drvfs linking prohibitively slow, then WSL process-spawn failure (`getpwuid(0)`, I/O error). No candidate-level evidence; no A/B. Source ODB `35bff121…` verified unchanged; root cause remains **ROOT CAUSE PROBABLE**. D-018 records blocker; no remedy approved.
+- **Last updated:** 2026-11-19 (orchestrator, T-FDE-006R)
+- **Current active task:** none; next requires restored WSL environment and native-WSL build resumption
 - **Active agents:** orchestrator; Agents A/B/C/D completed and released
 
 ## Completed milestones

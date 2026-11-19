@@ -193,3 +193,13 @@ Safety: production source/binary/ODB/design/ORFS/D-014 unchanged; no fix; no ful
 Files: docs/FDE-006_INSTRUMENTED_FLEXPA_CANDIDATE_INVESTIGATION.md, experiments/FDE-006/FDE-006-20261119T143807Z-7004/** (proposed patch, gate2 log, manifests), logs/sessions/FDE-006_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: approval for offline repo cache or a prebuilt instrumented binary, then rerun Gates 1-4.
 Safe for another agent to continue: YES; lock released.
+
+--- SESSION START/END — T-FDE-006R dependency unblock (2026-11-19) ---
+Agent/model: orchestrator + Agents A/B/C/D (read-only analysis)
+Starting state: pub 5da7250 = remote; FDE-006 Gate 2 blocked by missing Bazel externals.
+Work: debugfs rdump of build image recovered 178673 repo-cache + 13601 disk-cache files; rules_go 0.62.0 found locally; Go 1.25.0 SDK absent → user explicitly authorized fetch; tarball sha256 2852af0c… matched MODULE.bazel.lock pin; authorized resolution RC=0; strict --nofetch dry-run RC=0. Agent B found original patch NEEDS CORRECTION; corrected target-only 14-point patch generated, valid unified diff (6da35dd4…), patch --dry-run OK. Build attempted on D: workspace reached 13480/13482 (linking) but client timed out; server CPU-bound >44 min. Switched to native /tmp; WSL then failed process creation (getpwuid(0), I/O error) → STOP.
+Result: BLOCKED/INCONCLUSIVE; no candidate-level evidence; no A/B; root cause remains PROBABLE; D-018 adopted (no remedy).
+Safety: source ODB hash 35bff121… verified unchanged from Windows; production source/binary/design/ORFS/D-014 unchanged; no fix; no system repair attempted.
+Files: docs/FDE-006R_DIAGNOSTIC_BUILD_RESUMPTION.md, experiments/FDE-006R/FDE-006R-20261119T150000Z-0001/** (patch, logs, manifests, dependency tarball), logs/sessions/FDE-006R_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: restore WSL, then native-WSL build using verified caches/patch/offline gate; complete equivalence + A/B.
+Safe for another agent to continue: YES; lock released.

@@ -20,6 +20,8 @@
 | D-016 | FDE-005 controlled diagnostic: both isolated A/B arms fail identically with DRT-0073; tool exposes only aggregate `At least 3 sparse access points`; via-in-pin M4 window has no effect. Root cause remains **PROBABLE** (not upgraded); source run unchanged. | 2026-11-19 | FINDING ADOPTED — **no remedy approved**; report `docs/FDE-005_CONTROLLED_FLEXPA_DIAGNOSTIC.md` |
 | D-017 | FDE-006 instrumented FlexPA investigation **BLOCKED at Gate 2**: offline Bazel dry-run fails (`rules_go++go_sdk+go_toolchains` not cached; build image unmountable). No candidate-level data obtained; root cause remains PROBABLE, not ESTABLISHED. | 2026-11-19 | BLOCKED / INCONCLUSIVE — **no remedy approved**; report `docs/FDE-006_INSTRUMENTED_FLEXPA_CANDIDATE_INVESTIGATION.md` |
 
+| D-018 | FDE-006R dependency unblock succeeded (local image cache recovery + authorized pinned Go SDK fetch; offline dry-run RC=0) and the instrumentation patch was corrected/validated, but the diagnostic build was blocked by drvfs link performance and a WSL process-spawn failure. No candidate-level data; root cause remains PROBABLE. | 2026-11-19 | BLOCKED / INCONCLUSIVE — **no remedy approved**; report `docs/FDE-006R_DIAGNOSTIC_BUILD_RESUMPTION.md` |
+
 Details: D-001..D-006 rationale recorded in `docs/milestone0-environment-audit.md`;
 D-007 in Phase D rules; D-008 in `AGENTS.md`; D-009..D-012 in `logs/DAILY_LOG.md`
 (2026-11-18 M1-S001) and the files they name. D-013 retrospective and D-014 proposal:

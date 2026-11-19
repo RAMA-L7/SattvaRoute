@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-007 — FDE-006R dependency unblock review (2026-11-19, orchestrator)
+
+- **Inspected:** four agent reports, `debugfs` image inventory, Go SDK pin/hash, authorized fetch result, offline dry-run logs, corrected patch and dry-run result, build log.
+- **Findings:** local image recovery resolved `rules_go`/`bazel_features`; only Go SDK was absent and was fetched with explicit authorization and exact hash match; strict `--nofetch` dry-run RC=0; original patch needed correction and was replaced by a valid 14-point target-only diff; build blocked by environment (drvfs linking, then WSL process-spawn failure).
+- **Decisions:** D-018 adopted (BLOCKED/INCONCLUSIVE); no remedy approved; no system repair attempted.
+- **Conclusion:** dependency strategy was valid; environment failure prevented candidate-level evidence.
+- **Follow-up:** resume in native WSL workspace after environment health returns.
+
 ## R-006 — FDE-006 instrumented FlexPA investigation (2026-11-19, orchestrator)
 
 - **Inspected:** four agent reports, isolated source copy, production source/binary/ODB hashes, Gate 2 dry-run log, proposed patch design.

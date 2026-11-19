@@ -4,6 +4,14 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## FDE-006R — Diagnostic build unblock (2026-11-19, orchestrator)
+
+- **Objective:** unblock FDE-006 Gate 2 and obtain candidate-level FlexPA evidence.
+- **Work completed:** local image cache recovery, authorized pinned Go SDK fetch with hash verification, offline dry-run RC=0, corrected target-only patch with valid diff and dry-run success.
+- **Failures:** drvfs linking prohibitively slow; WSL process-spawn failure (`getpwuid(0)`, I/O error) stopped native-workspace resumption.
+- **Milestone verdict:** BLOCKED / INCONCLUSIVE; no candidate-level data, no A/B; root cause remains ROOT CAUSE PROBABLE; no fix applied.
+- **Remaining tasks:** restore WSL environment; resume native build → equivalence → Experiment A/B.
+
 ## FDE-006 — Instrumented FlexPA candidate-level investigation (2026-11-19, orchestrator)
 
 - **Objective:** expose candidate AP coordinates/rejection reasons for `u_sram/clk` via target-specific instrumentation and a scratch OBS control.

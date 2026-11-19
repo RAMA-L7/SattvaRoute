@@ -1,0 +1,14 @@
+GATE 2 DRY-RUN FDE-006R 2026-11-19T16:56:20+00:00
+CMD: bazelisk --output_base=/mnt/d/SattvaRoute/experiments/FDE-006R/FDE-006R-20261119T150000Z-0001/build/output_base build --nobuild --nofetch --jobs=8 --remote_cache= --repository_cache=/tmp/fde006r_repo/bazel-repo-cache --disk_cache=/tmp/fde006r_disk/bazel-cache //:openroad
+INFO: Invocation ID: 9203dbd4-2d87-430b-b340-7ee9f1e29472
+Computing main repo mapping: 
+Loading: 
+Loading: 0 packages loaded
+Analyzing: target //:openroad (0 packages loaded, 0 targets configured)
+INFO: Analyzed target //:openroad (0 packages loaded, 0 targets configured).
+ no actions running
+INFO: Found 1 target...
+INFO: Elapsed time: 7.148s, Critical Path: 0.00s
+INFO: 0 processes.
+INFO: Build completed successfully, 0 total actions
+RC=0

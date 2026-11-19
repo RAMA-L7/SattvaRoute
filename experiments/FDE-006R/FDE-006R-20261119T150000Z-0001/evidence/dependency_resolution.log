@@ -1,0 +1,52 @@
+AUTHORIZED DEPENDENCY RESOLUTION FDE-006R 2026-11-19T16:52:07+00:00
+CMD: bazelisk --output_base=/mnt/d/SattvaRoute/experiments/FDE-006R/FDE-006R-20261119T150000Z-0001/build/output_base build --nobuild --jobs=8 --remote_cache= --repository_cache=/tmp/fde006r_repo/bazel-repo-cache --disk_cache=/tmp/fde006r_disk/bazel-cache //:openroad
+INFO: Invocation ID: 0b8c5749-f9ec-4e6f-b854-d78cc3bc74b7
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Loading: 
+Loading: 3 packages loaded
+Analyzing: target //:openroad (8 packages loaded, 6 targets configured)
+Analyzing: target //:openroad (18 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (31 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (49 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (69 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (98 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (103 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (103 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (111 packages loaded, 584 targets configured)
+Analyzing: target //:openroad (162 packages loaded, 4062 targets configured)
+Analyzing: target //:openroad (194 packages loaded, 7650 targets configured)
+Analyzing: target //:openroad (227 packages loaded, 9820 targets configured)
+Analyzing: target //:openroad (251 packages loaded, 14720 targets configured)
+Analyzing: target //:openroad (284 packages loaded, 20697 targets configured)
+Analyzing: target //:openroad (353 packages loaded, 22983 targets configured)
+Analyzing: target //:openroad (546 packages loaded, 25395 targets configured)
+Analyzing: target //:openroad (767 packages loaded, 28705 targets configured)
+Analyzing: target //:openroad (915 packages loaded, 30240 targets configured)
+Analyzing: target //:openroad (1069 packages loaded, 30752 targets configured)
+Analyzing: target //:openroad (1119 packages loaded, 31872 targets configured)
+Analyzing: target //:openroad (1262 packages loaded, 31892 targets configured)
+Analyzing: target //:openroad (1361 packages loaded, 31923 targets configured)
+Analyzing: target //:openroad (1435 packages loaded, 32073 targets configured)
+Analyzing: target //:openroad (1465 packages loaded, 32753 targets configured)
+Analyzing: target //:openroad (1476 packages loaded, 38298 targets configured)
+Analyzing: target //:openroad (1478 packages loaded, 43199 targets configured)
+Analyzing: target //:openroad (1478 packages loaded, 66557 targets configured)
+Analyzing: target //:openroad (1484 packages loaded, 73914 targets configured)
+Analyzing: target //:openroad (1485 packages loaded, 76327 targets configured)
+Analyzing: target //:openroad (1485 packages loaded, 80410 targets configured, 110 aspect applications)
+Analyzing: target //:openroad (1504 packages loaded, 82774 targets configured, 110 aspect applications)
+Analyzing: target //:openroad (1508 packages loaded, 83139 targets configured, 110 aspect applications)
+Analyzing: target //:openroad (1508 packages loaded, 85627 targets configured, 137 aspect applications)
+Analyzing: target //:openroad (1508 packages loaded, 85627 targets configured, 137 aspect applications)
+Analyzing: target //:openroad (1508 packages loaded, 85627 targets configured, 137 aspect applications)
+Analyzing: target //:openroad (1512 packages loaded, 85849 targets configured, 137 aspect applications)
+Analyzing: target //:openroad (1512 packages loaded, 85952 targets configured, 137 aspect applications)
+INFO: Analyzed target //:openroad (1513 packages loaded, 90801 targets configured, 138 aspect applications).
+ no actions running
+INFO: Found 1 target...
+INFO: Elapsed time: 236.581s, Critical Path: 0.00s
+INFO: 0 processes.
+INFO: Build completed successfully, 0 total actions
+RC=0
