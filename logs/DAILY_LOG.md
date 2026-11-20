@@ -251,3 +251,10 @@ Run: orfs_baseline_20261120T182251409618918Z_97829; check/synth/floorplan/place/
 Verification: modified OBS reached 1_synth/2_floorplan/4_cts ODB (18 boxes); DRT-0305=0; DRT-0419=8; DRT-0073 persists. Instrumented diagnosis: remaining planar Short bbox abs (4704,16560)-(4764,16584) = local (3474,8376)-(3534,8400), the clk pin LEFT strip not freed by approved corridor; Metal Spacing adjacent y bands; VIA45 M5 Shorts persist.
 Action: STOP; no second speculative run. D-023 proposes R1-N-W (widen corridors to x3474-3672, same y windows); new approval required.
 Safety: no production/design/config/binary/D-014 change; no waiver/suppression/deployment.
+
+--- T-FDE-007 final — R1-N-W result (2026-11-21) ---
+Approval: user approved D-023 R1-N-W (widen scratch corridors x3474-3672). Scratch LEF 917e094e… (only M4 OBS), production LEF f1c18877… unchanged.
+Run: orfs_baseline_20261120T183451711584818Z_99729; check/synth/floorplan/place/cts PASS; route rc=2 DRT-0073; ~96 s.
+Verification: OBS reached 4_cts (18 boxes, M4 from x3474); DRT-0305=0; DRT-0419=8; 0 accepted APs. Instrumented: 2 nm Short at new OBS edge local x3474; Metal Spacing/Lef58/VIA45 M5 persist; widening reduced Short 54->45 but raised Metal Spacing 63->82, Lef58 31->40; APs stayed 0.
+Independent review: FDE-007 BLOCKED; R1-N REJECT; R1-N-W REJECT; 2 nm sliver INCONCLUSIVE (boundary-correlated, no getSrcs provenance). No further variant authorized.
+Safety: production LEF/GDS/binary/ODB/mirror/D-014 unchanged; no suppression/waiver/deployment; no third run.

@@ -21,4 +21,13 @@
 ### Required new approval (R1-N-W)
 Widen each of the 12 M4 OBS corridors in the **scratch LEF only** from x 3534–3672 to **x 3474–3672 DBU**, keeping the same y windows (pin y ±24 DBU). Rationale: the left strip contains the pin's **own-net** M4 terminal stub (Agent A GDS census: same-net `clk` path, zero foreign-net 40/0 shapes), so freeing it does not expose occupied foreign metal. A narrower y margin cannot fix the observed metal-spacing markers. This is a materially different geometry than the approved R1-N delta; a new approval is required before any implementation.
 
-**Status: STOPPED at Gate 2 (new approval).** No second speculative run was launched; no production file changed; no DRC waiver or suppression.
+**Status after R1-N-W execution: FDE-007 BLOCKED — both approved scratch remedies REJECTED as tested.** No further geometry variant was attempted; no production file changed; no DRC waiver or suppression.
+
+### Addendum: R1-N-W execution result (2026-11-21)
+- Approval: user approved D-023 (R1-N-W) after R1-N failed; record at `experiments/FDE-007/FDE-007-20261121T090000Z-0002/evidence/APPROVAL.md`.
+- Scratch LEF `917e094e…` (corridors x 3474–3672 DBU, same 12 y windows); production LEF `f1c18877…` unchanged; diff touches only M4 OBS (24 lines).
+- Run ID `orfs_baseline_20261120T183451711584818Z_99729`: check/synth/floorplan/place/cts PASS, route rc=2 DRT-0073, ~96 s.
+- Verified OBS reached `4_cts.odb` (18 boxes, M4 bands starting at x=3474); DRT-0305=0, DRT-0419=8 parity.
+- Instrumented diagnosis: planar `Short` bbox `(4703,16560)-(4705,16584)` — a 2 nm strip centred on the new OBS edge (local x=3474); `Metal Spacing` bands, `Lef58` EOL markers and VIA45 M5 `Short`s persist; 0 accepted APs, sparse 0<3. Widening reduced `Short` 54→45 but raised `Metal Spacing` 63→82 and `Lef58` 31→40 — net APs stayed 0.
+- Independent review verdict: **FDE-007 BLOCKED** (new approval gate), **R1-N REJECT**, **R1-N-W REJECT** (2 nm sliver INCONCLUSIVE — boundary-correlated; marker provenance absent). No further variant authorized.
+- Required for any new proposal: `getSrcs()` marker provenance, GDS census at sliver/spacing bands, mechanism for spacing/EOL failures, all-pin AP evidence, canonical DB diff + no-op control, foreign-metal-free justification, full-flow plan.
