@@ -26,6 +26,8 @@
 
 | D-020 | FDE-006T: SIGKILL diagnosed as external wall-clock supervisor (not OOM); build completed detached with no resource/flag change; diagnostic binary `9c0ed727…` passes runtime equivalence and exposes 9 M4 candidates for `u_sram/clk`, all rejected by planar/via DRC, sparse 0<3. OBS control blocked by missing safe Tcl API. Root cause remains PROBABLE (high confidence), not ESTABLISHED. | 2026-11-20 | FINDING ADOPTED — **no remedy approved**; report `docs/FDE-006T_DIAGNOSTIC_LINK_RESOURCE_INVESTIGATION.md` |
 
+| D-021 | FDE-006U: ROOT CAUSE ESTABLISHED (bounded, mechanism-level) for DRT-0073 — M4 full-body macro OBS blocks planar escape of `u_sram/clk`; same-binary single-variable M4 OBS carve flips accepted APs 0→3 and removes DRT-0073. Multi-violation: M5 OBS / thin-pin EOL / metal spacing contribute. Independent review GO with scope limits; no remedy approved. | 2026-11-20 | FINDING ADOPTED — **no remedy approved**; report `docs/FDE-006U_CANDIDATE_REJECTION_ATTRIBUTION_AND_OBS_VALIDATION.md` |
+
 Details: D-001..D-006 rationale recorded in `docs/milestone0-environment-audit.md`;
 D-007 in Phase D rules; D-008 in `AGENTS.md`; D-009..D-012 in `logs/DAILY_LOG.md`
 (2026-11-18 M1-S001) and the files they name. D-013 retrospective and D-014 proposal:

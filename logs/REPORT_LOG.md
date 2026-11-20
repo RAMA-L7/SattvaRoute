@@ -4,6 +4,14 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## FDE-006U — Candidate rejection attribution + OBS validation (2026-11-20, orchestrator)
+
+- **Objective:** attribute candidate rejection and validate OBS causality with a controlled A/B.
+- **Work completed:** log-only marker attribution patch, separate diagnostic binary `0d890431…`, three-way equivalence PASS, same-binary A/B with verified single-variable M4 OBS carve.
+- **Test results:** A 9 candidates / 107 markers / 0 accepted / sparse 0<3 / DRT-0073; B 3 candidates / 13 markers / 3 accepted / sparse 3≥3 / DRT-0073 absent.
+- **Milestone verdict:** DONE — ROOT CAUSE ESTABLISHED (bounded, mechanism-level), multi-violation with M4 OBS decisive; no fix applied.
+- **Remaining tasks:** separate approval for production remedy and full-flow validation.
+
 ## FDE-006T — Diagnostic link resource investigation (2026-11-20, orchestrator)
 
 - **Objective:** classify SIGKILL, complete diagnostic build, obtain candidate-level evidence.

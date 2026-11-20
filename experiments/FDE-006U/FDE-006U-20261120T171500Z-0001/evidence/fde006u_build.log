@@ -1,0 +1,23 @@
+INFO: Invocation ID: 1376d01a-52f5-4a35-b14b-34025527422b
+INFO: Checking for file changes...
+Computing main repo mapping: 
+Loading: 
+Loading: 0 packages loaded
+Analyzing: target //:openroad (0 packages loaded)
+Analyzing: target //:openroad (0 packages loaded, 0 targets configured)
+Analyzing: target //:openroad (0 packages loaded, 0 targets configured)
+
+INFO: Analyzed target //:openroad (0 packages loaded, 0 targets configured).
+[18 / 22] Compiling src/drt/src/pa/FlexPA_acc_point.cpp; 1s disk-cache, linux-sandbox
+[18 / 22] Compiling src/drt/src/pa/FlexPA_acc_point.cpp; 11s disk-cache, linux-sandbox
+[18 / 22] Compiling src/drt/src/pa/FlexPA_acc_point.cpp; 41s disk-cache, linux-sandbox
+[19 / 22] [Prepa] Linking openroad_unstamped
+[19 / 22] Linking openroad_unstamped; 1s disk-cache, linux-sandbox
+[20 / 22] [Prepa] Creating symlink openroad
+INFO: Found 1 target...
+Target //:openroad up-to-date:
+  bazel-bin/openroad
+INFO: Elapsed time: 85.896s, Critical Path: 68.21s
+INFO: 5 processes: 14 action cache hit, 3 internal, 2 linux-sandbox.
+INFO: Build completed successfully, 5 total actions
+INFO: 

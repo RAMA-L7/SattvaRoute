@@ -223,3 +223,13 @@ Safety: source ODB 35bff121… unchanged; production binary c1b90e0a… unchange
 Files: docs/FDE-006T_DIAGNOSTIC_LINK_RESOURCE_INVESTIGATION.md, experiments/FDE-006T/**, logs/sessions/FDE-006T_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: approve supported OBS-control mechanism (scratch LEF rebuild or source-level OBS hook) or marker-geometry instrumentation, then repeat A/B.
 Safe for another agent to continue: YES; lock released.
+
+--- SESSION START/END — T-FDE-006U candidate attribution + OBS A/B (2026-11-20) ---
+Agent/model: orchestrator + Agents A/B/C/D (read-only analysis + independent review)
+Starting state: pub 06f1a76 = remote; FDE-006T binary 9c0ed727… preserved; source ODB 35bff121….
+Work: two log-only marker insertions (source 305230b9… -> 0fc94a9d…); detached rebuild -> binary 0d890431…; three-way equivalence PASS; A original OBS: 9 candidates, 107 markers, 0 accepted, sparse 0<3, DRT-0073; B scratch M4 OBS window carve (verified single-variable, DEF round-trip byte-identical): 3 candidates, 13 markers, 3 accepted, sparse 3>=3, DRT-0073 gone, same binary. Independent post-run review GO with scope limits.
+Verdict: ROOT CAUSE ESTABLISHED (bounded, mechanism-level) — M4 full-body OBS blocks planar escape of clk; multi-violation with M5 OBS/EOL/spacing contributing. D-021 adopted; no remedy approved.
+Safety: source ODB 35bff121… unchanged; production binary c1b90e0a… unchanged; no design/config/D-014 change; no full baseline/detailed routing; no fix.
+Files: docs/FDE-006U_CANDIDATE_REJECTION_ATTRIBUTION_AND_OBS_VALIDATION.md, experiments/FDE-006U/**, logs/sessions/FDE-006U_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: separate approval for production remedy + full-flow validation.
+Safe for another agent to continue: YES; lock released.

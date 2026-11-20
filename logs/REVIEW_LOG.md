@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-010 — FDE-006U candidate attribution and OBS A/B review (2026-11-20, orchestrator)
+
+- **Inspected:** four agent reports (including post-run adjudication), marker attribution patch, three equivalence logs, A/B logs, OBS control verification, source ODB and binary hashes.
+- **Findings:** same binary `0d890431…` in both arms; single-variable M4 OBS carve verified (DEF round-trip byte-identical, M1/M2/M3/M5 unchanged); A: 9 candidates/0 accepted/sparse 0<3/DRT-0073; B: 3 candidates/3 accepted/sparse 3≥3/no DRT-0073; M5 markers persist in B, so M4 OBS is decisive while other violations contribute.
+- **Decisions:** D-021 adopted — ROOT CAUSE ESTABLISHED (bounded, mechanism-level); no remedy approved.
+- **Conclusion:** independent reviewer GO with scope limits and residual gaps recorded (no marker getSrcs(), no no-op arm, non-DEF properties not exhaustively diffed).
+- **Follow-up:** separate approval for production remedy and full-flow DRC/timing validation.
+
 ## R-009 — FDE-006T link resource and candidate evidence review (2026-11-20, orchestrator)
 
 - **Inspected:** four agent reports, kernel OOM counters, build/gate logs, equivalence logs, candidate-level debug output, OBS API probes.

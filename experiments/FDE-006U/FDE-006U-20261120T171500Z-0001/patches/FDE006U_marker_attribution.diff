@@ -1,0 +1,59 @@
+diff --git FlexPA_acc_point.cpp.fde006t_orig root/sattvaroute-fde006s/source/OpenROAD/src/drt/src/pa/FlexPA_acc_point.cpp
+old mode 100644
+new mode 100755
+index 26e098a..f2d6642
+--- FlexPA_acc_point.cpp.fde006t_orig
++++ root/sattvaroute-fde006s/source/OpenROAD/src/drt/src/pa/FlexPA_acc_point.cpp
+@@ -788,6 +788,25 @@ bool FlexPA::isPlanarViolationFree(frAccessPoint* ap,
+ 
+   FDE006R_LOG(logger_, "FDE006R DRC-MARKERS stage=planar x={} y={} n={}",
+               point.x(), point.y(), design_rule_checker.getMarkers().size());
++  // FDE-006U: per-marker detail. LOG ONLY: no access/return changes.
++  {
++    const auto& markers = design_rule_checker.getMarkers();
++    int idx = 0;
++    for (const auto& marker : markers) {
++      const odb::Rect box = marker->getBBox();
++      const frConstraint* con = marker->getConstraint();
++      FDE006R_LOG(logger_,
++                  "FDE006R MARKER stage=planar x={} y={} lay={} idx={} "
++                  "type={} cid={} rid={} mname={} box=({},{},{},{}) clean={}",
++                  point.x(), point.y(), ap->getLayerNum(), idx++,
++                  con ? con->getViolName() : "null",
++                  con ? static_cast<int>(con->typeId()) : -1,
++                  con ? con->getId() : -1,
++                  getTech()->getLayer(marker->getLayerNum())->getName(),
++                  box.xMin(), box.yMin(), box.xMax(), box.yMax(),
++                  markers.empty());
++    }
++  }
+   return design_rule_checker.getMarkers().empty();
+ }
+ 
+@@ -1157,6 +1176,26 @@ bool FlexPA::isViaViolationFree(frAccessPoint* ap,
+ 
+   FDE006R_LOG(logger_, "FDE006R DRC-MARKERS stage=via x={} y={} n={}",
+               point.x(), point.y(), design_rule_checker.getMarkers().size());
++  // FDE-006U: per-marker detail. LOG ONLY: no access/return changes.
++  {
++    const auto& markers = design_rule_checker.getMarkers();
++    int idx = 0;
++    for (const auto& marker : markers) {
++      const odb::Rect box = marker->getBBox();
++      const frConstraint* con = marker->getConstraint();
++      FDE006R_LOG(logger_,
++                  "FDE006R MARKER stage=via x={} y={} lay={} via={} idx={} "
++                  "type={} cid={} rid={} mname={} box=({},{},{},{}) clean={}",
++                  point.x(), point.y(), ap->getLayerNum(),
++                  via->getViaDef()->getName(), idx++,
++                  con ? con->getViolName() : "null",
++                  con ? static_cast<int>(con->typeId()) : -1,
++                  con ? con->getId() : -1,
++                  getTech()->getLayer(marker->getLayerNum())->getName(),
++                  box.xMin(), box.yMin(), box.xMax(), box.yMax(),
++                  markers.empty());
++    }
++  }
+   const bool no_drv = design_rule_checker.getMarkers().empty();
+ 
+   if (graphics_) {

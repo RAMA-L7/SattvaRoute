@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** FDE-006T — Diagnostic link resource investigation and build completion
-- **Current status:** T-FDE-006T DONE with partial blocker: SIGKILL diagnosed as external wall-clock supervisor (not OOM); diagnostic build completed detached with no resource/flag change (binary `9c0ed727…`); runtime equivalence PASS; Experiment A exposed 9 M4 candidates for `u_sram/clk`, all rejected by planar/via DRC, sparse 0<3. Experiment B (scratch OBS control) BLOCKED — no safe Tcl API to remove master OBS. Root cause remains **ROOT CAUSE PROBABLE** (high confidence), not ESTABLISHED. D-020 adopted; no remedy approved.
-- **Last updated:** 2026-11-20 (orchestrator, T-FDE-006T)
-- **Current active task:** none; next requires approved OBS-control mechanism (e.g. scratch LEF rebuild or source-level OBS hook)
+- **Current phase:** FDE-006U — Candidate rejection attribution + controlled OBS validation
+- **Current status:** T-FDE-006U DONE: two log-only marker-attribution insertions, new diagnostic binary `0d890431…`, three-way equivalence PASS, same-binary single-variable A/B (M4 OBS carve) flips accepted APs 0→3 and removes DRT-0073. Independent review GO. Root cause **ROOT CAUSE ESTABLISHED** (bounded, mechanism-level): M4 full-body OBS blocks planar escape; multi-violation with M5 OBS/EOL/spacing contributing. D-021 adopted; no remedy approved.
+- **Last updated:** 2026-11-20 (orchestrator, T-FDE-006U)
+- **Current active task:** none; next requires separate approval for any production remedy + full-flow validation
 - **Active agents:** orchestrator; Agents A/B/C/D completed and released
 
 ## Completed milestones

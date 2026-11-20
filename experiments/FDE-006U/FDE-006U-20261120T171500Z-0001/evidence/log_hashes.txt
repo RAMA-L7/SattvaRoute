@@ -1,0 +1,4 @@
+1cdffcb738fce98b35bf6585f303523b83ac26935bd3b49a2dcda23b0106aafa  /root/sattvaroute-fde006s/experiments/FDE-006U-20261120T171500Z-0001/logs/newdiag_off.log
+dd0be4af447c74e9d2122544677048d891fa35c9414be465a834405699a9646b  /root/sattvaroute-fde006s/experiments/FDE-006U-20261120T171500Z-0001/logs/newdiag_on.log
+473b42e3a7c50b989e8b7347142fdded79fec0ac60de9c73fb2ec985b46d8ca9  /root/sattvaroute-fde006s/experiments/FDE-006U-20261120T171500Z-0001/logs/olddiag.log
+604a72333433c83c4913566ec993ee9d3422a15dce62a0424ca7ad44760a3a67  /root/sattvaroute-fde006s/experiments/FDE-006U-20261120T171500Z-0001/logs/prod.log

@@ -1,0 +1,186 @@
+diff --git a/src/drt/src/pa/FlexPA_acc_point.cpp b/src/drt/src/pa/FlexPA_acc_point.cpp
+index afedebd..26e098a 100755
+--- a/src/drt/src/pa/FlexPA_acc_point.cpp
++++ b/src/drt/src/pa/FlexPA_acc_point.cpp
+@@ -38,6 +38,25 @@ using utl::ThreadException;
+ 
+ namespace drt {
+ 
++// ---- FDE-006R target-only FlexPA probe ----
++namespace {
++constexpr const char* kFde006rInst = "u_sram";
++constexpr const char* kFde006rTerm = "clk";
++inline bool isFde006rTarget(const frInstTerm* it)
++{
++  return it && it->getInst()->getName() == kFde006rInst
++             && it->getTerm()->getName() == kFde006rTerm;
++}
++static thread_local bool g_fde006r_active = false;
++static thread_local int g_fde006r_last_sparse = -1;
++#define FDE006R_LOG(logger, ...)                                               \
++  do {                                                                        \
++    if (g_fde006r_active) {                                                    \
++      (logger)->debug(utl::DRT, "pin_access", __VA_ARGS__);                   \
++    }                                                                         \
++  } while (0)
++}  // namespace
++
+ /**
+  * @details Some functions only use a subset of the vias to test if access
+  * points are appropriate or to determine access coords. This ensures that every
+@@ -246,14 +265,20 @@ void FlexPA::createSingleAccessPoint(
+   gtl::point_data<frCoord> pt(x, y);
+   if (!gtl::contains(maxrect, pt) && lower_type != frAccessPointEnum::NearbyGrid
+       && upper_type != frAccessPointEnum::NearbyGrid) {
++    FDE006R_LOG(logger_, "FDE006R DROP stage=create reason=outside_maxrect "
++                "x={} y={} lay={}", x, y, layer_num);
+     return;
+   }
+   odb::Point fpt(x, y);
+   if (apset.find(std::make_pair(fpt, layer_num)) != apset.end()) {
++    FDE006R_LOG(logger_, "FDE006R DROP stage=create reason=duplicate "
++                "x={} y={} lay={}", x, y, layer_num);
+     return;
+   }
+   auto ap = std::make_unique<frAccessPoint>(fpt, layer_num);
+ 
++  FDE006R_LOG(logger_, "FDE006R CREATE x={} y={} lay={} allow_planar={} "
++              "allow_via={}", x, y, layer_num, allow_planar, allow_via);
+   ap->setMultipleAccesses(frDirEnumPlanar, allow_planar);
+ 
+   if (allow_planar) {
+@@ -669,6 +694,9 @@ bool FlexPA::filterPlanarAccess(
+   const bool is_outside = isPointOutsideShapes(end_point, layer_polys);
+   // skip if two width within shape for standard cell
+   if (!is_outside) {
++    FDE006R_LOG(logger_, "FDE006R DROP stage=planar reason=endpoint_inside "
++                "x={} y={} lay={} dir={}", begin_point.x(), begin_point.y(),
++                ap->getLayerNum(), (int) dir);
+     ap->setAccess(dir, false);
+     return false;
+   }
+@@ -699,6 +727,9 @@ bool FlexPA::filterPlanarAccess(
+ 
+   const bool no_drv
+       = isPlanarViolationFree(ap, pin, ps.get(), inst_term, begin_point, layer);
++  FDE006R_LOG(logger_, "FDE006R PLANAR-DRC x={} y={} lay={} dir={} clean={}",
++              begin_point.x(), begin_point.y(), ap->getLayerNum(), (int) dir,
++              no_drv);
+   ap->setAccess(dir, no_drv);
+ 
+   return no_drv;
+@@ -755,6 +786,8 @@ bool FlexPA::isPlanarViolationFree(frAccessPoint* ap,
+     graphics_->setPlanarAP(ap, ps, design_rule_checker.getMarkers());
+   }
+ 
++  FDE006R_LOG(logger_, "FDE006R DRC-MARKERS stage=planar x={} y={} n={}",
++              point.x(), point.y(), design_rule_checker.getMarkers().size());
+   return design_rule_checker.getMarkers().empty();
+ }
+ 
+@@ -934,10 +967,16 @@ void FlexPA::filterViaAccess(
+     if (inst_term && !try_all_vias) {
+       odb::Rect boundary_bbox = inst_term->getInst()->getBoundaryBBox();
+       if (!boundary_bbox.contains(box)) {
++        FDE006R_LOG(logger_, "FDE006R DROP stage=via reason=outside_boundary "
++                    "x={} y={} lay={}", begin_point.x(), begin_point.y(),
++                    layer_num);
+         continue;
+       }
+       odb::Rect layer2_boundary_box = via->getLayer2BBox();
+       if (!boundary_bbox.contains(layer2_boundary_box)) {
++        FDE006R_LOG(logger_, "FDE006R DROP stage=via reason=outside_boundary2 "
++                    "x={} y={} lay={}", begin_point.x(), begin_point.y(),
++                    layer_num);
+         continue;
+       }
+     }
+@@ -945,9 +984,15 @@ void FlexPA::filterViaAccess(
+     const bool via_not_in_pin = viaMaxExt(inst_term, ap, polyset, via_def) > 0;
+ 
+     if (via_must_be_in_pin && via_not_in_pin) {
++      FDE006R_LOG(logger_, "FDE006R DROP stage=via reason=not_enclosed "
++                  "x={} y={} lay={} via={}", begin_point.x(), begin_point.y(),
++                  layer_num, via_def->getName());
+       continue;
+     }
+     if (checkViaPlanarAccess(ap, via.get(), pin, inst_term, layer_polys)) {
++      FDE006R_LOG(logger_, "FDE006R VIA-ACCEPT x={} y={} lay={} via={}",
++                  begin_point.x(), begin_point.y(), layer_num,
++                  via_def->getName());
+       ap->addViaDef(via_def);
+       if (via_def->getLayer1Num() == layer_num) {
+         ap->setAccess(frDirEnum::U);
+@@ -1110,6 +1155,8 @@ bool FlexPA::isViaViolationFree(frAccessPoint* ap,
+   design_rule_checker.initPA1();
+   design_rule_checker.main();
+ 
++  FDE006R_LOG(logger_, "FDE006R DRC-MARKERS stage=via x={} y={} n={}",
++              point.x(), point.y(), design_rule_checker.getMarkers().size());
+   const bool no_drv = design_rule_checker.getMarkers().empty();
+ 
+   if (graphics_) {
+@@ -1239,6 +1286,12 @@ bool FlexPA::EnoughSparsePoints(
+     }
+   }
+ 
++  FDE006R_LOG(logger_, "FDE006R SPARSE n_aps={} n_sparse={} thresh={} macro={}",
++              aps.size(), n_sparse_access_points,
++              is_macro_cell_pin ? router_cfg_->MINNUMACCESSPOINT_MACROCELLPIN
++                                : router_cfg_->MINNUMACCESSPOINT_STDCELLPIN,
++              is_macro_cell_pin);
++  g_fde006r_last_sparse = n_sparse_access_points;
+   if (is_std_cell_pin
+       && n_sparse_access_points >= router_cfg_->MINNUMACCESSPOINT_STDCELLPIN) {
+     return true;
+@@ -1317,6 +1370,9 @@ bool FlexPA::genPinAccessCostBounded(
+   }
+   for (auto& ap : new_aps) {
+     if (!ap->hasAccess()) {
++      FDE006R_LOG(logger_, "FDE006R DROP stage=final reason=no_access "
++                  "x={} y={} lay={}", ap->getPoint().x(), ap->getPoint().y(),
++                  ap->getLayerNum());
+       continue;
+     }
+     // for stdcell, add (i) planar access if layer_num != VIA_ACCESS_LAYERNUM,
+@@ -1327,8 +1383,11 @@ bool FlexPA::genPinAccessCostBounded(
+         continue;
+       }
+     }
++    FDE006R_LOG(logger_, "FDE006R ACCEPT x={} y={} lay={}",
++                ap->getPoint().x(), ap->getPoint().y(), ap->getLayerNum());
+     aps.push_back(std::move(ap));
+   }
++  FDE006R_LOG(logger_, "FDE006R AFTER-FILTER aps_out={}", aps.size());
+ 
+   return EnoughAccessPoints(aps, inst_term, reqs);
+ }
+@@ -1412,6 +1471,10 @@ int FlexPA::genPinAccess(T* pin, frInstTerm* inst_term)
+   if (pin->getPinAccess(pin_access_idx)->getNumAccessPoints() > 0) {
+     pin->getPinAccess(pin_access_idx)->clearAccessPoints();
+   }
++  g_fde006r_active = logger_->debugCheck(utl::DRT, "pin_access", 1)
++                     && isFde006rTarget(inst_term);
++  FDE006R_LOG(logger_, "FDE006R BEGIN inst_term={}",
++              inst_term ? inst_term->getName().c_str() : "IO");
+ 
+   // aps are after xform
+   // before checkPoints, ap->hasAccess(dir) indicates whether to check drc
+@@ -1470,6 +1533,9 @@ int FlexPA::genPinAccess(T* pin, frInstTerm* inst_term)
+     }
+   }
+ 
++  FDE006R_LOG(logger_, "FDE006R SUMMARY inst_term={} aps={} n_sparse_last={} "
++              "met={}", inst_term ? inst_term->getName().c_str() : "IO",
++              aps.size(), g_fde006r_last_sparse, enough_access_points);
+   if (!enough_access_points && inst_term) {
+     std::string unmet_requirements;
+     if (!reqs.sparse_points) {
+@@ -1508,6 +1574,7 @@ int FlexPA::genPinAccess(T* pin, frInstTerm* inst_term)
+   for (auto& ap : aps) {
+     pin->getPinAccess(pin_access_idx)->addAccessPoint(std::move(ap));
+   }
++  g_fde006r_active = false;
+   return aps.size();
+ }
+ 
