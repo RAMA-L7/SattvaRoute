@@ -4,6 +4,14 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## FDE-006S — WSL recovery + native build resumption (2026-11-20, orchestrator)
+
+- **Objective:** restore WSL execution health, build the instrumented binary natively, and resume gated FlexPA candidate-level experiments.
+- **Work completed:** WSL health verified (no destructive recovery), C: freed to 5.4 GB, native workspace `/root/sattvaroute-fde006s/` with verified source/patch, cache reuse without fetch, materialization + strict offline gate RC=0.
+- **Failures:** build SIGKILLed (RC=137) during final link at 13,480/13,482; no binary, no equivalence, no A/B, no candidate evidence.
+- **Milestone verdict:** BLOCKED / INCONCLUSIVE; root cause remains ROOT CAUSE PROBABLE; no fix applied.
+- **Remaining tasks:** approved higher-memory build environment, then resume build → equivalence → Experiment A/B.
+
 ## FDE-006R — Diagnostic build unblock (2026-11-19, orchestrator)
 
 - **Objective:** unblock FDE-006 Gate 2 and obtain candidate-level FlexPA evidence.

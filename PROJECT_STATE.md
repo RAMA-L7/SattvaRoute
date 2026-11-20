@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** FDE-006R — Diagnostic build unblock and controlled resumption
-- **Current status:** T-FDE-006R BLOCKED/INCONCLUSIVE: dependencies recovered locally + authorized Go SDK fetch, offline Bazel dry-run RC=0, corrected target-only patch validated (valid diff, dry-run OK). Diagnostic build could not finish: drvfs linking prohibitively slow, then WSL process-spawn failure (`getpwuid(0)`, I/O error). No candidate-level evidence; no A/B. Source ODB `35bff121…` verified unchanged; root cause remains **ROOT CAUSE PROBABLE**. D-018 records blocker; no remedy approved.
-- **Last updated:** 2026-11-19 (orchestrator, T-FDE-006R)
-- **Current active task:** none; next requires restored WSL environment and native-WSL build resumption
+- **Current phase:** FDE-006S — WSL recovery and native diagnostic build resumption
+- **Current status:** T-FDE-006S BLOCKED/INCONCLUSIVE: WSL healthy (no destructive recovery), C: space raised to 5.4 GB, native workspace `/root/sattvaroute-fde006s/` verified, offline gate RC=0, corrected patch present; instrumented build SIGKILLed (RC=137) during final link at 13,480/13,482. No binary, no equivalence, no A/B, no candidate evidence. Source ODB `35bff121…` unchanged; root cause remains **ROOT CAUSE PROBABLE**. D-019 records blocker; no remedy approved.
+- **Last updated:** 2026-11-20 (orchestrator, T-FDE-006S)
+- **Current active task:** none; next requires approved build environment with enough memory for final ThinLTO link
 - **Active agents:** orchestrator; Agents A/B/C/D completed and released
 
 ## Completed milestones

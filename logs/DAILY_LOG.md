@@ -203,3 +203,13 @@ Safety: source ODB hash 35bff121… verified unchanged from Windows; production 
 Files: docs/FDE-006R_DIAGNOSTIC_BUILD_RESUMPTION.md, experiments/FDE-006R/FDE-006R-20261119T150000Z-0001/** (patch, logs, manifests, dependency tarball), logs/sessions/FDE-006R_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: restore WSL, then native-WSL build using verified caches/patch/offline gate; complete equivalence + A/B.
 Safe for another agent to continue: YES; lock released.
+
+--- SESSION START/END — T-FDE-006S native resumption (2026-11-20) ---
+Agent/model: orchestrator + Agents A/B/C/D (read-only analysis)
+Starting state: pub 7243a72 = remote; WSL process-spawn failure from FDE-006R; C: 1.03 GB free.
+Work: verified WSL healthy (10/10 spawn, root identity, native ext4); classified prior failure as transient ext4/journal I/O cluster; user-authorized cleanup freed C: to 5.4 GB; agents verified artifact integrity (patch 6da35dd4…, SDK 2852af0c…, ODB 35bff121…); created native workspace /root/sattvaroute-fde006s with 13,002 source files (patched sha 305230b9…), fixed git-archive submodule gap; materialized externals from verified cache; strict --nofetch gate RC=0; started instrumented build.
+Result: build reached 13,480/13,482 then SIGKILL (RC=137) during final link after 2639s; no binary/hash/version; no equivalence, no A/B, no candidate data. No speculative retry. Verdict BLOCKED/INCONCLUSIVE; root cause remains PROBABLE; D-019 adopted (no remedy).
+Safety: source ODB 35bff121… unchanged; production source/binary/design/ORFS/D-014 unchanged; no fix; no destructive WSL recovery; no dependency fetch.
+Files: docs/FDE-006S_WSL_RECOVERY_AND_NATIVE_BUILD.md, logs/sessions/FDE-006S_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: approved build environment with enough memory for ThinLTO link, then resume build/equivalence/A-B.
+Safe for another agent to continue: YES; lock released.

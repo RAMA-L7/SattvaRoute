@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-008 — FDE-006S native resumption review (2026-11-20, orchestrator)
+
+- **Inspected:** four agent reports, WSL health checks, C: cleanup evidence, native workspace hashes, gate logs, build log.
+- **Findings:** WSL healthy (no recovery needed); prior failure was transient ext4/journal I/O; native workspace source patched hash `305230b9…`; strict offline gate RC=0; build reached 13,480/13,482 then SIGKILL RC=137 during final ThinLTO link, no binary, no OOM marker.
+- **Decisions:** D-019 adopted (BLOCKED/INCONCLUSIVE); no remedy approved; no speculative retry.
+- **Conclusion:** environment blocker at final link; candidate-level root cause remains unproven, status stays PROBABLE.
+- **Follow-up:** approved build environment with enough memory for the link, then build → equivalence → A/B.
+
 ## R-007 — FDE-006R dependency unblock review (2026-11-19, orchestrator)
 
 - **Inspected:** four agent reports, `debugfs` image inventory, Go SDK pin/hash, authorized fetch result, offline dry-run logs, corrected patch and dry-run result, build log.

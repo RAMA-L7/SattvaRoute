@@ -22,6 +22,8 @@
 
 | D-018 | FDE-006R dependency unblock succeeded (local image cache recovery + authorized pinned Go SDK fetch; offline dry-run RC=0) and the instrumentation patch was corrected/validated, but the diagnostic build was blocked by drvfs link performance and a WSL process-spawn failure. No candidate-level data; root cause remains PROBABLE. | 2026-11-19 | BLOCKED / INCONCLUSIVE — **no remedy approved**; report `docs/FDE-006R_DIAGNOSTIC_BUILD_RESUMPTION.md` |
 
+| D-019 | FDE-006S: WSL verified healthy (no destructive recovery); native workspace + offline gate RC=0; instrumented build SIGKILLed (RC=137) during final link at 13,480/13,482. No candidate-level evidence; root cause remains PROBABLE. | 2026-11-20 | BLOCKED / INCONCLUSIVE — **no remedy approved**; report `docs/FDE-006S_WSL_RECOVERY_AND_NATIVE_BUILD.md` |
+
 Details: D-001..D-006 rationale recorded in `docs/milestone0-environment-audit.md`;
 D-007 in Phase D rules; D-008 in `AGENTS.md`; D-009..D-012 in `logs/DAILY_LOG.md`
 (2026-11-18 M1-S001) and the files they name. D-013 retrospective and D-014 proposal:

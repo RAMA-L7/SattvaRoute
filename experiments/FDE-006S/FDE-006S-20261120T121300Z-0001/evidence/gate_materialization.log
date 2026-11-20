@@ -1,0 +1,55 @@
+FDE-006S GATE 1a MATERIALIZATION 2026-11-20T13:30:54+00:00
+CMD: bazelisk --output_base=/root/sattvaroute-fde006s/build/output_base build --nobuild --jobs=8 --remote_cache= --repository_cache=/mnt/d/SattvaRoute/experiments/FDE-006R/FDE-006R-20261119T150000Z-0001/cache/repository_cache/bazel-repo-cache --disk_cache=/mnt/d/SattvaRoute/experiments/FDE-006R/FDE-006R-20261119T150000Z-0001/cache/disk_cache/bazel-cache //:openroad
+Starting local Bazel server (9.3.2) and connecting to it...
+INFO: Invocation ID: 241b5eb5-51a0-47d1-8389-108ac9913fef
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Loading: 
+Loading: 3 packages loaded
+Analyzing: target //:openroad (8 packages loaded, 6 targets configured)
+Analyzing: target //:openroad (19 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (31 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (43 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (76 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (103 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (103 packages loaded, 20 targets configured)
+Analyzing: target //:openroad (110 packages loaded, 2701 targets configured)
+Analyzing: target //:openroad (158 packages loaded, 3940 targets configured)
+Analyzing: target //:openroad (190 packages loaded, 6998 targets configured)
+Analyzing: target //:openroad (224 packages loaded, 8266 targets configured)
+Analyzing: target //:openroad (231 packages loaded, 8725 targets configured)
+Analyzing: target //:openroad (236 packages loaded, 9158 targets configured)
+Analyzing: target //:openroad (245 packages loaded, 10015 targets configured)
+Analyzing: target //:openroad (254 packages loaded, 10795 targets configured)
+Analyzing: target //:openroad (260 packages loaded, 12208 targets configured)
+Analyzing: target //:openroad (271 packages loaded, 14053 targets configured)
+Analyzing: target //:openroad (299 packages loaded, 16141 targets configured)
+Analyzing: target //:openroad (328 packages loaded, 18130 targets configured)
+Analyzing: target //:openroad (356 packages loaded, 22276 targets configured)
+Analyzing: target //:openroad (378 packages loaded, 26068 targets configured)
+Analyzing: target //:openroad (409 packages loaded, 27383 targets configured)
+Analyzing: target //:openroad (432 packages loaded, 28062 targets configured)
+Analyzing: target //:openroad (456 packages loaded, 30924 targets configured)
+Analyzing: target //:openroad (475 packages loaded, 31385 targets configured)
+Analyzing: target //:openroad (482 packages loaded, 31668 targets configured)
+Analyzing: target //:openroad (556 packages loaded, 32256 targets configured)
+Analyzing: target //:openroad (639 packages loaded, 33738 targets configured)
+Analyzing: target //:openroad (746 packages loaded, 33817 targets configured)
+Analyzing: target //:openroad (864 packages loaded, 34269 targets configured)
+Analyzing: target //:openroad (1011 packages loaded, 34288 targets configured)
+Analyzing: target //:openroad (1150 packages loaded, 40820 targets configured)
+Analyzing: target //:openroad (1332 packages loaded, 40864 targets configured, 1 aspect application)
+Analyzing: target //:openroad (1482 packages loaded, 46357 targets configured, 1 aspect application)
+Analyzing: target //:openroad (1486 packages loaded, 65948 targets configured, 1 aspect application)
+Analyzing: target //:openroad (1489 packages loaded, 82766 targets configured, 1 aspect application)
+Analyzing: target //:openroad (1492 packages loaded, 84815 targets configured, 66 aspect applications)
+Analyzing: target //:openroad (1496 packages loaded, 85818 targets configured, 111 aspect applications)
+Analyzing: target //:openroad (1513 packages loaded, 87896 targets configured, 111 aspect applications)
+INFO: Analyzed target //:openroad (1513 packages loaded, 90801 targets configured, 138 aspect applications).
+ no actions running
+INFO: Found 1 target...
+INFO: Elapsed time: 60.223s, Critical Path: 0.00s
+INFO: 0 processes.
+INFO: Build completed successfully, 0 total actions
+RC=0
