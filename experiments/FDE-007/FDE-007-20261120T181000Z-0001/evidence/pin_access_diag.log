@@ -1,0 +1,385 @@
+OpenROAD bazel-nostamp 
+Features included (+) or not (-): -GPU -GUI
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO DRT-0149] Reading tech and libs.
+
+Units:                1000
+Number of layers:     21
+Number of macros:     213
+Number of vias:       15
+Number of viarulegen: 11
+
+[INFO DRT-0150] Reading design.
+
+Design:                   sattva_ctrl
+Die area:                 ( 0 0 ) ( 30000 30000 )
+Number of track patterns: 32
+Number of DEF vias:       0
+Number of components:     293
+Number of terminals:      6
+Number of snets:          3
+Number of nets:           72
+
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/D[0]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/D[1]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/D[2]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/D[3]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/Q[0]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/Q[1]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/Q[2]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_sram/Q[3]
+[INFO DRT-0167] List of default vias:
+  Layer V2
+    default via: VIA23
+  Layer V3
+    default via: VIA34
+  Layer V4
+    default via: VIA45
+  Layer V5
+    default via: VIA56
+  Layer V6
+    default via: VIA67
+  Layer V7
+    default via: VIA78
+  Layer V8
+    default via: VIA89
+  Layer V9
+    default via: VIA9Pad
+[INFO DRT-0162] Library cell analysis.
+[INFO DRT-0163] Instance analysis.
+[INFO DRT-0164] Number of unique instances = 25.
+[INFO DRT-0168] Init region query.
+[INFO DRT-0024]   Complete Active.
+[INFO DRT-0024]   Complete V0.
+[INFO DRT-0024]   Complete M1.
+[INFO DRT-0024]   Complete V1.
+[INFO DRT-0024]   Complete M2.
+[INFO DRT-0024]   Complete V2.
+[INFO DRT-0024]   Complete M3.
+[INFO DRT-0024]   Complete V3.
+[INFO DRT-0024]   Complete M4.
+[INFO DRT-0024]   Complete V4.
+[INFO DRT-0024]   Complete M5.
+[INFO DRT-0024]   Complete V5.
+[INFO DRT-0024]   Complete M6.
+[INFO DRT-0024]   Complete V6.
+[INFO DRT-0024]   Complete M7.
+[INFO DRT-0024]   Complete V7.
+[INFO DRT-0024]   Complete M8.
+[INFO DRT-0024]   Complete V8.
+[INFO DRT-0024]   Complete M9.
+[INFO DRT-0024]   Complete V9.
+[INFO DRT-0024]   Complete Pad.
+[INFO DRT-0033] Active shape region query size = 0.
+[INFO DRT-0033] V0 shape region query size = 0.
+[INFO DRT-0033] M1 shape region query size = 1837.
+[INFO DRT-0033] V1 shape region query size = 69686.
+[INFO DRT-0033] M2 shape region query size = 764.
+[INFO DRT-0033] V2 shape region query size = 1575.
+[INFO DRT-0033] M3 shape region query size = 1586.
+[INFO DRT-0033] V3 shape region query size = 1050.
+[INFO DRT-0033] M4 shape region query size = 1079.
+[INFO DRT-0033] V4 shape region query size = 1050.
+[INFO DRT-0033] M5 shape region query size = 603.
+[INFO DRT-0033] V5 shape region query size = 124.
+[INFO DRT-0033] M6 shape region query size = 84.
+[INFO DRT-0033] V6 shape region query size = 0.
+[INFO DRT-0033] M7 shape region query size = 0.
+[INFO DRT-0033] V7 shape region query size = 0.
+[INFO DRT-0033] M8 shape region query size = 0.
+[INFO DRT-0033] V8 shape region query size = 0.
+[INFO DRT-0033] M9 shape region query size = 0.
+[INFO DRT-0033] V9 shape region query size = 0.
+[INFO DRT-0033] Pad shape region query size = 0.
+[INFO DRT-0165] Start pin access.
+[DEBUG DRT-pin_access] FDE006R BEGIN inst_term=u_sram/clk
+[DEBUG DRT-pin_access] FDE006R CREATE x=4812 y=16572 lay=8 allow_planar=true allow_via=true
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4812 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4812 y=16572 lay=8 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4704,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4812 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4812 y=16572 lay=8 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4812 y=16572 lay=8 dir=3 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4812 y=16572 n=2
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4812 y=16572 lay=8 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4902,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4812 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4902,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4812 y=16572 lay=8 dir=4 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4812 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4812 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4800,16500,4824,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4812 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4812 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4800,16549,4824,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4812 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4812 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4800,16500,4824,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4812 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4812 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4800,16549,4824,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DROP stage=final reason=no_access x=4812 y=16572 lay=8
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R CREATE x=4788 y=16572 lay=8 allow_planar=true allow_via=true
+[DEBUG DRT-pin_access] FDE006R CREATE x=4836 y=16572 lay=8 allow_planar=true allow_via=true
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4788 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4788 y=16572 lay=8 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4704,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4788 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4788 y=16572 lay=8 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4788 y=16572 lay=8 dir=3 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4788 y=16572 n=2
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4788 y=16572 lay=8 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4902,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4788 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4902,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4788 y=16572 lay=8 dir=4 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4836 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4836 y=16572 lay=8 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4704,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4836 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4836 y=16572 lay=8 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4836 y=16572 lay=8 dir=3 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4836 y=16572 n=2
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4836 y=16572 lay=8 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4902,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4836 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4902,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4836 y=16572 lay=8 dir=4 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4788 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4788 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4776,16500,4800,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4788 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4788 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4776,16549,4800,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4836 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4859,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4859,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4824,16500,4848,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4836 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4859,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4859,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4824,16549,4848,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4788 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4788 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4776,16500,4800,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4788 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4788 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4776,16549,4800,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4836 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4859,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4859,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4824,16500,4848,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4836 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4859,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4859,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4836 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4824,16549,4848,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DROP stage=final reason=no_access x=4788 y=16572 lay=8
+[DEBUG DRT-pin_access] FDE006R DROP stage=final reason=no_access x=4836 y=16572 lay=8
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R CREATE x=4806 y=16572 lay=8 allow_planar=true allow_via=true
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4806 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4806 y=16572 lay=8 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4704,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4806 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4806 y=16572 lay=8 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4806 y=16572 lay=8 dir=3 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4806 y=16572 n=2
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4806 y=16572 lay=8 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4902,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4806 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4902,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4806 y=16572 lay=8 dir=4 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4806 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4806 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4794,16500,4818,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4806 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4806 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4794,16549,4818,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4806 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4806 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4794,16500,4818,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4806 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4806 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4794,16549,4818,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DROP stage=final reason=no_access x=4806 y=16572 lay=8
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R CREATE x=4787 y=16572 lay=8 allow_planar=true allow_via=true
+[DEBUG DRT-pin_access] FDE006R CREATE x=4825 y=16572 lay=8 allow_planar=true allow_via=true
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4787 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4787 y=16572 lay=8 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4704,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4787 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4787 y=16572 lay=8 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4787 y=16572 lay=8 dir=3 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4787 y=16572 n=2
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4787 y=16572 lay=8 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4902,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4787 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4902,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4787 y=16572 lay=8 dir=4 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4825 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4825 y=16572 lay=8 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4704,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4825 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4825 y=16572 lay=8 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4825 y=16572 lay=8 dir=3 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4825 y=16572 n=2
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4825 y=16572 lay=8 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4902,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4825 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4902,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4825 y=16572 lay=8 dir=4 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4787 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4787 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4775,16500,4799,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4787 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4787 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4775,16549,4799,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4825 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4825 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4813,16500,4837,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4825 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4825 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4813,16549,4837,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4787 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4787 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4775,16500,4799,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4787 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4787 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4775,16549,4799,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4825 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4825 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4813,16500,4837,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4825 y=16572 n=1
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4825 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=70 mname=M5 box=(4813,16549,4837,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DROP stage=final reason=no_access x=4787 y=16572 lay=8
+[DEBUG DRT-pin_access] FDE006R DROP stage=final reason=no_access x=4825 y=16572 lay=8
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R CREATE x=4740 y=16572 lay=8 allow_planar=true allow_via=true
+[DEBUG DRT-pin_access] FDE006R CREATE x=4764 y=16572 lay=8 allow_planar=true allow_via=true
+[DEBUG DRT-pin_access] FDE006R CREATE x=4860 y=16572 lay=8 allow_planar=true allow_via=true
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4740 y=16572 n=4
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4740 y=16572 lay=8 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4704,16560,4740,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4740 y=16572 lay=8 idx=1 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4740,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4740 y=16572 lay=8 idx=2 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4740,16560,4764,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4740 y=16572 lay=8 idx=3 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4740,16584,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4740 y=16572 lay=8 dir=3 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4740 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4740 y=16572 lay=8 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4740,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4740 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4740,16536,4902,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4740 y=16572 lay=8 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4740,16584,4902,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4740 y=16572 lay=8 dir=4 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4764 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4764 y=16572 lay=8 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4704,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4764 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4764 y=16572 lay=8 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4764 y=16572 lay=8 dir=3 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4764 y=16572 n=2
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4764 y=16572 lay=8 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4902,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4764 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4902,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4764 y=16572 lay=8 dir=4 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4860 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4860 y=16572 lay=8 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4704,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4860 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16536,4860,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4860 y=16572 lay=8 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4704,16584,4860,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4860 y=16572 lay=8 dir=3 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=planar x=4860 y=16572 n=7
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4860 y=16572 lay=8 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4860,16536,4902,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4860 y=16572 lay=8 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4860,16584,4902,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4860 y=16572 lay=8 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4848,16560,4860,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4860 y=16572 lay=8 idx=3 type=Lef58SpacingEndOfLine cid=29 rid=52 mname=M4 box=(4848,16560,4860,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4860 y=16572 lay=8 idx=4 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4848,16560,4860,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4860 y=16572 lay=8 idx=5 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4848,16560,4860,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=planar x=4860 y=16572 lay=8 idx=6 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4848,16584,4860,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R PLANAR-DRC x=4860 y=16572 lay=8 dir=4 clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4740 y=16572 n=9
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4717,16560,4763,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4763,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4728,16500,4752,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=3 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=4 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16560,4764,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=5 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16584,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=6 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=7 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16560,4764,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=8 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16584,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4740 y=16572 n=9
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4717,16560,4763,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4763,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4728,16549,4752,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=3 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=4 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16560,4764,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=5 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16584,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=6 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=7 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16560,4764,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=8 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16584,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4764 y=16572 n=4
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4741,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4741,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4741,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=3 type=Short cid=0 rid=70 mname=M5 box=(4752,16500,4776,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4764 y=16572 n=4
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4741,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4741,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4741,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=3 type=Short cid=0 rid=70 mname=M5 box=(4752,16549,4776,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4860 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4883,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4883,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4848,16500,4872,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4860 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4883,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4883,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4848,16549,4872,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4740 y=16572 n=9
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4717,16560,4763,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4763,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4728,16500,4752,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=3 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=4 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16560,4764,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=5 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16584,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=6 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=7 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16560,4764,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=8 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16584,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4740 y=16572 n=9
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4717,16560,4763,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4763,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4728,16549,4752,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=3 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=4 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16560,4764,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=5 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4763,16584,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=6 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=7 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16560,4764,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4740 y=16572 lay=8 via=VIA45 idx=8 type=Lef58EolKeepOut cid=44 rid=59 mname=M4 box=(4717,16584,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4764 y=16572 n=4
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4741,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4741,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4741,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=3 type=Short cid=0 rid=70 mname=M5 box=(4752,16500,4776,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4764 y=16572 n=4
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=0 type=Short cid=0 rid=48 mname=M4 box=(4741,16560,4764,16584) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4741,16536,4848,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=2 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4741,16584,4848,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4764 y=16572 lay=8 via=VIA45 idx=3 type=Short cid=0 rid=70 mname=M5 box=(4752,16549,4776,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4860 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4883,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4883,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4848,16500,4872,16595) clean=false
+[DEBUG DRT-pin_access] FDE006R DRC-MARKERS stage=via x=4860 y=16572 n=3
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=0 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16536,4883,16560) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=1 type=Metal Spacing cid=7 rid=58 mname=M4 box=(4764,16584,4883,16608) clean=false
+[DEBUG DRT-pin_access] FDE006R MARKER stage=via x=4860 y=16572 lay=8 via=VIA45 idx=2 type=Short cid=0 rid=70 mname=M5 box=(4848,16549,4872,16644) clean=false
+[DEBUG DRT-pin_access] FDE006R DROP stage=final reason=no_access x=4740 y=16572 lay=8
+[DEBUG DRT-pin_access] FDE006R DROP stage=final reason=no_access x=4764 y=16572 lay=8
+[DEBUG DRT-pin_access] FDE006R DROP stage=final reason=no_access x=4860 y=16572 lay=8
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R AFTER-FILTER aps_out=0
+[DEBUG DRT-pin_access] FDE006R SPARSE n_aps=0 n_sparse=0 thresh=3 macro=true
+[DEBUG DRT-pin_access] FDE006R SUMMARY inst_term=u_sram/clk aps=0 n_sparse_last=0 met=false
+[DEBUG DRT-pin_access] Access point generation for u_sram/clk did not meet :
+	At least 3 sparse access points
+[ERROR DRT-0073] No access point for u_sram/clk (sram_x4x4x1).
+DRT-0073
+    while executing
+"drt::pin_access_cmd $db_process_node  $via_access_layer $verbose $min_access_points  $via_in_pin_bottom_layer $via_in_pin_top_layer"
+    (procedure "pin_access" line 65)
+    invoked from within
+"pin_access"
+    (file "/tmp/fde007_diag.tcl" line 6)

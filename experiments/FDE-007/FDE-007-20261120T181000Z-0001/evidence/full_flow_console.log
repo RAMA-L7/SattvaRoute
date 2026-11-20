@@ -1,0 +1,7 @@
+FDE-007 FULL FLOW START 2026-11-20T18:22:51+00:00
+DESIGN=/mnt/d/SattvaRoute/experiments/FDE-007/FDE-007-20261120T181000Z-0001/scratch_design
+STAGE FAILED: route (rc=2) — stopping (later stages depend on it)
+OVERALL_RC=2
+RUN_COMPLETE /mnt/d/SattvaRoute/experiments/FDE-007/FDE-007-20261120T181000Z-0001/runs/orfs_baseline_20261120T182251409618918Z_97829 rc=2
+FLOW_RC=2
+DONE 2026-11-20T18:24:24+00:00

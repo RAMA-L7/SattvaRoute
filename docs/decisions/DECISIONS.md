@@ -28,7 +28,8 @@
 
 | D-021 | FDE-006U: ROOT CAUSE ESTABLISHED (bounded, mechanism-level) for DRT-0073 — M4 full-body macro OBS blocks planar escape of `u_sram/clk`; same-binary single-variable M4 OBS carve flips accepted APs 0→3 and removes DRT-0073. Multi-violation: M5 OBS / thin-pin EOL / metal spacing contribute. Independent review GO with scope limits; no remedy approved. | 2026-11-20 | FINDING ADOPTED — **no remedy approved**; report `docs/FDE-006U_CANDIDATE_REJECTION_ATTRIBUTION_AND_OBS_VALIDATION.md` |
 
-| D-022 | FDE-007 Gate 1 proposal: **R1-N** — narrow GDS-derived per-pin M4 OBS corridor in a scratch LEF only. Broad FDE-006U carve REJECTED for production (frees 120 real M4 shapes); R2 pin geometry / R3 config / R4 placement-regeneration rejected. **PROPOSED — NOT APPROVED**; implementation and full-flow validation require explicit approval. | 2026-11-20 | PROPOSED — awaiting approval; `docs/FDE-007_REMEDY_EVALUATION.md` |
+| D-022 | FDE-007 Gate 1 proposal: **R1-N** — narrow GDS-derived per-pin M4 OBS corridor in a scratch LEF only. Broad FDE-006U carve REJECTED for production (frees 120 real M4 shapes); R2 pin geometry / R3 config / R4 placement-regeneration rejected. **APPROVED then TESTED — FAILED**: scratch full-flow run still DRT-0073 because the approved corridor omitted the pin's left strip. | 2026-11-20 | APPROVED but NOT VALIDATED — see `docs/FDE-007_REMEDY_EVALUATION.md` addendum |
+| D-023 | R1-N-W proposal: widen scratch per-pin M4 OBS corridors from x 3534–3672 to x 3474–3672 DBU (same y windows) to free the clk pin's own-net left strip. **NEW APPROVAL REQUIRED**; no implementation yet. | 2026-11-20 | PROPOSED — awaiting approval |
 
 Details: D-001..D-006 rationale recorded in `docs/milestone0-environment-audit.md`;
 D-007 in Phase D rules; D-008 in `AGENTS.md`; D-009..D-012 in `logs/DAILY_LOG.md`

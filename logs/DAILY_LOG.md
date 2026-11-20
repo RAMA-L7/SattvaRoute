@@ -243,3 +243,11 @@ Safety: production files/binary/ODB/D-014 unchanged; no DRC suppression/waiver/d
 Files: docs/FDE-007_REMEDY_EVALUATION.md, docs/decisions/DECISIONS.md D-022, PROJECT_STATE.md, coordination/*, logs/*.
 Next: explicit approval of R1-N (exact geometry, scratch target, validation gates), then Gate 3.
 Safe for another agent to continue: YES; lock released.
+
+--- T-FDE-007 R1-N execution result (2026-11-20) ---
+Approval: user approved R1-N scratch experiment with full-flow validation; record at experiments/FDE-007/FDE-007-20261120T181000Z-0001/evidence/APPROVAL.md.
+Implementation: scratch design copy + scratch LEF a0e2ea7c… (only M4 OBS RECT changed, 1->14 RECTs, corridors x3534-3672 at 12 M4 pins). Production LEF f1c18877… unchanged.
+Run: orfs_baseline_20261120T182251409618918Z_97829; check/synth/floorplan/place/cts PASS; route rc=2 DRT-0073; ~93 s; flow rc=2.
+Verification: modified OBS reached 1_synth/2_floorplan/4_cts ODB (18 boxes); DRT-0305=0; DRT-0419=8; DRT-0073 persists. Instrumented diagnosis: remaining planar Short bbox abs (4704,16560)-(4764,16584) = local (3474,8376)-(3534,8400), the clk pin LEFT strip not freed by approved corridor; Metal Spacing adjacent y bands; VIA45 M5 Shorts persist.
+Action: STOP; no second speculative run. D-023 proposes R1-N-W (widen corridors to x3474-3672, same y windows); new approval required.
+Safety: no production/design/config/binary/D-014 change; no waiver/suppression/deployment.

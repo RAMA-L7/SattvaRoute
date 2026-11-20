@@ -5,7 +5,7 @@
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
 - **Current phase:** FDE-007 — Production-relevant remedy evaluation and full-flow validation
-- **Current status:** T-FDE-007 Gate 1 COMPLETE / BLOCKED awaiting approval. FDE-006U root cause ESTABLISHED (bounded). R1-N (narrow GDS-derived per-pin M4 OBS corridor in scratch LEF) proposed as D-022; broad FDE-006U carve REJECTED for production (frees 120 real M4 shapes). No implementation, no flow run, no production change.
+- **Current status:** T-FDE-007 BLOCKED awaiting new approval. FDE-006U root cause ESTABLISHED (bounded). R1-N was approved and implemented in a scratch LEF (run `orfs_baseline_20261120T182251409618918Z_97829`): LEF reached the DB but route still rc=2 DRT-0073 because the approved corridor omitted the clk pin's left strip (x 3474–3534). R1-N-W (widen to x 3474–3672) proposed as D-023; no second run, no production change.
 - **Last updated:** 2026-11-20 (orchestrator, T-FDE-007 Gate 1)
 - **Current active task:** T-FDE-007 awaiting explicit approval of R1-N before Gate 3
 - **Active agents:** orchestrator; Agents A/B/C/D completed and released
