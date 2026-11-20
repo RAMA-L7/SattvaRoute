@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-009 — FDE-006T link resource and candidate evidence review (2026-11-20, orchestrator)
+
+- **Inspected:** four agent reports, kernel OOM counters, build/gate logs, equivalence logs, candidate-level debug output, OBS API probes.
+- **Findings:** SIGKILL was external (not OOM); no resource or flag change needed; detached build succeeded; binary equivalence passed; nine `u_sram/clk` M4 candidates were generated and all rejected by planar/via DRC, leaving sparse count 0 < 3. Scratch OBS control blocked by absent safe Tcl API.
+- **Conflict resolved:** Agent C's OOM label rejected in favor of Agent A's direct kernel evidence.
+- **Decisions:** D-020 adopted — root cause remains PROBABLE (high confidence), not ESTABLISHED; no remedy approved.
+- **Follow-up:** approved OBS-control mechanism or marker-geometry instrumentation, then repeat A/B.
+
 ## R-008 — FDE-006S native resumption review (2026-11-20, orchestrator)
 
 - **Inspected:** four agent reports, WSL health checks, C: cleanup evidence, native workspace hashes, gate logs, build log.

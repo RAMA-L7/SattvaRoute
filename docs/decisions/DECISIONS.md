@@ -24,6 +24,8 @@
 
 | D-019 | FDE-006S: WSL verified healthy (no destructive recovery); native workspace + offline gate RC=0; instrumented build SIGKILLed (RC=137) during final link at 13,480/13,482. No candidate-level evidence; root cause remains PROBABLE. | 2026-11-20 | BLOCKED / INCONCLUSIVE — **no remedy approved**; report `docs/FDE-006S_WSL_RECOVERY_AND_NATIVE_BUILD.md` |
 
+| D-020 | FDE-006T: SIGKILL diagnosed as external wall-clock supervisor (not OOM); build completed detached with no resource/flag change; diagnostic binary `9c0ed727…` passes runtime equivalence and exposes 9 M4 candidates for `u_sram/clk`, all rejected by planar/via DRC, sparse 0<3. OBS control blocked by missing safe Tcl API. Root cause remains PROBABLE (high confidence), not ESTABLISHED. | 2026-11-20 | FINDING ADOPTED — **no remedy approved**; report `docs/FDE-006T_DIAGNOSTIC_LINK_RESOURCE_INVESTIGATION.md` |
+
 Details: D-001..D-006 rationale recorded in `docs/milestone0-environment-audit.md`;
 D-007 in Phase D rules; D-008 in `AGENTS.md`; D-009..D-012 in `logs/DAILY_LOG.md`
 (2026-11-18 M1-S001) and the files they name. D-013 retrospective and D-014 proposal:

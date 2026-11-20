@@ -213,3 +213,13 @@ Safety: source ODB 35bff121… unchanged; production source/binary/design/ORFS/D
 Files: docs/FDE-006S_WSL_RECOVERY_AND_NATIVE_BUILD.md, logs/sessions/FDE-006S_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: approved build environment with enough memory for ThinLTO link, then resume build/equivalence/A-B.
 Safe for another agent to continue: YES; lock released.
+
+--- SESSION START/END — T-FDE-006T diagnostic build completion (2026-11-20) ---
+Agent/model: orchestrator + Agents A/B/C/D (read-only resource/build/workspace/safety analysis)
+Starting state: pub 62316d8 = remote; prior build SIGKILL rc=137 at final link.
+Work: resource diagnosis (oom_kill=0, no OOM log, unused swap → external ~2640s supervisor); corrected prior ThinLTO claim (not active); shut down leftover Bazel daemon; strict offline gate RC=0; resumed identical build as independent Windows-hosted process (no resource/flag change) → RC=0, binary 9c0ed727…; runtime equivalence PASS (prod vs diag-off differ only in script path); Experiment A debug-on exposed 9 M4 candidates at y=16572, all planar/via DRC-rejected, 0 APs, sparse 0<3; Experiment B blocked (no safe Tcl API to remove master OBS; delete crashes).
+Result: root cause remains PROBABLE with high confidence and identified rejection stage, not ESTABLISHED; D-020 adopted (no remedy).
+Safety: source ODB 35bff121… unchanged; production binary c1b90e0a… unchanged; no design/config/LEF/GDS/D-014 change; no fix; no full baseline.
+Files: docs/FDE-006T_DIAGNOSTIC_LINK_RESOURCE_INVESTIGATION.md, experiments/FDE-006T/**, logs/sessions/FDE-006T_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: approve supported OBS-control mechanism (scratch LEF rebuild or source-level OBS hook) or marker-geometry instrumentation, then repeat A/B.
+Safe for another agent to continue: YES; lock released.

@@ -4,6 +4,14 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## FDE-006T — Diagnostic link resource investigation (2026-11-20, orchestrator)
+
+- **Objective:** classify SIGKILL, complete diagnostic build, obtain candidate-level evidence.
+- **Work completed:** resource diagnosis (external wall-clock supervisor, not OOM); detached resumption of identical build → RC=0, binary `9c0ed727…`; runtime equivalence PASS; Experiment A candidate/rejection evidence captured.
+- **Failures:** Experiment B (scratch OBS control) blocked — no safe Tcl API to remove master-level OBS.
+- **Milestone verdict:** DONE with B BLOCKED; root cause ROOT CAUSE PROBABLE (high confidence), not ESTABLISHED; no fix applied.
+- **Remaining tasks:** approved OBS-control mechanism or marker-geometry instrumentation, then repeat A/B.
+
 ## FDE-006S — WSL recovery + native build resumption (2026-11-20, orchestrator)
 
 - **Objective:** restore WSL execution health, build the instrumented binary natively, and resume gated FlexPA candidate-level experiments.

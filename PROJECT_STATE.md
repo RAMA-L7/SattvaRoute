@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** FDE-006S — WSL recovery and native diagnostic build resumption
-- **Current status:** T-FDE-006S BLOCKED/INCONCLUSIVE: WSL healthy (no destructive recovery), C: space raised to 5.4 GB, native workspace `/root/sattvaroute-fde006s/` verified, offline gate RC=0, corrected patch present; instrumented build SIGKILLed (RC=137) during final link at 13,480/13,482. No binary, no equivalence, no A/B, no candidate evidence. Source ODB `35bff121…` unchanged; root cause remains **ROOT CAUSE PROBABLE**. D-019 records blocker; no remedy approved.
-- **Last updated:** 2026-11-20 (orchestrator, T-FDE-006S)
-- **Current active task:** none; next requires approved build environment with enough memory for final ThinLTO link
+- **Current phase:** FDE-006T — Diagnostic link resource investigation and build completion
+- **Current status:** T-FDE-006T DONE with partial blocker: SIGKILL diagnosed as external wall-clock supervisor (not OOM); diagnostic build completed detached with no resource/flag change (binary `9c0ed727…`); runtime equivalence PASS; Experiment A exposed 9 M4 candidates for `u_sram/clk`, all rejected by planar/via DRC, sparse 0<3. Experiment B (scratch OBS control) BLOCKED — no safe Tcl API to remove master OBS. Root cause remains **ROOT CAUSE PROBABLE** (high confidence), not ESTABLISHED. D-020 adopted; no remedy approved.
+- **Last updated:** 2026-11-20 (orchestrator, T-FDE-006T)
+- **Current active task:** none; next requires approved OBS-control mechanism (e.g. scratch LEF rebuild or source-level OBS hook)
 - **Active agents:** orchestrator; Agents A/B/C/D completed and released
 
 ## Completed milestones

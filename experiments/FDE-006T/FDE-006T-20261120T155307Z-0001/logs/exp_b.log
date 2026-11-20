@@ -1,0 +1,13 @@
+OpenROAD bazel-nostamp 
+Features included (+) or not (-): -GPU -GUI
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+Invalid method. Must be one of: configure cget -acquire -disown -delete xMin yMin xMax yMax isVia getTechVia getBlockVia getViaXY getViaBoxes getViaLayerBoxes getDir getDX getDesignRuleWidth setDesignRuleWidth getMinSpacing setMinSpacing getDY setSoft isSoft getBoxOwner getOwnerType getTechLayer getLayerMask setLayerMask getObjectType getDb getId getName isValid getDebugName
+    while executing
+"$o delete "
+    ("foreach" body line 2)
+    invoked from within
+"foreach o [$master getObstructions] {
+  if {[[$o getTechLayer] getName] eq "M5"} { $o delete }
+}"
+    (file "/root/sattvaroute-fde006s/experiments/FDE-006T-20261120T155307Z-0001/exp_b/pin_access_b.tcl" line 7)
