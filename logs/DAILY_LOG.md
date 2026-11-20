@@ -233,3 +233,13 @@ Safety: source ODB 35bff121… unchanged; production binary c1b90e0a… unchange
 Files: docs/FDE-006U_CANDIDATE_REJECTION_ATTRIBUTION_AND_OBS_VALIDATION.md, experiments/FDE-006U/**, logs/sessions/FDE-006U_S001_handoff.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: separate approval for production remedy + full-flow validation.
 Safe for another agent to continue: YES; lock released.
+
+--- SESSION START/END — T-FDE-007 Gate 1 remedy evaluation (2026-11-20) ---
+Agent/model: orchestrator + Agents A/B/C/D (read-only research/review)
+Starting state: pub cb11fd9 = remote; source ODB 35bff121…; production LEF f1c18877…, GDS 12c56777…; no locks.
+Work: verified state; four agents evaluated geometry/GDS, remedies, validation plan, safety. Key correction: FDE-006U broad M4 carve (1500,300)-(3650,13300) DBU exposes 120 real M4 routing + 92 pin shapes -> REJECTED as production remedy. GDS supports only ~54 nm right-edge escape strips. R1-N proposed: narrow GDS-derived per-pin M4 OBS corridors in scratch LEF. R2 pin geometry / R3 config / R4 placement-regeneration rejected. D-022 added as PROPOSED, not approved.
+Verdict: Gate 1 COMPLETE; BLOCKED at Gate 2 pending explicit approval of R1-N; no implementation, no flow run, no production change.
+Safety: production files/binary/ODB/D-014 unchanged; no DRC suppression/waiver/deployment; lock released.
+Files: docs/FDE-007_REMEDY_EVALUATION.md, docs/decisions/DECISIONS.md D-022, PROJECT_STATE.md, coordination/*, logs/*.
+Next: explicit approval of R1-N (exact geometry, scratch target, validation gates), then Gate 3.
+Safe for another agent to continue: YES; lock released.

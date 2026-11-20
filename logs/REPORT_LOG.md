@@ -4,6 +4,14 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## FDE-007 Gate 1 — Remedy evaluation (2026-11-20, orchestrator)
+
+- **Objective:** evaluate production-relevant remedies for the established DRT-0073 mechanism and propose one bounded remedy.
+- **Work completed:** four independent read-only analyses (geometry/GDS, remedies, validation plan, safety); state and hashes verified.
+- **Findings:** broad M4 OBS carve rejected for production (exposes real SRAM M4 fabric); narrow GDS-derived per-pin corridor (R1-N) proposed; config/pin-geometry/placement alternatives rejected.
+- **Milestone verdict:** Gate 1 COMPLETE; BLOCKED at Gate 2 — explicit approval required before any implementation or flow run. D-022 is PROPOSED only.
+- **Remaining tasks:** approval, scratch implementation, pin-access validation, full flow, DRC/extraction/timing, independent review.
+
 ## FDE-006U — Candidate rejection attribution + OBS validation (2026-11-20, orchestrator)
 
 - **Objective:** attribute candidate rejection and validate OBS causality with a controlled A/B.

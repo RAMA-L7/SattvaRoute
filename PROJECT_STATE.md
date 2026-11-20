@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** FDE-006U — Candidate rejection attribution + controlled OBS validation
-- **Current status:** T-FDE-006U DONE: two log-only marker-attribution insertions, new diagnostic binary `0d890431…`, three-way equivalence PASS, same-binary single-variable A/B (M4 OBS carve) flips accepted APs 0→3 and removes DRT-0073. Independent review GO. Root cause **ROOT CAUSE ESTABLISHED** (bounded, mechanism-level): M4 full-body OBS blocks planar escape; multi-violation with M5 OBS/EOL/spacing contributing. D-021 adopted; no remedy approved.
-- **Last updated:** 2026-11-20 (orchestrator, T-FDE-006U)
-- **Current active task:** none; next requires separate approval for any production remedy + full-flow validation
+- **Current phase:** FDE-007 — Production-relevant remedy evaluation and full-flow validation
+- **Current status:** T-FDE-007 Gate 1 COMPLETE / BLOCKED awaiting approval. FDE-006U root cause ESTABLISHED (bounded). R1-N (narrow GDS-derived per-pin M4 OBS corridor in scratch LEF) proposed as D-022; broad FDE-006U carve REJECTED for production (frees 120 real M4 shapes). No implementation, no flow run, no production change.
+- **Last updated:** 2026-11-20 (orchestrator, T-FDE-007 Gate 1)
+- **Current active task:** T-FDE-007 awaiting explicit approval of R1-N before Gate 3
 - **Active agents:** orchestrator; Agents A/B/C/D completed and released
 
 ## Completed milestones

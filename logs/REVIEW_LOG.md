@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-011 — FDE-007 Gate 1 remedy evaluation (2026-11-20, orchestrator)
+
+- **Inspected:** four agent reports, FDE-006U artifacts, GDS/KLayout census, remedy options, validation plan, safety review.
+- **Findings:** FDE-006U mechanism evidence re-verified; experimental broad M4 carve is a diagnostic counterfactual that frees 120 real M4 shapes + 92 pin shapes, so NOT a production remedy. GDS supports only narrow right-edge escape strips. R3 config is a no-op/suppression risk; R2 needs GDS/generator change; R4 refuted.
+- **Decisions:** D-022 proposes R1-N (narrow GDS-derived per-pin M4 OBS corridor, scratch only) — PROPOSED, not approved. No implementation, flow run, waiver, or deployment authorized.
+- **Conclusion:** Gate 1 COMPLETE; BLOCKED at Gate 2 pending explicit approval.
+- **Follow-up:** approve exact R1-N geometry and validation gates, then scratch implementation and full-flow validation.
+
 ## R-010 — FDE-006U candidate attribution and OBS A/B review (2026-11-20, orchestrator)
 
 - **Inspected:** four agent reports (including post-run adjudication), marker attribution patch, three equivalence logs, A/B logs, OBS control verification, source ODB and binary hashes.
