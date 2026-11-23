@@ -3,6 +3,13 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-022 — T-ENGINEERING-009 DRT-0073 investigation (2026-11-24, orchestrator)
+
+- **Inspected:** Agents A/B/C findings, Agent D challenge, state audit, hypothesis matrix, proposed diagnostic.
+- **Findings:** bounded root cause confirmed; narrow-corridor failure mechanism INFERRED; `getSrcs()` API/binary directly verified; DRT-0419 distinct. Agent D's five blocking issues (equivalence measurement, A3 semantics, vague attribution/sliver rules, over-stated envelope, post-hoc geometry risk) resolved in revised proposal.
+- **Conclusion:** COMPLETE at decision boundary; ENG009-DIAG-001 NOT AUTHORIZED; R2 advisory only and inactive.
+- **Follow-up:** explicit approval required before rebuild/replay or any engineering action.
+
 ## R-021 — T-SKILL-008 prospective R2 shadow (2026-11-23, orchestrator)
 
 - **Inspected:** Agent A R2 application, Agent B blind validity review, Agent C usability review; immutable assessment and proposal anchors.

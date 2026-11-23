@@ -4,11 +4,11 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-SKILL-008 complete; R2 checklist remains DRAFT/INACTIVE pending explicit activation authorization
-- **Current status:** T-SKILL-008 COMPLETE. New P-SHADOW-002 (DRT-0419 pin-center causal diagnostic) assessed prospectively with R2 (`6900ebc8…`): PASS3/PARTIAL9/DEFERRED1/DEFERRED-SHADOW1/N-A2/UNKNOWN1(A17→STOP). Blind independent review and usability review reconciled; R2 gave actionable guidance but is not gate-ready. Assessment `3b562544…`; KB verify PASS, immutable 9/9, validator 13/13. R2 DRAFT/INACTIVE; no EDA/execution/approval/install/protected change.
-- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-008)
-- **Current active task:** none — awaiting explicit authorization for R2 activation, R3 revision or any new milestone; FDE-007 remains BLOCKED (no remedy validated)
-- **Active agents:** orchestrator; Agents A/B/C completed and released
+- **Current phase:** none — T-ENGINEERING-009 complete at diagnostic decision boundary; R2 remains DRAFT/INACTIVE
+- **Current status:** T-ENGINEERING-009 COMPLETE at diagnostic decision boundary. FDE-003..007 reconciled without duplication; bounded root cause confirmed; 18-hypothesis matrix produced; marker provenance (`getSrcs()`) identified as top gap and directly verified API/binary; DRT-0419 confirmed distinct. Proposed ENG009-DIAG-001 diagnostic (log-only provenance + static EOL/GDS pre-work, R2 advisory shadow) passed independent challenge after five blocking fixes. KB verify PASS, immutable 9/9, validator 13/13. No EDA, experiment, approval, remedy or production change.
+- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-009)
+- **Current active task:** none — ENG009-DIAG-001 NOT AUTHORIZED; await explicit approval before rebuild/replay; FDE-007 remains BLOCKED (no remedy validated)
+- **Active agents:** orchestrator; Agents A/B/C/D completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
 ## Completed milestones

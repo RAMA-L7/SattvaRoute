@@ -347,3 +347,12 @@ Result: PASS3/PARTIAL9/DEFERRED1/DEFERRED-SHADOW1/N-A2/UNKNOWN1(A17 STOP). Block
 Integrity: KB verify PASS; immutable 9/9; validator 13/13; R2 unchanged/inactive; no EDA/execution/approval/install/protected change.
 Files: docs/T-SKILL-008_SHADOW_PROPOSAL.md, docs/T-SKILL-008_SHADOW_ASSESSMENT.md, docs/T-SKILL-008_INDEPENDENT_REVIEW.md, docs/T-SKILL-008_FINAL_REPORT.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: explicit authorization required for activation/R3/new milestone. Stop after T-SKILL-008. Lock to be released.
+
+--- SESSION START/END — T-ENGINEERING-009 DRT-0073 investigation (2026-11-23/24) ---
+Agent/model: orchestrator + Agents A (geometry), B (mechanism), C (config), D (independent challenge).
+Starting state: publish main 3dd78da = remote; KB verify PASS; immutable 9/9; validator 13/13; R2 6900ebc8… inactive.
+Work: reconciled FDE-003..007; built DRT failure inventory and 18-hypothesis matrix; verified getSrcs API/binary directly; separated DRT-0419; ranked diagnostics; proposed ENG009-DIAG-001 with R2 advisory shadow.
+Verdict: bounded root cause confirmed; marker provenance is top gap; y-envelope account INFERRED; DRT-0419 distinct. Agent D found 5 blocking issues in initial proposal; all resolved (equivalence rewritten, class/A3 corrected, attribution rules operational, static pre-work mandated, no-geometry gate added).
+Integrity: KB verify PASS; immutable 9/9; validator 13/13; no EDA/execution/approval/remedy/production change.
+Files: docs/ENG009_*.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: ENG009-DIAG-001 NOT AUTHORIZED; explicit approval required before rebuild/replay. Stop at decision boundary. Lock to be released.

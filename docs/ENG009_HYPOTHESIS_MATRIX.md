@@ -1,0 +1,29 @@
+# T-ENGINEERING-009 — Consolidated Root-Cause Hypothesis Matrix
+
+Classification: **CONFIRMED** (direct evidence), **SUPPORTED** (convergent evidence, bounded),
+**WEAKENED** (evidence reduces claim), **ELIMINATED** (refuted), **UNTESTED** (no decisive evidence).
+
+| ID | Hypothesis | Classification | Evidence (VERIFIED / OBSERVED / INFERRED) | Current implication |
+|---|---|---|---|---|
+| H1 | `clk` is genuinely evaluated by FlexPA (not skipped as supply/special/abutment) | **CONFIRMED** | ODB CLOCK, non-special; `isSkipInstTermLocal` only skips supply/special/abutment; instrumented BEGIN targets `u_sram/clk` | Failure is in AP generation/filtering, not net classification |
+| H2 | AP candidates are generated, then rejected at planar DRC → via DRC → final `hasAccess()` → sparse 0<3 | **CONFIRMED** | FDE-006T/006U logs: 9 CREATE, marker violations, 9 DROP `reason=no_access`, `n_aps=0`; code chain `FlexPA_acc_point.cpp:1514-1535,1318-1331,1215-1252` | Proximate mechanism established; exact per-marker source still unknown |
+| H3 | Full-body M4 master OBS blocks planar escape (binding in FDE-006U) | **CONFIRMED (bounded)** | same-binary single-variable broad M4 OBS carve flips 0→3 APs and removes DRT-0073; M4 `Short` left box disappears | Mechanism-level root cause ESTABLISHED for that scratch DB; NOT a production remedy |
+| H4 | Broad M4 OBS carve is a production-relevant remedy | **ELIMINATED** | FDE-007 Gate 1 GDS census: window exposes 120 M4/0 + 92 M4/251 real shapes; physically unjustified | Do not return to broad carve |
+| H5 | Narrow per-pin M4 OBS corridors (R1-N/R1-N-W) resolve pin access | **WEAKENED / REJECTED as tested** | both reached DB but rc=2 DRT-0073, 0 APs; residual `Short`, `Metal Spacing`, `Lef58`; 2 nm sliver INCONCLUSIVE | One family, two levels; no repeat without new mechanism |
+| H6 | Thin-pin EOL / metal spacing is a contributing factor | **SUPPORTED (contributing, under-modelled)** | pin height 24 DBU = M4 min width; ±24 nm y margin < ~48 nm EOL/corner keepout; `Metal Spacing`/`Lef58` markers persist in all variants | Any future geometry must widen y over full keepout envelope |
+| H7 | M5 via landing is contributing but not decisive | **SUPPORTED contributor; ELIMINATED as binding** | VIA45 M5 `Short` persists in FDE-006U exp_b where 3 APs accepted and DRT-0073 absent; macro GDS has no M5 metal | Do not treat M5 Shorts as the primary blocker |
+| H8 | Sparse threshold collision heuristic is limiting | **ELIMINATED** | `n_aps=0`; no APs exist to collide; threshold fails as a consequence. 3 geometrically viable x positions exist (INFERRED) | Lowering threshold would mask, not fix |
+| H9 | Placement / bypassed Snapper / track misalignment causes DRT-0073 | **ELIMINATED** | legal LOCKED R0; 0 DBU center-to-M4-track; no MPL-0005; `check_placement` clean | Do not adjust placement as a DRT-0073 fix |
+| H10 | Grid/clock layer/via config causes DRT-0073 | **ELIMINATED** | track phases match; M4 in clock range; no design-level overrides; all config hashes parity | No config-only fix |
+| H11 | `zero_` / D-014 / DRT-0305 causes DRT-0073 | **ELIMINATED** | different net; DRT-0305=0; D-014 replicated in all arms | Orthogonal |
+| H12 | via-in-pin config (`-via_in_pin_* M4`) is a remedy | **ELIMINATED for tested lever** | FDE-005 A/B identical; global restrictive window, not an enabler | Do not repeat |
+| H13 | LEF↔GDS pin-marker mismatch | **ELIMINATED** | GDS pin box reproduces LEF RECT under +0.054 µm FOREIGN offset | Geometry abstraction consistent |
+| H14 | Marker provenance (`getSrcs()`) would change attribution | **UNTESTED — highest value** | API exists (`frMarker.h:67,73,80`), used elsewhere; never logged in PA marker loops; 2 nm sliver INCONCLUSIVE for lack of it | Top diagnostic gap |
+| H15 | GDS drawn-metal continuity under full pin marker | **UNTESTED** | FDE004_A label 5c NOT EVALUATED; FDE007_A censused only corridor regions | Secondary capability gap |
+| H16 | Tool bug / stale binary | **WEAKENED, not fully eliminated** | three-way runtime equivalence PASS; unpatched-control byte-match inherited; determinism not re-run | Low priority, monitor via equivalence gate |
+| H17 | DRT-0419 shares DRT-0073 mechanism | **ELIMINATED** | different code/phase/severity/pins/layer; no DRT-0419 for `clk`; DRT-0419 persists where DRT-0073 removed | Investigate separately; not a proxy |
+| H18 | Any carve yields DRC-clean routing / timing / signoff | **UNTESTED / UNKNOWN** | no global_route, detailed route, SPEF, STA, LVS/PEX; FDE-007 full-flow variants failed | Never claim production success |
+
+## Coordinator adjudication
+
+The evidence narrows the major uncertainty to **H14**: which object emits each residual marker. H3/H6/H7 together form the bounded mechanism; H5's failure is explained by an under-modelled y-keepout envelope (H6) plus absent provenance (H14). No hypothesis was "confirmed" beyond its evidence scope, and no failed experiment is repeated without a new requirement.
