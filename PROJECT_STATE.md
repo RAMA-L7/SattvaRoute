@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-SKILL-004 complete; checklist remains DRAFT/inactive pending revision and authorization
-- **Current status:** T-SKILL-004 retrospective validation COMPLETE. 8 FDE experiments audited against inactive DRAFT checklist A1–A12; verdict **REVISE** (good retrospective diagnostic, not pilot-ready as a gate). Created `docs/T-SKILL-004_RETROSPECTIVE_VALIDATION.md` and `docs/EXPERIMENT_DESIGN_CHECKLIST_REVIEW.md` (R1–R12 + A13–A16). Checklist unchanged; KB verify PASS 18/18; immutable 9/9; validator 13/13. No EDA, activation, KB/approval/protected change.
-- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-004)
-- **Current active task:** none — awaiting explicit authorization to revise checklist or activate a pilot; FDE-007 remains BLOCKED (no remedy validated)
+- **Current phase:** none — T-SKILL-005 complete; R1 checklist remains DRAFT/INACTIVE pending explicit shadow-pilot authorization
+- **Current status:** T-SKILL-005 revision COMPLETE. Checklist revised to R1 (final `286c7cba…`), R0 preserved (`a445c7ae…`); R1–R12 + A13–A16 applied, A16 demoted to reference, Agent B minor findings fixed (ED-1/ED-2). Same 8 experiments re-scored: P13/Q75/F15/?3/N-A22 (128 cells; assessable 103/120 gate-relevant). Reports created; KB verify PASS 18/18, immutable 9/9, validator 13/13. Still DRAFT/INACTIVE; no EDA, activation, KB/approval/protected change.
+- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-005)
+- **Current active task:** none — awaiting explicit shadow-pilot/activation authorization; FDE-007 remains BLOCKED (no remedy validated)
 - **Active agents:** orchestrator; Agents A–D completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 

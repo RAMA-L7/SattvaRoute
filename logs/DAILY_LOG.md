@@ -311,3 +311,12 @@ Verdict: REVISE — strong retrospective diagnostic (10/12 map to real failure m
 Integrity: KB verify PASS; immutable 9/9; validator 13/13; checklist hash unchanged; no historical/KB/skill-status change; no EDA.
 Files: two new docs, PROJECT_STATE.md, coordination/*, logs/*.
 Next: await authorization to revise/activate; no new milestone. Lock T-SKILL-004.lock to be released.
+
+--- SESSION START/END — T-SKILL-005 checklist revision (2026-11-23) ---
+Agent/model: orchestrator + Agents A (revision), B (review), C (rescore), D (integrity).
+Starting state: publish main 9274ae8 = remote; R0 hash a445c7ae…; KB/immutable/validator PASS.
+Work: preserved R0 snapshot; Agent A rewrote checklist as R1 applying R1–R12 + A13–A16 (A16 demoted); Agent B ACCEPT WITH LIMITATIONS no blockers; Agent C re-scored 8 cases; Agent D verified integrity and R0 arithmetic.
+Verdict: R1 internally consistent after ED-1/ED-2 minor fixes; R1 score P13/Q75/F15/?3/N-A22 over 128 cells (assessable 103/120) vs R0 P23/Q40/F16/?3/N-A14 over 96 (assessable 79). Defects corrected in instrument; historical A2/A3/A11/A13–A15 weaknesses remain. No prevention claim.
+Integrity: KB verify PASS; immutable 9/9; validator 13/13; R0 unchanged; R1 final 286c7cba…; no EDA/activation/KB/approval/protected/status change.
+Files: docs/EXPERIMENT_DESIGN_CHECKLIST.md, docs/EXPERIMENT_DESIGN_CHECKLIST_R0.md, docs/T-SKILL-005_CHECKLIST_REVISION_REPORT.md, docs/T-SKILL-005_RETROSPECTIVE_COMPARISON.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: explicit shadow-pilot authorization required; checklist stays INACTIVE. Lock T-SKILL-005.lock to be released.

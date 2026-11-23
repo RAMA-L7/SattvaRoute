@@ -3,6 +3,13 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-018 — T-SKILL-005 checklist revision (2026-11-23, orchestrator)
+
+- **Inspected:** Agent B clarity review, C re-score, D integrity audit; R0/R1 hashes and scorecard tables.
+- **Findings:** all R1–R12 + A13–A16 applied; A3/A7/A8/A12 defects resolved; A16 demoted. Agent B no blockers; 3 minor wording issues fixed as ED-1/ED-2. Two conflicting Agent C notifications reconciled against the on-disk table. R0 arithmetic independently verified.
+- **Conclusion:** R1 internally consistent and individually defined A1–A16; 8 cases re-scored; integrity PASS; checklist remains DRAFT/INACTIVE.
+- **Follow-up:** explicit authorization required for shadow pilot or activation.
+
 ## R-017 — T-SKILL-004 retrospective validation (2026-11-23, orchestrator)
 
 - **Inspected:** Agents A–D reports; 8 historical FDE experiments; checklist A1–A12; KB/immutable/validator outputs.
