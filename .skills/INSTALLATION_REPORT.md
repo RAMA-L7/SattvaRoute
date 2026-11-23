@@ -57,6 +57,11 @@ Recorded in `logs/REVIEW_LOG.md` R-013 and reproduced by:
 python3 .skills/validate_skills.py
 ```
 
+Result: **PASS=11 FAIL=0** in the live repository. The protected-artifact check verifies every
+protected file present in the checkout; in the publication checkout the binary/design fixtures are
+intentionally absent and are reported as `absent_in_publication`, not as a failure. Reviewer F's
+caveat is retained: this validator is an invariant check, not a security scanner.
+
 ## Independent review (Gate 7) and user decision point
 
 Reviewers E (inventory/governance) and F (security/scope) independently returned

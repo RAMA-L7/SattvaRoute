@@ -78,7 +78,7 @@ decisions/EDA work, which this mission forbids.
 
 | Check | Result |
 |---|---|
-| `python3 .skills/validate_skills.py` | `RESULT: PASS=11 FAIL=0` |
+| `python3 .skills/validate_skills.py` (live repo) | `RESULT: PASS=11 FAIL=0` |
 | `sattva_kb.py verify` | PASS — 18 records, 18-link chain, 0 problems |
 | `sattva_kb.py verify-immutable` | PASS — 9/9 protected artifacts unchanged |
 | Publication before staging | `633773b` = remote HEAD, clean |
