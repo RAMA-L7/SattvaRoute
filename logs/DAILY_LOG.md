@@ -320,3 +320,12 @@ Verdict: R1 internally consistent after ED-1/ED-2 minor fixes; R1 score P13/Q75/
 Integrity: KB verify PASS; immutable 9/9; validator 13/13; R0 unchanged; R1 final 286c7cba…; no EDA/activation/KB/approval/protected/status change.
 Files: docs/EXPERIMENT_DESIGN_CHECKLIST.md, docs/EXPERIMENT_DESIGN_CHECKLIST_R0.md, docs/T-SKILL-005_CHECKLIST_REVISION_REPORT.md, docs/T-SKILL-005_RETROSPECTIVE_COMPARISON.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: explicit shadow-pilot authorization required; checklist stays INACTIVE. Lock T-SKILL-005.lock to be released.
+
+--- SESSION START/END — T-SKILL-006 shadow pilot (2026-11-23) ---
+Agent/model: orchestrator + Agents A (R1 application), B (blind validity), C (usability).
+Starting state: publish main fd54417 = remote; R1 hash 286c7cba…; KB/immutable/validator PASS.
+Work: selected unapproved P-SHADOW-001 (DRT-0073 evidence-completeness diagnostic) from documented FDE-007 next steps; applied R1 A1–A16; blind independent review; coordinator adjudication; immutable assessment created.
+Results: PASS2/FAIL2(A3,A13)/PARTIAL8/UNKNOWN2(A11,A15)/N-A2. Blind reviewer flagged A3 mislabeling; coordinator adjudicated A3 FAIL, A11/A15 UNKNOWN, A13 FAIL. R1 usability: stage confusion and missing measurement-capability criteria; R2 proposals only, R1 not edited.
+Integrity: KB verify PASS; immutable 9/9; validator 13/13; R1 unchanged/inactive; no EDA/execution/approval/install/protected change.
+Files: docs/T-SKILL-006_SHADOW_PROPOSAL.md, docs/T-SKILL-006_SHADOW_ASSESSMENT.md, docs/T-SKILL-006_SHADOW_PILOT_REPORT.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: explicit authorization required for execution/activation/R2. Stop after T-SKILL-006. Lock to be released.

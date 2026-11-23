@@ -33,6 +33,9 @@ ALLOW=(
   "docs/SKILL_RESEARCH_REPORT.md"
   "docs/EXPERIMENT_DESIGN_CHECKLIST.md"
   "docs/EXPERIMENT_DESIGN_CHECKLIST_R0.md"
+  "docs/T-SKILL-006_SHADOW_PROPOSAL.md"
+  "docs/T-SKILL-006_SHADOW_ASSESSMENT.md"
+  "docs/T-SKILL-006_SHADOW_PILOT_REPORT.md"
   "docs/T-SKILL-005_CHECKLIST_REVISION_REPORT.md"
   "docs/T-SKILL-005_RETROSPECTIVE_COMPARISON.md"
   "docs/T-SKILL-004_RETROSPECTIVE_VALIDATION.md"
@@ -40,6 +43,7 @@ ALLOW=(
   "logs/sessions/T-SKILL-003_S001_handoff.md"
   "logs/sessions/T-SKILL-004_S001_handoff.md"
   "logs/sessions/T-SKILL-005_S001_handoff.md"
+  "logs/sessions/T-SKILL-006_S001_handoff.md"
 )
 
 echo "PUBLISH_ALLOW_COUNT=${#ALLOW[@]}"

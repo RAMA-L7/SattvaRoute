@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-019 — T-SKILL-006 shadow pilot (2026-11-23, orchestrator)
+
+- **Inspected:** Agent A R1 application, Agent B blind validity review, Agent C usability review; immutable assessment and proposal anchors.
+- **Findings:** A3 mislabeled Arm B as identity control (R1 forbids) → FAIL; A13 cost cap absent → FAIL; A11/A15 evidence unavailable → UNKNOWN; A2 PASS; N/A for A7/A16 justified. Blind reviewer's stricter A11/A15 FAILs reconciled to R1's UNKNOWN definition.
+- **Usability:** stage confusion (A11/A12(b)/A15), missing measurement-capability criteria; R2 proposals recorded, R1 not edited.
+- **Conclusion:** shadow diagnostic useful; no preventive-effectiveness claim; R1 remains DRAFT/INACTIVE.
+- **Follow-up:** explicit authorization required for any execution, activation or R2 revision.
+
 ## R-018 — T-SKILL-005 checklist revision (2026-11-23, orchestrator)
 
 - **Inspected:** Agent B clarity review, C re-score, D integrity audit; R0/R1 hashes and scorecard tables.
