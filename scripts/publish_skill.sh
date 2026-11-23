@@ -8,6 +8,10 @@ SRC=${SATTVA_SRC:-/mnt/d/SattvaRoute}
 PUB=${SATTVA_PUB:-/mnt/d/SattvaRoute_publish}
 
 ALLOW=(
+  "knowledge/kb_records.jsonl"
+  "knowledge/kb_manifest.json"
+  "knowledge/kb_chain.json"
+  "knowledge/kb_immutable_manifest.json"
   ".skills/README.md"
   ".skills/INVENTORY.md"
   ".skills/DISCOVERY_REPORT.md"

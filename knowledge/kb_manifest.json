@@ -3,13 +3,13 @@
     "BLOCKED": 5,
     "FAIL": 6,
     "INCONCLUSIVE": 1,
-    "PASS": 6
+    "PASS": 7
   },
   "by_remedy_family": {
     "CANDIDATE_DIAGNOSTIC": 1,
     "DB_SET_SPECIAL_NET": 1,
     "DIAGNOSTIC_BUILD": 3,
-    "DIAGNOSTIC_ROOT_CAUSE": 2,
+    "DIAGNOSTIC_ROOT_CAUSE": 3,
     "ENVIRONMENT_FLOW_FACTS": 1,
     "EVIDENCE_BAR": 1,
     "EVIDENCE_POLICY": 1,
@@ -23,15 +23,15 @@
   },
   "by_scope": {
     "DESIGN_SPECIFIC": 2,
-    "REUSABLE": 16
+    "REUSABLE": 17
   },
-  "generated_at": "2026-11-23T14:28:43+00:00",
+  "generated_at": "2026-11-23T19:18:46+00:00",
   "historical_baseline_available": false,
   "immutable_manifest_sha256": "c6b2a49d71bc57bd3713bbb6647341d2afd4e666af8a9d128cca750f37bbf035",
   "maturity_histogram": {
     "0": 4,
     "1": 2,
-    "2": 10,
+    "2": 11,
     "3": 2,
     "4": 0
   },
@@ -44,15 +44,16 @@
     ],
     "DIAGNOSTIC_ROOT_CAUSE": [
       "KB-0003",
-      "KB-0007"
+      "KB-0007",
+      "KB-0019"
     ],
     "M4_OBS_CORRIDOR": [
       "KB-0015",
       "KB-0016"
     ]
   },
-  "reuse_linked_records": 1,
+  "reuse_linked_records": 2,
   "schema_version": 1,
-  "store_sha256": "ed4577f6ea860f904c650fb8596d60b1d1850b48b58cbb95fbc2c71003ea7196",
-  "total_records": 18
+  "store_sha256": "4d7c6cc84e788b2d58312a2f40a2b79e02afa8434179dd24bcddba16aa7cec66",
+  "total_records": 19
 }
