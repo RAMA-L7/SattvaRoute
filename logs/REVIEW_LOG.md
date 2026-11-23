@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-012 — T-KB-001 incremental Knowledge Base (2026-11-23, orchestrator)
+
+- **Inspected:** Agent A audit, B schema review, C retrieval review, D workflow review, E safety review, F validation adjudication, G FDE inventory; all implemented code and tests.
+- **Findings resolved:** `record_version`/`supersedes` correction path now works; unknown fields rejected; append chain + store-hash verification added; FAIL/inconclusive maturity cap; actionable-remedy guard (diagnostics cannot be recommended); reconsideration requires evidence references; `INSUFFICIENT_EVIDENCE` reachable; all ranking factors explained; publication allow/blocklist with post-copy hashes.
+- **Accepted limitation:** provenance drift on `docs/decisions/DECISIONS.md` (D-024 appended after capture) — documented in `knowledge/PROVENANCE_DRIFT.md`; no FDE report changed. No maturity-4 record (no cross-design/signoff evidence).
+- **Conclusion:** KB ACCEPTED WITH LIMITATIONS. All tests PASS (21/21 KB, 25/25 approval, 14/14 runner); verify 18/18 + chain, immutable 9/9.
+- **Follow-up:** use KB for the next FDE; preserve append-only history; no production promotion.
+
 ## R-011 — FDE-007 Gate 1 remedy evaluation (2026-11-20, orchestrator)
 
 - **Inspected:** four agent reports, FDE-006U artifacts, GDS/KLayout census, remedy options, validation plan, safety review.

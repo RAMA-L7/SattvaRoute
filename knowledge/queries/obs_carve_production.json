@@ -1,0 +1,13 @@
+{
+  "failure_signature": "proposal: broad M4 OBS carve as production remedy for DRT-0073",
+  "violation_type": "DRT-0073",
+  "root_cause_hypothesis": "M4 OBS blocks planar escape of clk pin",
+  "technology": "asap7",
+  "routing_layers": ["M4", "M5"],
+  "tool": "openroad",
+  "remedy_family": "M4_OBS_BROAD_CARVE",
+  "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+  "context_terms": ["production deployment", "broad OBS removal", "LEF modification"],
+  "exact_modifications": "remove M4 OBS window (1500,300)-(3650,13300) in production LEF",
+  "required_validation": ["GDS occupancy census", "full flow"]
+}

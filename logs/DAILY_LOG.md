@@ -258,3 +258,15 @@ Run: orfs_baseline_20261120T183451711584818Z_99729; check/synth/floorplan/place/
 Verification: OBS reached 4_cts (18 boxes, M4 from x3474); DRT-0305=0; DRT-0419=8; 0 accepted APs. Instrumented: 2 nm Short at new OBS edge local x3474; Metal Spacing/Lef58/VIA45 M5 persist; widening reduced Short 54->45 but raised Metal Spacing 63->82, Lef58 31->40; APs stayed 0.
 Independent review: FDE-007 BLOCKED; R1-N REJECT; R1-N-W REJECT; 2 nm sliver INCONCLUSIVE (boundary-correlated, no getSrcs provenance). No further variant authorized.
 Safety: production LEF/GDS/binary/ODB/mirror/D-014 unchanged; no suppression/waiver/deployment; no third run.
+
+--- SESSION START/END — T-KB-001 incremental Knowledge Base (2026-11-23) ---
+Agent/model: orchestrator + Agents A (audit), B (schema), C (retrieval), D (workflow), E (safety), F (validation), G (inventory).
+Starting state: publish main 35fe33c = remote; live master with uncommitted FDE records; no active locks.
+Work: Phase 0 audit; stdlib-only KB module + append-only JSONL ledger; 18 FDE-derived seed records; retrieval/ranking; applicability engine; family dedup/suppression; FDE integration; 21 offline tests; publish allow/blocklist.
+Verification: 21/21 KB tests; 25/25 approval regression; 14/14 runner regression; verify PASS (18 records + 18-link chain); verify-immutable PASS 9/9; verify-provenance DRIFT only on DECISIONS.md due to D-024 append (documented).
+Decisions: D-024 adopted. Real queries: DRT-0305 STRONG_MATCH->KB-0002; DRT-0073 PREVIOUSLY_FAILED->KB-0015+KB-0016 (one M4_OBS_CORRIDOR family); broad carve production INCOMPATIBLE.
+Agent findings resolved: record_version/supersedes, unknown-field rejection, append chain + store hash, FAIL maturity cap, diagnostic-not-remedy guard, evidence-ref requirement for reconsideration, INSUFFICIENT_EVIDENCE reachability, full factor explanation, publish allow/blocklist.
+Safety: benchmark/runs/experiments/tools/configs/state policy and approval/runner scripts untouched; no EDA, no deployment, no waiver; lock released.
+Files: scripts/sattva_kb.py, scripts/publish_kb.sh, tests/test_kb.py, knowledge/**, docs/KNOWLEDGE_BASE.md, docs/KB_AUDIT.md, docs/KB_FINAL_REPORT.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: use KB in the next FDE; no production change authorized by this task.
+Safe for another agent to continue: YES; lock released.

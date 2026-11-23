@@ -4,11 +4,11 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** FDE-007 — Production-relevant remedy evaluation and full-flow validation
-- **Current status:** T-FDE-007 BLOCKED — both approved scratch remedies REJECTED as tested. FDE-006U root cause ESTABLISHED (bounded). R1-N (`a0e2ea7c…`, run `orfs_baseline_20261120T182251409618918Z_97829`) and R1-N-W (`917e094e…`, run `orfs_baseline_20261120T183451711584818Z_99729`) both reached the DB but route still rc=2 DRT-0073 with 0 accepted APs. Independent review: FDE-007 BLOCKED, R1-N/R1-N-W REJECT; 2 nm sliver INCONCLUSIVE. No production change, no third variant.
-- **Last updated:** 2026-11-20 (orchestrator, T-FDE-007 Gate 1)
-- **Current active task:** T-FDE-007 awaiting explicit approval of R1-N before Gate 3
-- **Active agents:** orchestrator; Agents A/B/C/D completed and released
+- **Current phase:** T-KB-001 — Incremental, evidence-grounded reusable engineering Knowledge Base
+- **Current status:** KB implementation and independent review COMPLETE. `scripts/sattva_kb.py` + append-only `knowledge/` ledger seeded with 18 evidence-grounded records from FDE-003..FDE-007, D-013/D-014 and policy decisions. Tests 21/21 KB + 25/25 approval + 14/14 runner PASS; verify PASS (18 records + 18-link chain); verify-immutable 9/9 PASS. Agents A–G reviewed; all blocking findings resolved. Provenance drift limited to the legitimate D-024 append in DECISIONS.md (documented). No production/design/flow change.
+- **Last updated:** 2026-11-23 (orchestrator, T-KB-001)
+- **Current active task:** none — T-KB-001 final adjudication/publication; FDE-007 remains BLOCKED (no remedy validated)
+- **Active agents:** orchestrator; Agents A/B/C/D/E/F/G completed and released
 
 ## Completed milestones
 

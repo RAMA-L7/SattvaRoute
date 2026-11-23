@@ -1,0 +1,13 @@
+{
+  "failure_signature": "DRT-0073 No access point for u_sram/clk (sram_x4x4x1)",
+  "violation_type": "DRT-0073",
+  "root_cause_hypothesis": "M4 OBS blocks planar escape of thin M4 clk pin",
+  "technology": "asap7",
+  "routing_layers": ["M4", "M5"],
+  "tool": "openroad",
+  "remedy_family": "M4_OBS_CORRIDOR",
+  "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+  "context_terms": ["thin M4 macro pin", "full-body M4 OBS", "narrow corridor"],
+  "exact_modifications": "M4 OBS corridor x3534-3672 DBU",
+  "required_validation": ["pin access", "full flow", "DRC", "extraction", "timing"]
+}

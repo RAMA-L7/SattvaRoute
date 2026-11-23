@@ -4,6 +4,14 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## T-KB-001 — Incremental Knowledge Base (2026-11-23, orchestrator)
+
+- **Objective:** evolve SattvaRoute with an incremental, evidence-grounded reusable engineering KB without rewriting the project.
+- **Work completed:** Phase 0 audit; architecture; schema v1; retrieval/ranking; applicability engine; duplicate/suppression; FDE integration; 18 seed records; 21 offline tests; independent review by Agents A–G.
+- **Key result:** DRT-0305 → STRONG_MATCH (KB-0002); DRT-0073 → PREVIOUSLY_FAILED (KB-0015+KB-0016, one M4_OBS_CORRIDOR family); broad-carve production → INCOMPATIBLE.
+- **Milestone verdict:** ACCEPTED WITH LIMITATIONS — no production change, no signoff claim, no historical performance baseline; provenance drift on DECISIONS.md documented.
+- **Remaining tasks:** apply KB in a future FDE; cross-design validation required for maturity 4.
+
 ## FDE-007 Gate 1 — Remedy evaluation (2026-11-20, orchestrator)
 
 - **Objective:** evaluate production-relevant remedies for the established DRT-0073 mechanism and propose one bounded remedy.

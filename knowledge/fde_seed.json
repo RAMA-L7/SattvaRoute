@@ -1,0 +1,2559 @@
+{
+  "schema_version": 1,
+  "generated_from": "KB_G_inventory.md",
+  "note": "FDE remains authoritative; these records are pointers with hashes.",
+  "records": [
+    {
+      "knowledge_id": "KB-0001",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "D-013",
+        "fde_id": "D-013",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "runs/orfs_baseline_d013_20261118T160213Z",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "special_net",
+        "signature": "DRT-0305 zero_ GROUND not routable, command invalid in installed build",
+        "violation_type": "DRT-0305",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/DRT-0305_fix_proposal.md",
+          "docs/decisions/DECISIONS.md",
+          "MILESTONE_1C-R_DRT0305_ROOT_CAUSE_REPORT.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "REFUTED",
+        "hypothesis": "set_special_nets [list zero_] would mark zero_ special",
+        "supporting_evidence": [],
+        "contradicting_evidence": [
+          "command absent in source/binary",
+          "edits targeted D:\\tools not execution mirror",
+          "insertion after pin_access (dead code)",
+          "empty evidence dir"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": [
+          "none - retired"
+        ]
+      },
+      "remedies": [
+        {
+          "remedy_id": "D-013",
+          "remedy_family": "SPECIAL_NET_TCL_COMMAND",
+          "description": "add set_special_nets [list zero_] to global_route.tcl",
+          "exact_modifications": "global_route.tcl: set_special_nets [list zero_] after pin_access",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "FAIL"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "runs/orfs_baseline_d013_20261118T160213Z",
+        "scratch_environment": "",
+        "exact_changes": "global_route.tcl: set_special_nets [list zero_] after pin_access",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "NOT_RUN",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "FAIL",
+        "summary": "FAILED / RETIRED: set_special_nets does not exist; wrong checkout; inserted after pin_access; no run evidence"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "exact-build command existence",
+          "execution mirror",
+          "before pin_access"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "failed attempt; negative evidence only"
+        ],
+        "exclusions": [
+          "reuse as a recovery command"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "invalid command name",
+          "mirror git-clean at every run start"
+        ],
+        "hypotheses": [],
+        "inferences": [
+          "D-007 violation: prior 7/7 static-text PASS was circular"
+        ],
+        "experimentally_supported": [
+          "no DB effect - command never executed"
+        ],
+        "validated_knowledge": [],
+        "checksums": {},
+        "before_after": "",
+        "reviewer_findings": [
+          "R-003"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "SPECIAL_NET_TCL_COMMAND"
+      },
+      "maturity": 0,
+      "provenance": {
+        "fde_records": [
+          "docs/DRT-0305_fix_proposal.md",
+          "docs/decisions/DECISIONS.md",
+          "MILESTONE_1C-R_DRT0305_ROOT_CAUSE_REPORT.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0002",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "D-014",
+        "fde_id": "D-014",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "runs/orfs_baseline_20261118T171712Z",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "special_net",
+        "signature": "DRT-0305 zero_ GROUND non-special rejected at DRT DB import",
+        "violation_type": "DRT-0305",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/decisions/D-014_proposal.md",
+          "docs/decisions/DECISIONS.md",
+          "MILESTONE_1C-R_DRT0305_ROOT_CAUSE_REPORT.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "ESTABLISHED",
+        "hypothesis": "marking zero_ SPECIAL via OpenDB object method unblocks DRT import",
+        "supporting_evidence": [
+          "run orfs_baseline_20261118T171712Z DRT-0305=0",
+          "probe rc=0 isSpecial 0->1",
+          "snets 2->3",
+          "mirror hash 3968898c->cd86b587; D:\\tools unchanged"
+        ],
+        "contradicting_evidence": [
+          "does not prove physical tie correctness (RSZ-0020 1 floating net)"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "D-014",
+          "remedy_family": "DB_SET_SPECIAL_NET",
+          "description": "in-memory $net setSpecial before pin_access in mirror only",
+          "exact_modifications": "mirror flow/scripts/global_route.tcl: findNet zero_ -> setSpecial",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "PASS"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "runs/orfs_baseline_20261118T171712Z",
+        "scratch_environment": "tools/OpenROAD-flow-scripts/flow/scripts (execution mirror)",
+        "exact_changes": "mirror flow/scripts/global_route.tcl: findNet zero_ -> setSpecial",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "EXECUTED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "PASS",
+        "summary": "APPLIED: $net setSpecial in execution mirror eliminates DRT-0305; new DRT-0073 surfaces"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "supply-typed non-special net",
+          "OpenDB available",
+          "before pin_access"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "memory-only",
+          "6 macro SIGNAL sinks still lack tie geometry"
+        ],
+        "exclusions": [
+          "production deployment without approval",
+          "physical tie correctness"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "DRT-0305 absent after patch",
+          "DRT-0073 present",
+          "Number of snets: 3"
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [
+          "controlled run DRT-0305 count 0",
+          "runtime probe isSpecial 0->1"
+        ],
+        "validated_knowledge": [
+          "setSpecial is the supported in-memory primitive"
+        ],
+        "checksums": {
+          "mirror_before": "3968898c9abd8c0fd56c50d08bed6d3943bdc641f63c8674817449bbec2706ce",
+          "mirror_after": "cd86b58724f6c401b40d2cb464118d86590fa86b60cbe953eb4de53514d08099"
+        },
+        "before_after": "DRT-0305 1 -> 0",
+        "reviewer_findings": [
+          "R-003"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "DB_SET_SPECIAL_NET"
+      },
+      "maturity": 2,
+      "provenance": {
+        "fde_records": [
+          "docs/decisions/D-014_proposal.md",
+          "docs/decisions/DECISIONS.md",
+          "MILESTONE_1C-R_DRT0305_ROOT_CAUSE_REPORT.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0003",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "M1C-R/D-T-004",
+        "fde_id": "M1C-R/D-T-004",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "runs/orfs_baseline_20261118T152845Z",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "special_net",
+        "signature": "DRT-0305 raw literal constant tie net typed GROUND never setSpecial",
+        "violation_type": "DRT-0305",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "MILESTONE_1C-R_DRT0305_ROOT_CAUSE_REPORT.md",
+          "reports/agent_A_orfs_execution_path.md",
+          "reports/agent_B_zero_net_database_trace.md",
+          "reports/agent_C_special_net_mechanism.md",
+          "reports/agent_D_independent_failure_analysis.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "ESTABLISHED",
+        "hypothesis": "raw 4h0/2h0 literals create zero_ GROUND non-special; DRT io.cpp guard rejects it",
+        "supporting_evidence": [
+          "source: VerilogReader.cc:117,2019-2020",
+          "dbReadVerilog.cc:768-773",
+          "io.cpp:1040 guard",
+          "1_synth.odb already contains zero_",
+          "4 independent agents"
+        ],
+        "contradicting_evidence": [
+          "CTS-created net",
+          "PDN/macro PG defect",
+          "routing algorithm failure"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "RC-DRT0305",
+          "remedy_family": "DIAGNOSTIC_ROOT_CAUSE",
+          "description": "root-cause finding (no intrinsic remedy)",
+          "exact_modifications": "no design change",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "PASS"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "runs/orfs_baseline_20261118T152845Z",
+        "scratch_environment": "",
+        "exact_changes": "no design change",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "NOT_RUN",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "PASS",
+        "summary": "ROOT CAUSE ESTABLISHED HIGH: SYNTH_NETLIST_FILES bypasses Yosys hilomap; VerilogReader types zero_ GROUND without SPECIAL"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "raw constant literal",
+          "SYNTH_NETLIST_FILES",
+          "OpenROAD DB import"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "this toolchain version"
+        ],
+        "exclusions": [
+          "netlists using tie cells"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "validated"
+      },
+      "evidence": {
+        "observations": [
+          "zero_ sigType=GROUND isSpecial=0 in 4_cts.odb",
+          "VDD/VSS supply special=1"
+        ],
+        "hypotheses": [],
+        "inferences": [
+          "supply sigtype && !isSpecial triggers DRT DB-import guard"
+        ],
+        "experimentally_supported": [
+          "source + DB + execution + runtime probe convergence"
+        ],
+        "validated_knowledge": [
+          "constant-net/special-net semantics of this OpenROAD build"
+        ],
+        "checksums": {
+          "openroad_source": "629aa76b94ae420170d18692016a7be9101a53e7"
+        },
+        "before_after": "",
+        "reviewer_findings": [
+          "R-003"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "DIAGNOSTIC_ROOT_CAUSE"
+      },
+      "maturity": 3,
+      "provenance": {
+        "fde_records": [
+          "MILESTONE_1C-R_DRT0305_ROOT_CAUSE_REPORT.md",
+          "reports/agent_A_orfs_execution_path.md",
+          "reports/agent_B_zero_net_database_trace.md",
+          "reports/agent_C_special_net_mechanism.md",
+          "reports/agent_D_independent_failure_analysis.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0004",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "D-007",
+        "fde_id": "D-007",
+        "experiment_ids": [],
+        "design_id": "toolchain",
+        "design_fingerprint": "*",
+        "source_run": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "evidence_policy",
+        "signature": "false success inferred from process exit code 0 or absent evidence",
+        "violation_type": "POLICY-FALSE-PASS",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "toolchain/config",
+        "routing_layers": [],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/decisions/DECISIONS.md",
+          "docs/FDE-003_REAL_BASELINE_VALIDATION.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "ESTABLISHED",
+        "hypothesis": "process rc alone cannot establish engineering success",
+        "supporting_evidence": [
+          "FDE-003 process FAIL rc=2 with accurate stage verdicts",
+          "post-route reports correctly NOT EVALUATED",
+          "applied FDE-003..FDE-007"
+        ],
+        "contradicting_evidence": [
+          "no error line means stage passed",
+          "rc=0 means success"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "D-007",
+          "remedy_family": "EVIDENCE_POLICY",
+          "description": "verify stage rc + artifacts + logs + hashes + error census",
+          "exact_modifications": "policy only - no file modification",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "PASS"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "scratch_environment": "",
+        "exact_changes": "policy only - no file modification",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "NOT_RUN",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "PASS",
+        "summary": "POLICY: exit code 0 != success; report-level verification mandatory"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "any stage execution",
+          "success claim"
+        ],
+        "validated_characteristics": [
+          "*"
+        ],
+        "limitations": [
+          "policy, not an experiment"
+        ],
+        "exclusions": [
+          "using rc=0 as sole acceptance"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "validated"
+      },
+      "evidence": {
+        "observations": [
+          "route rc=2 while earlier stages rc=0",
+          "finish log correctly absent"
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [],
+        "validated_knowledge": [
+          "report-level verification enforced across runs"
+        ],
+        "checksums": {},
+        "before_after": "",
+        "reviewer_findings": [
+          "R-001"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "EVIDENCE_POLICY"
+      },
+      "maturity": 3,
+      "provenance": {
+        "fde_records": [
+          "docs/decisions/DECISIONS.md",
+          "docs/FDE-003_REAL_BASELINE_VALIDATION.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0005",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "D-009..D-012",
+        "fde_id": "D-009..D-012",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "environment",
+        "signature": "ORFS CRLF shebang failure / abc segfault / PDN lowercase pin / macro placement off-track",
+        "violation_type": "ENV-SETUP",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/decisions/DECISIONS.md",
+          "docs/FDE-004_DRT0073_ROOT_CAUSE_INVESTIGATION.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "ESTABLISHED",
+        "hypothesis": "environment ground-truth decisions unblock real ORFS execution",
+        "supporting_evidence": [
+          "DECISIONS D-009..D-012",
+          "FDE-004 section 6",
+          "stage logs"
+        ],
+        "contradicting_evidence": [
+          "MPL-0005 would have occurred without -exact (prediction NOT TESTED)"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "ENV-FACTS",
+          "remedy_family": "ENVIRONMENT_FLOW_FACTS",
+          "description": "environment/config decisions",
+          "exact_modifications": "mirror clone + abc script + pdn tcl + -exact placement",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "PASS"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "scratch_environment": "tools/OpenROAD-flow-scripts (execution mirror)",
+        "exact_changes": "mirror clone + abc script + pdn tcl + -exact placement",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "EXECUTED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "PASS",
+        "summary": "APPLIED: LF execution mirror, local ABC script, design-local PDN override, macro_placement -exact"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "ORFS 25b6429c",
+          "ASAP7",
+          "WSL"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "D-012 prediction untested"
+        ],
+        "exclusions": [
+          "other ORFS revisions"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "yosys-abc segfault rc 139 resolved",
+          "PDN-0006 resolved",
+          "floorplan rc=0"
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [
+          "multiple successful pre-route stages"
+        ],
+        "validated_knowledge": [],
+        "checksums": {
+          "orfs": "25b6429c1644a8682852646bebf19ff164402c76"
+        },
+        "before_after": "",
+        "reviewer_findings": [
+          "R-001"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "ENVIRONMENT_FLOW_FACTS"
+      },
+      "maturity": 2,
+      "provenance": {
+        "fde_records": [
+          "docs/decisions/DECISIONS.md",
+          "docs/FDE-004_DRT0073_ROOT_CAUSE_INVESTIGATION.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0006",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-003",
+        "fde_id": "FDE-003",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "pin_access",
+        "signature": "hardened runner on real baseline: route rc=2 DRT-0073, DRT-0305=0",
+        "violation_type": "DRT-0073",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-003_REAL_BASELINE_VALIDATION.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "ESTABLISHED",
+        "hypothesis": "runner state/exit/evidence model survives a real EDA run",
+        "supporting_evidence": [
+          "runner sha256 0c790cc9...",
+          "artifact_sha256 56/56 OK",
+          "one launch, no auto-rerun",
+          "sentinel e9d0330c unchanged"
+        ],
+        "contradicting_evidence": [
+          "hidden mutation",
+          "duplicate launch",
+          "cross-run contamination"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "FDE-003-VALIDATION",
+          "remedy_family": "RUNNER_CONTRACT_VALIDATION",
+          "description": "runner validation (no remedy)",
+          "exact_modifications": "no design change",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "BLOCKED"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "scratch_environment": "",
+        "exact_changes": "no design change",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "EXECUTED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "BLOCKED",
+        "summary": "RUNNER CONTRACT PASS / PHYSICAL RESULT BLOCKED: route rc=2 at pin_access, DRT-0073"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "baseline runner",
+          "ORFS ASAP7"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "post-route stages NOT EVALUATED"
+        ],
+        "exclusions": [
+          "claiming routed design"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "check/synth/floorplan/place/cts rc=0",
+          "route rc=2",
+          "5_1_grt.log:108 DRT-0073",
+          "DRT-0419 x8",
+          "klayout MISSING"
+        ],
+        "hypotheses": [],
+        "inferences": [
+          "process rc propagation verified in real run"
+        ],
+        "experimentally_supported": [
+          "single launch with correct rc and preserved evidence"
+        ],
+        "validated_knowledge": [],
+        "checksums": {
+          "odb_4cts": "35bff121b42b070023f7b9704ab2c8bd1d5dbb0027f403fde7dd8eb8161400e1",
+          "binary": "c1b90e0af69bc9779cde8fd1579a92a10738ddebb9ea16e459f280556c349ee9"
+        },
+        "before_after": "DRT-0305 eliminated by D-014",
+        "reviewer_findings": [
+          "R-004"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "RUNNER_CONTRACT_VALIDATION"
+      },
+      "maturity": 2,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-003_REAL_BASELINE_VALIDATION.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0007",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-004/D-015",
+        "fde_id": "FDE-004/D-015",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "pin_access",
+        "signature": "DRT-0073 No access point for u_sram/clk; FlexPA sparse-AP threshold not met",
+        "violation_type": "DRT-0073",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-004_DRT0073_ROOT_CAUSE_INVESTIGATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "PROBABLE",
+        "hypothesis": "full-macro M1-M5 OBS blocks M4 clock pin planar escape / via access",
+        "supporting_evidence": [
+          "clk pin center exactly on M4 track (0 DBU)",
+          "full-macro OBS no carve-outs",
+          "geometric via candidate x 4.797 um",
+          "FlexPA_acc_point.cpp:1514-1535"
+        ],
+        "contradicting_evidence": [
+          "placement/Snapper refuted",
+          "grid pitch/orientation refuted",
+          "D-014/net misclassification refuted",
+          "LEF/GDS mismatch refuted"
+        ],
+        "confidence": "MEDIUM-HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": [
+          "which FlexPA rejection stage drops the candidates"
+        ]
+      },
+      "remedies": [
+        {
+          "remedy_id": "FDE-004-INVESTIGATION",
+          "remedy_family": "DIAGNOSTIC_ROOT_CAUSE",
+          "description": "hypothesis ranking, no remedy approved",
+          "exact_modifications": "no change",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "INCONCLUSIVE"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "scratch_environment": "",
+        "exact_changes": "no change",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "EXECUTED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "INCONCLUSIVE",
+        "summary": "PROBABLE root cause: full-macro OBS / thin pin / FlexPA filter; exact rejection stage NOT EVALUATED"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "thin M4 macro pin",
+          "full-body OBS"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "exact FlexPA filter stage NOT EVALUATED"
+        ],
+        "exclusions": [
+          "placement cause"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "DRT-0073 at 5_1_grt.log:108",
+          "8x DRT-0419 advisory"
+        ],
+        "hypotheses": [],
+        "inferences": [
+          "failure class HIGH confidence, mechanism MEDIUM-HIGH"
+        ],
+        "experimentally_supported": [
+          "geometry/track/source convergence"
+        ],
+        "validated_knowledge": [],
+        "checksums": {},
+        "before_after": "",
+        "reviewer_findings": [
+          "R-004"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "DIAGNOSTIC_ROOT_CAUSE"
+      },
+      "maturity": 2,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-004_DRT0073_ROOT_CAUSE_INVESTIGATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0008",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-005/D-016",
+        "fde_id": "FDE-005/D-016",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "pin_access",
+        "signature": "via-in-pin M4 pin_access flags have no effect on DRT-0073",
+        "violation_type": "DRT-0073",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-005_CONTROLLED_FLEXPA_DIAGNOSTIC.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "PROBABLE",
+        "hypothesis": "via_in_pin_bottom/top_layer M4 might create legal APs",
+        "supporting_evidence": [],
+        "contradicting_evidence": [
+          "A/B identical census DEBUG=1 DRT-0305=0 DRT-0073=2 DRT-0419=8",
+          "admits unsafe APs / threshold suppression risk"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "R1-FDE005",
+          "remedy_family": "PIN_ACCESS_CONFIG",
+          "description": "pin_access -via_in_pin_bottom_layer M4 -via_in_pin_top_layer M4",
+          "exact_modifications": "pin_access flag addition in both arms along with D-014 setSpecial",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "FAIL"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "scratch_environment": "experiments/FDE-005/FDE-005-20261119T135453Z-4d06",
+        "exact_changes": "pin_access flag addition in both arms along with D-014 setSpecial",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "EXECUTED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "FAIL",
+        "summary": "FAIL/NO EFFECT: both A/B arms identical DRT-0073, rc=1; source ODB byte-identical"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "DRT-0073 thin M4 pin"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "aggregate logs only; no candidate coordinates"
+        ],
+        "exclusions": [
+          "using -min_access_points to lower threshold (suppression)"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "both arms rc=1",
+          "log sha256 A c479d626... B 5d6013f4..."
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [
+          "controlled A/B: no effect"
+        ],
+        "validated_knowledge": [],
+        "checksums": {
+          "odb_before_after": "35bff121..."
+        },
+        "before_after": "",
+        "reviewer_findings": [
+          "R-005"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "PIN_ACCESS_CONFIG"
+      },
+      "maturity": 2,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-005_CONTROLLED_FLEXPA_DIAGNOSTIC.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0009",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-006/D-017",
+        "fde_id": "FDE-006/D-017",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "build_environment",
+        "signature": "offline Bazel build blocked: go SDK uncached, image unmountable",
+        "violation_type": "BUILD-BLOCKED",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-006_INSTRUMENTED_FLEXPA_CANDIDATE_INVESTIGATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "UNKNOWN",
+        "hypothesis": "offline bazel --nofetch can build diagnostic binary from cache",
+        "supporting_evidence": [],
+        "contradicting_evidence": [
+          "rules_go++go_sdk+go_toolchains not cached",
+          "repository cache empty"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "FDE-006-BUILD",
+          "remedy_family": "DIAGNOSTIC_BUILD",
+          "description": "build instrumentation binary",
+          "exact_modifications": "no design change",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "BLOCKED"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "runs/orfs_baseline_20261119T131025284719666Z_9263",
+        "scratch_environment": "experiments/FDE-006/FDE-006-20261119T143807Z-7004",
+        "exact_changes": "no design change",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "BLOCKED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "BLOCKED",
+        "summary": "BLOCKED: no binary, no A/B; instrumentation patch NOT APPLIED"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "offline bazel build"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "build blocked"
+        ],
+        "exclusions": [
+          "claiming a diagnostic result"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "none"
+      },
+      "evidence": {
+        "observations": [
+          "gate2_nobuild.log"
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [],
+        "validated_knowledge": [],
+        "checksums": {},
+        "before_after": "",
+        "reviewer_findings": [
+          "R-006"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "DIAGNOSTIC_BUILD"
+      },
+      "maturity": 0,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-006_INSTRUMENTED_FLEXPA_CANDIDATE_INVESTIGATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0010",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-006R/D-018",
+        "fde_id": "FDE-006R/D-018",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "build_environment",
+        "signature": "drvfs link slow then WSL process-spawn failure; one missing dependency",
+        "violation_type": "BUILD-BLOCKED",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-006R_DIAGNOSTIC_BUILD_RESUMPTION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "UNKNOWN",
+        "hypothesis": "fresh output base + --nofetch forbids bzlmod extension repos",
+        "supporting_evidence": [
+          "strict offline gate RC=0",
+          "14 dry-run hunks passed"
+        ],
+        "contradicting_evidence": [],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "FDE-006R",
+          "remedy_family": "DIAGNOSTIC_BUILD",
+          "description": "dependency recovery + corrected instrumentation patch",
+          "exact_modifications": "no design change",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "BLOCKED"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "",
+        "scratch_environment": "experiments/FDE-006R/FDE-006R-20261119T150000Z-0001",
+        "exact_changes": "no design change",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "BLOCKED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "BLOCKED",
+        "summary": "BLOCKED: recovered 178673+13601 files; authorized pinned Go SDK fetch; patch dry-run passed"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "offline bazel"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "build still blocked"
+        ],
+        "exclusions": [
+          "unauthorized dependency"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "getpwuid(0) failed",
+          "Go SDK sha256 2852af0c..."
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [],
+        "validated_knowledge": [],
+        "checksums": {
+          "patch_diff": "6da35dd4ba54b2443f437f970327cf6a3710e2dc7a6522aca8d9e66ad16610eb"
+        },
+        "before_after": "",
+        "reviewer_findings": [
+          "R-007"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "DIAGNOSTIC_BUILD"
+      },
+      "maturity": 0,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-006R_DIAGNOSTIC_BUILD_RESUMPTION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0011",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-006S/D-019",
+        "fde_id": "FDE-006S/D-019",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "build_environment",
+        "signature": "native build SIGKILL RC=137 during link after ~2639 s",
+        "violation_type": "BUILD-BLOCKED",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-006S_WSL_RECOVERY_AND_NATIVE_BUILD.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "UNKNOWN",
+        "hypothesis": "SIGKILL caused by resource exhaustion",
+        "supporting_evidence": [],
+        "contradicting_evidence": [
+          "FDE-006T later shows external wall-clock supervisor, not OOM"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "FDE-006S",
+          "remedy_family": "DIAGNOSTIC_BUILD",
+          "description": "native ext4 workspace, reuse cache",
+          "exact_modifications": "no design change",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "BLOCKED"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "",
+        "scratch_environment": "/root/sattvaroute-fde006s (native workspace)",
+        "exact_changes": "no design change",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "BLOCKED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "BLOCKED",
+        "summary": "BLOCKED: no binary/equivalence/A-B; native ext4 workspace used"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "bazel link"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "root cause not established here"
+        ],
+        "exclusions": [
+          "assuming OOM cause"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "13,480/13,482 actions",
+          "RC=137"
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [],
+        "validated_knowledge": [],
+        "checksums": {
+          "source_before": "ef9c84fe6de23506a5e29a81e7735ee28f8748df5f6b5cef370452b5eba0f739",
+          "source_patched": "305230b9dafcf64b5cbe4ff75fbc0dbdfe61230cd53b873fe47e35d6b2ca8559"
+        },
+        "before_after": "",
+        "reviewer_findings": [
+          "R-008"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "DIAGNOSTIC_BUILD"
+      },
+      "maturity": 0,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-006S_WSL_RECOVERY_AND_NATIVE_BUILD.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0012",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-006T/D-020",
+        "fde_id": "FDE-006T/D-020",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "pin_access",
+        "signature": "9 M4 clk candidates all dropped at hasAccess; 0 accepted; sparse 0<3",
+        "violation_type": "DRT-0073",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-006T_DIAGNOSTIC_LINK_RESOURCE_INVESTIGATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "PROBABLE",
+        "hypothesis": "FlexPA generates candidates but hasAccess rejects them; OBS causality unproven here",
+        "supporting_evidence": [
+          "candidate x list 4740..4860 at y=16572",
+          "9 drops reason=no_access",
+          "binary 9c0ed727... 118207328 bytes",
+          "three-way equivalence PASS",
+          "oom_kill=0, no kernel OOM entry"
+        ],
+        "contradicting_evidence": [
+          "OOM kill",
+          "thin LTO active",
+          "more RAM/swap remedy"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "FDE-006T-DIAG",
+          "remedy_family": "CANDIDATE_DIAGNOSTIC",
+          "description": "candidate-level instrumentation diagnostic",
+          "exact_modifications": "log-only instrumentation in native workspace",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "PASS"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "",
+        "scratch_environment": "experiments/FDE-006T/FDE-006T-20261120T155307Z-0001",
+        "exact_changes": "log-only instrumentation in native workspace",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "EXECUTED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "PASS",
+        "summary": "FINDING ADOPTED: candidate-level evidence; SIGKILL = external supervisor not OOM; NO remedy approved"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "FlexPA candidate diagnosis"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "Experiment B blocked"
+        ],
+        "exclusions": [
+          "claiming OBS causality from this experiment"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "aps_out=0 n_aps=0 n_sparse=0 thresh=3",
+          "Experiment B BLOCKED - no safe Tcl OBS removal"
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [
+          "same-command detached resumption RC=0 with identical binary"
+        ],
+        "validated_knowledge": [],
+        "checksums": {
+          "binary": "9c0ed727dea3c6a07c04369472eef8c51c68ca7c095a0c9d925da7e2440ed86f"
+        },
+        "before_after": "",
+        "reviewer_findings": [
+          "R-009"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "CANDIDATE_DIAGNOSTIC"
+      },
+      "maturity": 2,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-006T_DIAGNOSTIC_LINK_RESOURCE_INVESTIGATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0013",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-006U/D-021",
+        "fde_id": "FDE-006U/D-021",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "pin_access",
+        "signature": "A/B same-binary single-variable M4 OBS carve flips accepted APs 0->3, removes DRT-0073",
+        "violation_type": "DRT-0073",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-006U_CANDIDATE_REJECTION_ATTRIBUTION_AND_OBS_VALIDATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "ESTABLISHED",
+        "hypothesis": "full-body M4 master OBS blocks planar escape of thin M4 clk pin",
+        "supporting_evidence": [
+          "A 9 cand/0 accept/sparse 0<3/DRT-0073",
+          "B 3 cand/3 accept/sparse 3>=3/no DRT-0073",
+          "same binary 0d890431... both arms",
+          "three-way runtime equivalence",
+          "DEF round-trip byte-identical fe1a5e07..."
+        ],
+        "contradicting_evidence": [
+          "no getSrcs() provenance",
+          "no separate no-op arm",
+          "M5 Shorts persist"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "OBS-BROAD-CARVE",
+          "remedy_family": "M4_OBS_BROAD_CARVE_DIAGNOSTIC",
+          "description": "diagnostic full-window M4 OBS carve (1500,300)-(3650,13300) DBU",
+          "exact_modifications": "OBS M4 full RECT -> 4 rects; M1/M2/M3/M5 unchanged",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "FAIL"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "",
+        "scratch_environment": "experiments/FDE-006U/FDE-006U-20261120T171500Z-0001",
+        "exact_changes": "OBS M4 full RECT -> 4 rects; M1/M2/M3/M5 unchanged",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "EXECUTED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "FAIL",
+        "summary": "MECHANISM ESTABLISHED (bounded) BUT production remedy FAIL/REJECT: broad carve frees 120 real M4 shapes"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "thin M4 macro pin",
+          "full-body M4 OBS",
+          "pin_access stage"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "diagnostic counterfactual; GDS occupancy unsafe"
+        ],
+        "exclusions": [
+          "production deployment",
+          "broad OBS removal",
+          "routing/DRC/timing success claims"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "B: 3 ACCEPT lines, 0 drops, met=true, rc=0"
+        ],
+        "hypotheses": [],
+        "inferences": [
+          "root cause bounded to pin_access on ODB 35bff121... with this toolchain"
+        ],
+        "experimentally_supported": [
+          "same-binary single-variable A/B"
+        ],
+        "validated_knowledge": [],
+        "checksums": {
+          "binary": "0d890431065688930e8b140cb644e304a0a3a6beeaf32b2cff762a8aa000d33d",
+          "odb": "35bff121b42b070023f7b9704ab2c8bd1d5dbb0027f403fde7dd8eb8161400e1"
+        },
+        "before_after": "accepted APs 0 -> 3",
+        "reviewer_findings": [
+          "R-010"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "M4_OBS_BROAD_CARVE_DIAGNOSTIC"
+      },
+      "maturity": 2,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-006U_CANDIDATE_REJECTION_ATTRIBUTION_AND_OBS_VALIDATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0014",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-007-GATE1/D-022",
+        "fde_id": "FDE-007-GATE1/D-022",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "pin_access",
+        "signature": "broad M4 OBS carve proposed as production remedy exposes real SRAM metal",
+        "violation_type": "DRT-0073",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-007_REMEDY_EVALUATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "REFUTED",
+        "hypothesis": "broad carve could be a production remedy",
+        "supporting_evidence": [],
+        "contradicting_evidence": [
+          "GDS layer 40/0: 120 shapes",
+          "GDS layer 40/251: 92 shapes",
+          "GDS supports only ~54 nm right-edge escape strips"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "R1-BROAD",
+          "remedy_family": "M4_OBS_BROAD_CARVE",
+          "description": "broad carve as production LEF change",
+          "exact_modifications": "M4 OBS (1500,300)-(3650,13300) DBU removal in production LEF",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "FAIL"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "",
+        "scratch_environment": "",
+        "exact_changes": "M4 OBS (1500,300)-(3650,13300) DBU removal in production LEF",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "NOT_RUN",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "FAIL",
+        "summary": "REJECT: carve window contains 120 real M4 routing shapes + 92 pin shapes (GDS census)"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "OBS carve proposal"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "negative multi-agent review"
+        ],
+        "exclusions": [
+          "production LEF modification"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "120 M4/0 shapes",
+          "92 M4/251 pin shapes",
+          "R-011 verdict NO-GO"
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [],
+        "validated_knowledge": [
+          "diagnostic counterfactual is not a deployable remedy"
+        ],
+        "checksums": {
+          "prod_lef": "f1c18877c27152bc81dce3bfa76308f29c9faa54047de4ac5a3f7d160b4bba31",
+          "prod_gds": "12c56777a060270215ad7c43a881230febc9f3dc272bf9a436da60efd510d651"
+        },
+        "before_after": "",
+        "reviewer_findings": [
+          "R-011"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "M4_OBS_BROAD_CARVE"
+      },
+      "maturity": 1,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-007_REMEDY_EVALUATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0015",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-007/D-022",
+        "fde_id": "FDE-007/D-022",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "orfs_baseline_20261120T182251409618918Z_97829",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "pin_access",
+        "signature": "R1-N narrow per-pin M4 OBS corridor still DRT-0073, 0 accepted APs",
+        "violation_type": "DRT-0073",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-007_REMEDY_EVALUATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "REFUTED",
+        "hypothesis": "GDS-derived narrow right-edge corridors free enough planar escape",
+        "supporting_evidence": [],
+        "contradicting_evidence": [
+          "planar Short local (3474,8376)-(3534,8400)",
+          "0 accepted APs sparse 0<3",
+          "Metal Spacing bands + VIA45 M5 Shorts persist"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "R1-N",
+          "remedy_family": "M4_OBS_CORRIDOR",
+          "description": "12 narrow M4 OBS corridors x3534-3672 DBU",
+          "exact_modifications": "scratch LEF M4 OBS RECT 1 -> 14 (x3534-3672, pin y +/-24 DBU)",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "FAIL"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "orfs_baseline_20261120T182251409618918Z_97829",
+        "scratch_environment": "experiments/FDE-007/FDE-007-20261120T181000Z-0001/scratch_design",
+        "exact_changes": "scratch LEF M4 OBS RECT 1 -> 14 (x3534-3672, pin y +/-24 DBU)",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "EXECUTED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "FAIL",
+        "summary": "FAIL/REJECT: corridor x3534-3672 reached DB (18 OBS boxes) but left strip x3474-3534 still OBS"
+      },
+      "applicability": {
+        "scope": "DESIGN_SPECIFIC",
+        "conditions": [
+          "sram_x4x4x1",
+          "M4 pin",
+          "ASAP7",
+          "narrow corridor"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "scratch only; downstream DRC/extraction/timing NOT EVALUATED"
+        ],
+        "exclusions": [
+          "production deployment",
+          "third geometry variant without new decision"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "route rc=2 DRT-0073",
+          "DRT-0305=0 DRT-0419=8",
+          "18 OBS boxes in DB"
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [
+          "one full-flow run: APs stayed 0"
+        ],
+        "validated_knowledge": [],
+        "checksums": {
+          "scratch_lef": "a0e2ea7c0dbd0a08cf08ba9e3141aedb7b6d0c0ace5c1ec35d27eb47218b5da5",
+          "prod_lef": "f1c18877c27152bc81dce3bfa76308f29c9faa54047de4ac5a3f7d160b4bba31"
+        },
+        "before_after": "",
+        "reviewer_findings": [
+          "R-011"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "M4_OBS_CORRIDOR"
+      },
+      "maturity": 2,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-007_REMEDY_EVALUATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0016",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-007/D-023",
+        "fde_id": "FDE-007/D-023",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "orfs_baseline_20261120T183451711584818Z_99729",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "pin_access",
+        "signature": "R1-N-W widened narrow M4 OBS corridor still DRT-0073, 0 accepted APs",
+        "violation_type": "DRT-0073",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-007_REMEDY_EVALUATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "REFUTED",
+        "hypothesis": "freeing the clk pin own-net left strip fixes planar access",
+        "supporting_evidence": [],
+        "contradicting_evidence": [
+          "planar Short (4703,16560)-(4705,16584)",
+          "0 accepted APs",
+          "Metal Spacing 63->82, Lef58 31->40",
+          "no getSrcs() provenance"
+        ],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": [
+          "getSrcs() provenance at sliver",
+          "GDS census at spacing bands"
+        ]
+      },
+      "remedies": [
+        {
+          "remedy_id": "R1-N-W",
+          "remedy_family": "M4_OBS_CORRIDOR",
+          "description": "12 M4 OBS corridors widened to x3474-3672 DBU",
+          "exact_modifications": "scratch LEF M4 OBS RECT 1 -> 14 (x3474-3672, same 12 y windows)",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "FAIL"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "orfs_baseline_20261120T183451711584818Z_99729",
+        "scratch_environment": "experiments/FDE-007/FDE-007-20261121T090000Z-0002/scratch_design",
+        "exact_changes": "scratch LEF M4 OBS RECT 1 -> 14 (x3474-3672, same 12 y windows)",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "EXECUTED",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "FAIL",
+        "summary": "FAIL/REJECT: 2 nm sliver at new OBS edge x3474 INCONCLUSIVE; widening raised spacing 63->82 and Lef58 31->40"
+      },
+      "applicability": {
+        "scope": "DESIGN_SPECIFIC",
+        "conditions": [
+          "sram_x4x4x1",
+          "M4 pin",
+          "narrow corridor widened"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "2 nm sliver sub-claim L0 INCONCLUSIVE"
+        ],
+        "exclusions": [
+          "production deployment",
+          "third geometry variant without new decision"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "conditional"
+      },
+      "evidence": {
+        "observations": [
+          "route rc=2 DRT-0073",
+          "OBS reached 4_cts (18 boxes, M4 from x3474)",
+          "2 nm short boundary-correlated"
+        ],
+        "hypotheses": [],
+        "inferences": [
+          "sliver INCONCLUSIVE - neither artifact nor real obstruction proven"
+        ],
+        "experimentally_supported": [
+          "one full-flow run: APs stayed 0"
+        ],
+        "validated_knowledge": [],
+        "checksums": {
+          "scratch_lef": "917e094eb159b2be03012fa495d9dd0a8d42f64f3bdcf72d83f088901cdd51ec",
+          "prod_gds": "12c56777a060270215ad7c43a881230febc9f3dc272bf9a436da60efd510d651"
+        },
+        "before_after": "",
+        "reviewer_findings": [
+          "R-011"
+        ]
+      },
+      "relationships": {
+        "related_ids": [
+          "KB-0015"
+        ],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "M4_OBS_CORRIDOR"
+      },
+      "maturity": 2,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-007_REMEDY_EVALUATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      },
+      "new_justification": "R1-N diagnosis showed left strip x3474-3534 still covered by OBS (materially changed geometry)"
+    },
+    {
+      "knowledge_id": "KB-0017",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-007-FINAL",
+        "fde_id": "FDE-007-FINAL",
+        "experiment_ids": [],
+        "design_id": "sattva_sram",
+        "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+        "source_run": "",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "pin_access",
+        "signature": "FDE-007 BLOCKED: no production remedy validated; both corridor variants rejected",
+        "violation_type": "DRT-0073",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "M4 clk pin 84x24 DBU; full macro OBS M1-M5",
+        "routing_layers": [
+          "M4",
+          "M5"
+        ],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "docs/FDE-007_REMEDY_EVALUATION.md",
+          "logs/sessions/FDE-007_S001_handoff.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "UNKNOWN",
+        "hypothesis": "any new OBS geometry proposal requires a new evidence gate",
+        "supporting_evidence": [
+          "R-011 final review",
+          "FDE-007 handoff",
+          "D-023"
+        ],
+        "contradicting_evidence": [],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "FDE-007-VERDICT",
+          "remedy_family": "EVIDENCE_BAR",
+          "description": "blocker documentation (no remedy)",
+          "exact_modifications": "no change",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "BLOCKED"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "",
+        "scratch_environment": "",
+        "exact_changes": "no change",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "NOT_RUN",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "BLOCKED",
+        "summary": "FDE-007 BLOCKED; R1-N/R1-N-W REJECT; no third variant authorized; full flow NOT EVALUATED"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "new OBS geometry proposal"
+        ],
+        "validated_characteristics": [
+          "sattva_sram/sram_x4x4x1@asap7"
+        ],
+        "limitations": [
+          "blocked investigation"
+        ],
+        "exclusions": [
+          "automatic retry",
+          "production deployment"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "validated"
+      },
+      "evidence": {
+        "observations": [
+          "no routed DB, no DRC/extraction/timing"
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [],
+        "validated_knowledge": [
+          "required evidence: getSrcs provenance, GDS census at sliver/bands, spacing/EOL mechanism, all-pin AP evidence, DB diff + no-op control"
+        ],
+        "checksums": {},
+        "before_after": "",
+        "reviewer_findings": [
+          "R-011"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "EVIDENCE_BAR"
+      },
+      "maturity": 1,
+      "provenance": {
+        "fde_records": [
+          "docs/FDE-007_REMEDY_EVALUATION.md",
+          "logs/sessions/FDE-007_S001_handoff.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    },
+    {
+      "knowledge_id": "KB-0018",
+      "record_version": 1,
+      "created_at": "2026-11-23T00:00:00+00:00",
+      "identity": {
+        "investigation_id": "FDE-TAXONOMY",
+        "fde_id": "FDE-TAXONOMY",
+        "experiment_ids": [],
+        "design_id": "toolchain",
+        "design_fingerprint": "*",
+        "source_run": "",
+        "timestamp": "2026-11-23T00:00:00+00:00"
+      },
+      "failure": {
+        "category": "taxonomy",
+        "signature": "cross-run violation vocabulary for OpenROAD/ASAP7 pin access and physical design",
+        "violation_type": "TAXONOMY",
+        "tool": "openroad",
+        "tool_version": "bazel-nostamp/ORFS-25b6429c",
+        "technology": "asap7",
+        "geometry": "toolchain/config",
+        "routing_layers": [],
+        "constraints": "default",
+        "environment": "WSL Ubuntu-24.04",
+        "pvt": null,
+        "logs": [
+          "runs/*/work/logs/asap7/sattva_sram/base/5_1_grt.log"
+        ],
+        "reports": [
+          "MILESTONE_1C-R_DRT0305_ROOT_CAUSE_REPORT.md",
+          "docs/FDE-004_DRT0073_ROOT_CAUSE_INVESTIGATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "metrics": {}
+      },
+      "root_cause": {
+        "status": "ESTABLISHED",
+        "hypothesis": "consistent violation signatures enable historical retrieval",
+        "supporting_evidence": [
+          "MILESTONE 1C-R section 6/8",
+          "FDE-004 section 5/6",
+          "FDE-003 section 9"
+        ],
+        "contradicting_evidence": [],
+        "confidence": "HIGH",
+        "alternative_explanations": [],
+        "unresolved_questions": []
+      },
+      "remedies": [
+        {
+          "remedy_id": "VOCAB",
+          "remedy_family": "FAILURE_VOCABULARY",
+          "description": "failure taxonomy",
+          "exact_modifications": "documentation only",
+          "preconditions": [],
+          "compatibility": {
+            "technology": "asap7",
+            "tool": "openroad"
+          },
+          "expected_outcome": "",
+          "risks": [],
+          "side_effects": [],
+          "outcome": "PASS"
+        }
+      ],
+      "experiment": {
+        "experiment_id": "NO-EXPERIMENT",
+        "baseline_reference": "",
+        "scratch_environment": "",
+        "exact_changes": "documentation only",
+        "tool_invocation": "ORFS stage sequence",
+        "configuration": "config.mk@25b6429c",
+        "execution_status": "NOT_RUN",
+        "reproducibility": "unique run ID + SHA-256 manifest",
+        "estimated_cost": "diagnostic"
+      },
+      "outcome": {
+        "state": "PASS",
+        "summary": "REUSABLE VOCABULARY: DRT-0305 / DRT-0073 / DRT-0419 / MPL-0005 (PDN-0006 NOT FOUND)"
+      },
+      "applicability": {
+        "scope": "REUSABLE",
+        "conditions": [
+          "OpenROAD/ASAP7 log triage"
+        ],
+        "validated_characteristics": [
+          "*"
+        ],
+        "limitations": [
+          "vocabulary only"
+        ],
+        "exclusions": [
+          "PDN-0006 as an observed violation - NOT FOUND"
+        ],
+        "compatible_environments": [
+          "asap7/openroad/WSL"
+        ],
+        "cross_design_reuse": "validated"
+      },
+      "evidence": {
+        "observations": [
+          "DRT-0419 advisory on macro D/Q pin centers",
+          "MPL-0005 bypassed by -exact (predicted, not observed)"
+        ],
+        "hypotheses": [],
+        "inferences": [],
+        "experimentally_supported": [],
+        "validated_knowledge": [
+          "DRT-0305 and DRT-0073 are distinct mechanisms"
+        ],
+        "checksums": {},
+        "before_after": "",
+        "reviewer_findings": [
+          "R-001"
+        ]
+      },
+      "relationships": {
+        "related_ids": [],
+        "duplicate_of": null,
+        "supersedes": null,
+        "remedy_family": "FAILURE_VOCABULARY"
+      },
+      "maturity": 2,
+      "provenance": {
+        "fde_records": [
+          "MILESTONE_1C-R_DRT0305_ROOT_CAUSE_REPORT.md",
+          "docs/FDE-004_DRT0073_ROOT_CAUSE_INVESTIGATION.md",
+          "docs/decisions/DECISIONS.md"
+        ],
+        "source_hashes": {},
+        "record_source": "Agent G FDE inventory + project docs",
+        "notes": ""
+      }
+    }
+  ]
+}

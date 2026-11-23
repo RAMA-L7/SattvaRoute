@@ -1,0 +1,13 @@
+{
+  "failure_signature": "DRT-0305 Net zero_ of signal type GROUND is not routable by TritonRoute. Move to special nets.",
+  "violation_type": "DRT-0305",
+  "root_cause_hypothesis": "supply-typed non-special constant tie net zero_ rejected at DRT DB import",
+  "technology": "asap7",
+  "routing_layers": ["M4", "M5"],
+  "tool": "openroad",
+  "remedy_family": "DB_SET_SPECIAL_NET",
+  "design_fingerprint": "sattva_sram/sram_x4x4x1@asap7",
+  "context_terms": ["supply typed non special net", "before pin_access", "OpenDB available"],
+  "exact_modifications": "setSpecial on zero_ in execution mirror",
+  "required_validation": ["controlled run", "DRT census"]
+}
