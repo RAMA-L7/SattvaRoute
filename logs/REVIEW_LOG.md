@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-020 — T-SKILL-007 R2 revision (2026-11-23, orchestrator)
+
+- **Inspected:** Agent B independent review, Agent C revalidation, R0/R1/R2 hashes and scorecards.
+- **Findings:** all J1–J8/M1–M6 and T-004/005 defects resolved in operative text; stage logic, A3/A13/A15/A11/A17 coherent. One blocking lineage typo (R1 hash c→b) fixed before publication.
+- **Revalidation:** R2 P13/Q51/F11/?8/N33/D12/DS8 over 136 cells; PASS unchanged from R1; FAIL reduction is changed-rule effect; no historical FAIL cured; no preventive-effectiveness claim.
+- **Conclusion:** ACCEPT WITH LIMITATIONS; R2 DRAFT/INACTIVE; R0/R1 preserved.
+- **Follow-up:** explicit authorization required before any R2 shadow pilot or activation.
+
 ## R-019 — T-SKILL-006 shadow pilot (2026-11-23, orchestrator)
 
 - **Inspected:** Agent A R1 application, Agent B blind validity review, Agent C usability review; immutable assessment and proposal anchors.

@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-SKILL-006 complete; R1 checklist remains DRAFT/INACTIVE pending explicit activation authorization
-- **Current status:** T-SKILL-006 shadow pilot COMPLETE. Unapproved proposal P-SHADOW-001 assessed with R1 A1–A16: PASS2/FAIL2/PARTIAL8/UNKNOWN2/N-A2; blind independent review reconciled (A3 FAIL, A13 FAIL, A11/A15 UNKNOWN). Immutable assessment `4a9145d8…`; R1 unchanged/inactive (`286c7cba…`). KB verify PASS, immutable 9/9, validator 13/13. No EDA, execution, approval, activation or protected change.
-- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-006)
-- **Current active task:** none — awaiting explicit authorization for execution/activation/R2; FDE-007 remains BLOCKED (no remedy validated)
+- **Current phase:** none — T-SKILL-007 complete; R2 checklist remains DRAFT/INACTIVE pending explicit pilot/activation authorization
+- **Current status:** T-SKILL-007 COMPLETE. R2 checklist (`6900ebc8…`) resolves all verified J1–J8/M1–M6 and T-004/005 defects; Agent B ACCEPT WITH LIMITATIONS (F1 lineage typo fixed); Agent C revalidated same 8 cases: P13/Q51/F11/?8/N33/D12/DS8 over 136 cells (128 gate-relevant, assessable 75). R0 (`a445c7ae…`) and R1 (`286c7bbaa…`) preserved byte-for-byte. KB verify PASS, immutable 9/9, validator 13/13. R2 DRAFT/INACTIVE; no EDA/execution/activation/install/protected change.
+- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-007)
+- **Current active task:** none — awaiting explicit authorization for R2 shadow pilot/activation or any new milestone; FDE-007 remains BLOCKED (no remedy validated)
 - **Active agents:** orchestrator; Agents A/B/C completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 

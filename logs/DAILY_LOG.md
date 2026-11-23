@@ -329,3 +329,12 @@ Results: PASS2/FAIL2(A3,A13)/PARTIAL8/UNKNOWN2(A11,A15)/N-A2. Blind reviewer fla
 Integrity: KB verify PASS; immutable 9/9; validator 13/13; R1 unchanged/inactive; no EDA/execution/approval/install/protected change.
 Files: docs/T-SKILL-006_SHADOW_PROPOSAL.md, docs/T-SKILL-006_SHADOW_ASSESSMENT.md, docs/T-SKILL-006_SHADOW_PILOT_REPORT.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: explicit authorization required for execution/activation/R2. Stop after T-SKILL-006. Lock to be released.
+
+--- SESSION START/END — T-SKILL-007 R2 revision (2026-11-23) ---
+Agent/model: orchestrator + Agents A (draft), B (independent review), C (revalidation).
+Starting state: publish main 778efa6 = remote; R1 286c7bbaa…; KB/immutable/validator PASS.
+Work: preserved R0/R1 byte-for-byte; rewrote checklist as R2 with Stage column/DEFERRED, four classes, A17 capability preflight, A3/A13/A15 fixes; independent review; same 8 cases revalidated.
+Verdict: ACCEPT WITH LIMITATIONS. F1 wrong R1 hash citation fixed pre-publication. R2 score P13/Q51/F11/?8/N33/D12/DS8 over 136 cells; PASS unchanged from R1; FAIL reduction is changed-rule effect, not improved history. No preventive-effectiveness claim.
+Integrity: KB verify PASS; immutable 9/9; validator 13/13; R0/R1 unchanged; no EDA/execution/activation/install/protected change.
+Files: docs/EXPERIMENT_DESIGN_CHECKLIST.md (R2 6900ebc8…), docs/EXPERIMENT_DESIGN_CHECKLIST_R1.md, docs/T-SKILL-007_*.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: explicit authorization required for R2 shadow pilot/activation/new milestone. Stop after T-SKILL-007. Lock to be released.
