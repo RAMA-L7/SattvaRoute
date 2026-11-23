@@ -84,8 +84,13 @@ Anachronistic items are marked PARTIAL rather than treated as historical violati
 
 ## 5. Missed weaknesses / false positives / limitations
 
-- **FDE-005 is a genuine PASS on A3**, not a failure: it had a concurrent no-flag arm and one changed
-  variable. A blanket A3 STOP would have blocked an accepted, well-controlled null experiment.
+- **FDE-005 is a PASS on A3 (scoped)**, not a failure: it had a no-flag arm and one changed variable,
+  with binary `c1b90e0a…`, ODB `35bff121…` and Tcl differing only by the via-in-pin flag. **Clarification
+  from the full Agent A audit:** the arms ran *sequentially* ("Experiment A, then Experiment B",
+  `EXPERIMENT_GO.md:33`) within the same GO window and scratch setup — they were not strictly
+  simultaneous. Under revised R3 this is a same-session identity arm with a recorded execution window;
+  the claim scope remains "via-in-pin flag only", not the OBS mechanism. A blanket A3 STOP would have
+  blocked an accepted, well-controlled null experiment.
 - **A12's phrase "never write to `tools/`" is a false positive** against the sanctioned D-014
   execution mirror (`D:\SattvaRoute\tools\OpenROAD-flow-scripts`). The real rule is "no unapproved
   production write".
