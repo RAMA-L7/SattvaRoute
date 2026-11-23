@@ -32,7 +32,10 @@ ALLOW=(
   "docs/SKILL_FINAL_REPORT.md"
   "docs/SKILL_RESEARCH_REPORT.md"
   "docs/EXPERIMENT_DESIGN_CHECKLIST.md"
+  "docs/T-SKILL-004_RETROSPECTIVE_VALIDATION.md"
+  "docs/EXPERIMENT_DESIGN_CHECKLIST_REVIEW.md"
   "logs/sessions/T-SKILL-003_S001_handoff.md"
+  "logs/sessions/T-SKILL-004_S001_handoff.md"
 )
 
 echo "PUBLISH_ALLOW_COUNT=${#ALLOW[@]}"

@@ -4,6 +4,13 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## T-SKILL-004 — Retrospective experimental design validation (2026-11-23, orchestrator)
+
+- **Objective:** validate the inactive DRAFT A1–A12 checklist against historical FDE experiments.
+- **Work completed:** 8 experiments audited by Agents A–D; scorecard; two review documents; integrity verification.
+- **Verdict:** **REVISE** — high retrospective diagnostic value; not pilot-ready as a gate. Mandatory R3/R6/R7/R9/R10, add A13–A16, then one shadow pilot.
+- **Remaining tasks:** await authorization to revise or activate; no new milestone.
+
 ## T-SKILL-003 — PS-001 methodology integration (2026-11-23, orchestrator)
 
 - **Objective:** convert experimental-design methodology into a SattvaRoute-specific pre-experiment checklist without installing the external skill or modifying AGENTS.md.

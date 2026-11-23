@@ -302,3 +302,12 @@ Safety: no npx/pip/network, no AGENTS.md edit, no EDA run, no protected artifact
 Files: docs/EXPERIMENT_DESIGN_CHECKLIST.md, .skills/PROJECT_SKILLS.json/.md, docs/decisions/DECISIONS.md D-027, PROJECT_STATE.md, coordination/*, logs/*.
 Next: publish; stop; explicit adoption authorization required before any status change or install.
 Lock: T-SKILL-003.lock to be released after publication.
+
+--- SESSION START/END — T-SKILL-004 retrospective validation (2026-11-23) ---
+Agent/model: orchestrator + Agents A (FDE-005/006), B (FDE-006U/007), C (instrument), D (integrity).
+Starting state: publish main 94b3133 = remote; checklist sha256 a445c7ae…; KB 18 records verify PASS; immutable 9/9.
+Work: read-only retrospective audit of 8 experiments against inactive DRAFT checklist A1–A12; created docs/T-SKILL-004_RETROSPECTIVE_VALIDATION.md and docs/EXPERIMENT_DESIGN_CHECKLIST_REVIEW.md.
+Verdict: REVISE — strong retrospective diagnostic (10/12 map to real failure modes), not pilot-ready as a gate (A3 self-contradictory, A7 wrong key/term, A8 too broad, A12 false positive, missing A13–A16). Required fixes R3/R6/R7/R9/R10 then a shadow pilot.
+Integrity: KB verify PASS; immutable 9/9; validator 13/13; checklist hash unchanged; no historical/KB/skill-status change; no EDA.
+Files: two new docs, PROJECT_STATE.md, coordination/*, logs/*.
+Next: await authorization to revise/activate; no new milestone. Lock T-SKILL-004.lock to be released.

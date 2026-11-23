@@ -4,11 +4,11 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-SKILL-003 complete; awaiting explicit adoption authorization
-- **Current status:** T-SKILL-003 DRAFT checklist complete. `docs/EXPERIMENT_DESIGN_CHECKLIST.md` (A1–A12) converts PS-001 `experimental-design` v1.5 methodology into SattvaRoute FDE pre-run checks; independent reviewer ACCEPT WITH LIMITATIONS and all findings fixed (A3 no-op control correction, A1/A9 INFERRED labels, A12 baseline/scratch gate). No install, scripts, pip/network, AGENTS.md edit or EDA run. All five catalog entries remain RECOMMENDED pending explicit adoption authorization (D-027).
-- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-003)
-- **Current active task:** none — T-SKILL-003 published at `0b1618f`; FDE-007 remains BLOCKED (no remedy validated)
-- **Active agents:** orchestrator; independent reviewer completed and released
+- **Current phase:** none — T-SKILL-004 complete; checklist remains DRAFT/inactive pending revision and authorization
+- **Current status:** T-SKILL-004 retrospective validation COMPLETE. 8 FDE experiments audited against inactive DRAFT checklist A1–A12; verdict **REVISE** (good retrospective diagnostic, not pilot-ready as a gate). Created `docs/T-SKILL-004_RETROSPECTIVE_VALIDATION.md` and `docs/EXPERIMENT_DESIGN_CHECKLIST_REVIEW.md` (R1–R12 + A13–A16). Checklist unchanged; KB verify PASS 18/18; immutable 9/9; validator 13/13. No EDA, activation, KB/approval/protected change.
+- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-004)
+- **Current active task:** none — awaiting explicit authorization to revise checklist or activate a pilot; FDE-007 remains BLOCKED (no remedy validated)
+- **Active agents:** orchestrator; Agents A–D completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
 ## Completed milestones

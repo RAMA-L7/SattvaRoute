@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-017 — T-SKILL-004 retrospective validation (2026-11-23, orchestrator)
+
+- **Inspected:** Agents A–D reports; 8 historical FDE experiments; checklist A1–A12; KB/immutable/validator outputs.
+- **Findings:** FDE-005 had a genuine scoped no-flag control; FDE-006U §10 confirms "no no-op control arm"; R1-N/R1-N-W are one family; pseudoreplication of AP candidates/markers; A3 self-contradictory; A12 `tools/` false positive; catalog counts metadata drift (reported, not edited).
+- **Verdict:** REVISE. Retain DRAFT; mandatory R3/R6/R7/R9/R10; add A13–A16; shadow pilot before gate promotion.
+- **Conclusion:** checklist hash unchanged; KB/immutable/validator PASS; no EDA/activation/status change.
+- **Follow-up:** await explicit authorization before revising or activating the checklist.
+
 ## R-016 — T-SKILL-003 PS-001 methodology checklist (2026-11-23, orchestrator)
 
 - **Inspected:** upstream experimental-design SKILL.md v1.5 at pinned SHA; `docs/EXPERIMENT_DESIGN_CHECKLIST.md`; catalog status honesty; protected artifact hashes.
