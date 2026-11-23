@@ -3,6 +3,21 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-013 — T-SKILL-001 skill discovery (2026-11-23, orchestrator)
+
+- **Inspected:** Workstream A discovery, B requirements, C evaluation, D security audits; `.skills/` inventory, reports and validator; protected artifact hashes.
+- **Findings:** 164 unique local skills; 11 evaluated; no REQUIRED skill. Review framework duplicates `REVIEW_LOG.md` and conflicts with approval gates; `find-skills` quarantined; `graphify` quarantined; `openroad-mcp` is an MCP tool, not a skill. C's graphify path detail corrected against A and direct inspection; disposition unchanged.
+- **Decision:** D-025 — install ZERO skills. Binding rules in `.skills/README.md`; AGENTS.md intentionally unmodified (protected artifact).
+- **Conclusion:** validator 11/11 PASS; KB verify PASS; immutable 9/9 PASS; no production change.
+- **Follow-up:** independent review of inventory accuracy and security/scope compliance, then publication.
+
+## R-014 — T-SKILL-001 independent review (2026-11-23, orchestrator)
+
+- **Reviewers:** E (inventory/governance), F (security/scope). Both: ACCEPT WITH LIMITATIONS.
+- **Verified:** 164 discovered / 11 evaluated / 0 installed counts consistent; zero-install recorded in all locations; 14 usage rules subordinate to governance; AGENTS.md unmodified (immutable 9/9 PASS); no placeholder folders; graphify path discrepancy honestly recorded; validator 11/11 PASS; no network install; HIGH-risk skill claims confirmed in source.
+- **Findings resolved:** `scripts/publish_skill.sh` added to D-025/task board/handoff/logs; pending statuses updated; user decision point and Gate 7 definition recorded in `.skills/INSTALLATION_REPORT.md`.
+- **Conclusion:** all gates satisfied; T-SKILL-001 DONE. Stop after this milestone; await explicit user selection before any additional skill integration.
+
 ## R-012 — T-KB-001 incremental Knowledge Base (2026-11-23, orchestrator)
 
 - **Inspected:** Agent A audit, B schema review, C retrieval review, D workflow review, E safety review, F validation adjudication, G FDE inventory; all implemented code and tests.

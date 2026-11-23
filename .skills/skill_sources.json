@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-11-23T00:00:00+00:00",
+  "task": "T-SKILL-001",
+  "discovery_method": "local filesystem/config/MCP inspection; no external installation performed",
+  "sources": [
+    {
+      "id": "SRC-01",
+      "path": "D:/agent-skills/skills",
+      "configured_in": "C:/Users/91846/.config/opencode/opencode.jsonc lines 35-37",
+      "directories": 110,
+      "with_SKILL_md": 109,
+      "note": "110th entry 'skills' is a container of 17 duplicate-name dirs, not a skill"
+    },
+    {
+      "id": "SRC-02",
+      "path": "C:/Users/91846/.agents/skills",
+      "directories_with_SKILL_md": 52,
+      "note": "53rd dir 'motionsites-web-builder' appeared mid-session after a server restart"
+    },
+    {
+      "id": "SRC-03",
+      "path": "C:/Users/91846/.config/opencode/skills",
+      "directories_with_SKILL_md": 3,
+      "names": ["motion-graphics", "upstream-pr-contribution", "youtube-comment"]
+    },
+    {
+      "id": "SRC-04",
+      "path": "C:/Users/91846/.claude/skills",
+      "entries": 171,
+      "junctions": 168,
+      "broken_junctions": 95,
+      "resolving_junctions": 73,
+      "real_directories": ["graphify", "claude-automation-recommender", "motion-graphics"],
+      "note": "broken junctions point to absent .agents targets; affected skills also exist in SRC-01/SRC-02"
+    },
+    {
+      "id": "SRC-05",
+      "path": "C:/Users/91846/.roo/skills, C:/Users/91846/.continue/skills",
+      "entries_each": 147,
+      "note": "junction mirrors of SRC-04 pattern"
+    },
+    {
+      "id": "SRC-06",
+      "type": "MCP",
+      "name": "agent-desktop",
+      "bundled_skills": ["desktop", "agent-desktop-macos", "agent-desktop-windows", "agent-desktop-linux", "agent-desktop-ffi", "jev-desktop"]
+    },
+    {
+      "id": "SRC-07",
+      "type": "MCP",
+      "names": ["openroad-mcp", "playwright", "shadcn", "firecrawl", "context7"],
+      "note": "opencode.list_mcp_resources() returned resources=[] templates=[]"
+    }
+  ],
+  "union_unique_skill_names_with_SKILL_md": 164,
+  "network_registry": {
+    "url": "https://skills.sh/",
+    "head_result": "HTTP 308 redirect to https://www.skills.sh/",
+    "used_for_installation": false
+  },
+  "tooling": {"node": "v26.7.0", "npx": "12.1.0"},
+  "first_party_skill_usage_found": false,
+  "vendored_skill_files_out_of_scope": "experiments/FDE-006/.../source/OpenROAD/.agents/skills/{add-test,fix-bug,review-pr,triage-issue}"
+}

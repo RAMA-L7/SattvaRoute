@@ -4,11 +4,12 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** T-KB-001 — Incremental, evidence-grounded reusable engineering Knowledge Base
-- **Current status:** KB implementation and independent review COMPLETE. `scripts/sattva_kb.py` + append-only `knowledge/` ledger seeded with 18 evidence-grounded records from FDE-003..FDE-007, D-013/D-014 and policy decisions. Tests 21/21 KB + 25/25 approval + 14/14 runner PASS; verify PASS (18 records + 18-link chain); verify-immutable 9/9 PASS. Agents A–G reviewed; all blocking findings resolved. Provenance drift limited to the legitimate D-024 append in DECISIONS.md (documented). No production/design/flow change.
-- **Last updated:** 2026-11-23 (orchestrator, T-KB-001)
-- **Current active task:** none — T-KB-001 final adjudication/publication; FDE-007 remains BLOCKED (no remedy validated)
-- **Active agents:** orchestrator; Agents A/B/C/D/E/F/G completed and released
+- **Current phase:** T-SKILL-001 — Project-specific skill discovery, evaluation, validation and integration
+- **Current status:** Skill discovery COMPLETE. 164 unique skills discovered across local sources; 11 evaluated in depth; **0 installed** by coordinator decision (all capabilities already implemented in project code/process; plausible candidates were duplicates or governance conflicts). `.skills/` inventory/reports created; validator 11/11 PASS; protected artifacts 9/9 unchanged; KB 18 records verified. Workstreams A–D and independent reviewers E/F completed (ACCEPT WITH LIMITATIONS; findings resolved). No production/design/flow change.
+- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-001)
+- **Current active task:** none — T-SKILL-001 final report/publication; awaiting user selection of additional skills; FDE-007 remains BLOCKED (no remedy validated)
+- **Active agents:** orchestrator; Workstreams A–D and reviewers E/F completed and released
+- **Skill system:** no project skills installed; see `.skills/INVENTORY.md` and `.skills/README.md` for binding usage rules
 
 ## Completed milestones
 

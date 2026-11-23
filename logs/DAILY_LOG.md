@@ -270,3 +270,15 @@ Safety: benchmark/runs/experiments/tools/configs/state policy and approval/runne
 Files: scripts/sattva_kb.py, scripts/publish_kb.sh, tests/test_kb.py, knowledge/**, docs/KNOWLEDGE_BASE.md, docs/KB_AUDIT.md, docs/KB_FINAL_REPORT.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: use KB in the next FDE; no production change authorized by this task.
 Safe for another agent to continue: YES; lock released.
+
+--- SESSION START/END — T-SKILL-001 skill discovery (2026-11-23) ---
+Agent/model: orchestrator + Workstreams A (discovery), B (requirements), C (evaluation), D (security).
+Starting state: publish main 633773b = remote; live master with uncommitted FDE/KB records; KB 18 records verify PASS; immutable 9/9.
+Work: local skill discovery (164 unique skills across D:/agent-skills, ~/.agents, user-level, MCP); 11 candidates evaluated from file contents; security audit; coordinator decision to install ZERO skills; .skills/ reports, inventory and offline validator created; D-025 added; binding usage rules recorded in .skills/README.md.
+Key decision: no capability gap is skill-solvable; review framework duplicates REVIEW_LOG and conflicts with approval gates; find-skills quarantined; graphify quarantined; openroad-mcp remains an existing read-only MCP tool, not a skill.
+Verification: .skills/validate_skills.py 11/11 PASS; KB verify PASS 18 records + 18-link chain; immutable 9/9 PASS; AGENTS.md left unmodified because it is a protected artifact.
+Safety: no skill installed, no global config changed, no network install, no EDA, no production/design/KB record change.
+Files: .skills/**, scripts/publish_skill.sh, docs/decisions/DECISIONS.md D-025, PROJECT_STATE.md, coordination/*, logs/*.
+Next: publish; final report; ask user which additional skills they have installed and wait for explicit approval (no auto-integration). Stop after T-SKILL-001.
+Reviewers E/F: ACCEPT WITH LIMITATIONS; findings resolved (publish script recorded, statuses updated, user decision point + Gate 7 definition in .skills/INSTALLATION_REPORT.md). Lock released.
+Safe for another agent to continue: YES; lock released.

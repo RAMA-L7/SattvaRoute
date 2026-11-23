@@ -4,6 +4,13 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## T-SKILL-001 — Project skill discovery (2026-11-23, orchestrator)
+
+- **Objective:** discover, evaluate, validate and integrate project-specific skills without blind installation.
+- **Work completed:** four workstreams; 164 skills discovered, 11 evaluated, security audit; zero-install decision; `.skills/` governance and offline validator; D-025.
+- **Verdict:** ACCEPTED WITH LIMITATIONS — 164 discovered, 11 evaluated, 0 installed; validator 11/11 PASS; reviewers E/F ACCEPT WITH LIMITATIONS, findings resolved.
+- **Remaining tasks:** publish and deliver final report; ask user which additional locally installed skills to integrate and wait for explicit approval (no auto-integration).
+
 ## T-KB-001 — Incremental Knowledge Base (2026-11-23, orchestrator)
 
 - **Objective:** evolve SattvaRoute with an incremental, evidence-grounded reusable engineering KB without rewriting the project.
