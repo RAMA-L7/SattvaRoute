@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-016 — T-SKILL-003 PS-001 methodology checklist (2026-11-23, orchestrator)
+
+- **Inspected:** upstream experimental-design SKILL.md v1.5 at pinned SHA; `docs/EXPERIMENT_DESIGN_CHECKLIST.md`; catalog status honesty; protected artifact hashes.
+- **Reviewer verdict:** ACCEPT WITH LIMITATIONS. All Fisher/structural principles faithfully represented; safety controls intact.
+- **Findings fixed:** A3 falsely cited FDE-006U three-way equivalence as a no-op control (it was instrumentation-neutrality; report says no no-op arm) — corrected; A1 and A9 marked INFERRED where SattvaRoute translation is not upstream wording; A12 added for baseline immutability and scratch isolation.
+- **Conclusion:** DRAFT checklist usable for FDE planning; no install, no active gate, all catalog statuses RECOMMENDED.
+- **Follow-up:** publish; explicit adoption authorization still required.
+
 ## R-015 — T-SKILL-002 skill adoption research (2026-11-23, orchestrator)
 
 - **Inspected:** Agents A–E reports; 183 local SKILL.md corpus, 7 external queries, 10 full-text external audits; proposed catalog wording and strip-lists.

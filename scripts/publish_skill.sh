@@ -31,6 +31,8 @@ ALLOW=(
   "logs/sessions/T-SKILL-002_S001_handoff.md"
   "docs/SKILL_FINAL_REPORT.md"
   "docs/SKILL_RESEARCH_REPORT.md"
+  "docs/EXPERIMENT_DESIGN_CHECKLIST.md"
+  "logs/sessions/T-SKILL-003_S001_handoff.md"
 )
 
 echo "PUBLISH_ALLOW_COUNT=${#ALLOW[@]}"

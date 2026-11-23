@@ -4,6 +4,7 @@
   "selection_date": "2026-11-23",
   "authority": "Authoritative structured record of project skill selection and usage for SattvaRoute. Statuses reflect ACTUAL actions; nothing here is INSTALLED, VALIDATED or ACTIVE.",
   "zero_install_invariant": "D-025 remains binding: 0 skills installed, 0 active. All recommendations below are methodology reference only and require a new coordinator approval gate before any installation.",
+  "controlled_adoption_note": "T-SKILL-003 created a SattvaRoute-specific pre-experiment checklist derived from PS-001 methodology. Per user instruction, all five recommendations remain status RECOMMENDED; explicit adoption authorization has NOT been given. The checklist is a DRAFT methodology reference, not an installed/active skill or an authoritative gate.",
   "counts": {
     "local_skills_searched": 183,
     "external_queries_run": 7,
@@ -28,6 +29,8 @@
       "status": "RECOMMENDED",
       "priority": "MUST ADOPT",
       "adoption_mode": "METHODOLOGY_REFERENCE_ONLY",
+      "adoption_authorized": false,
+      "derived_artifact": "docs/EXPERIMENT_DESIGN_CHECKLIST.md (DRAFT methodology reference; not an installed skill or active gate)",
       "category": "Experiment design",
       "purpose": "Fisher randomization/replication/blocking and reproducible Design-of-Experiments layouts; rejects pseudoreplication and demands pre-specified analysis.",
       "why_sattvaroute_uses_it": "Directly addresses gap B1/G5-G6-G3: FDE-005, FDE-006U and FDE-007 reached INCONCLUSIVE/BLOCKED ceilings because the control could not discriminate and no no-op arm existed (FDE-007:24,31-33). Highest-value skill-solvable process gap.",

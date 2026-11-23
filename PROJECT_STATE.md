@@ -4,11 +4,11 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** T-SKILL-002 — Skill discovery and adoption research (value-focused, external search)
-- **Current status:** T-SKILL-002 research COMPLETE. 183 local SKILL.md files searched; 7 external registry queries; 10 external candidates audited from full text. Authoritative catalog `.skills/PROJECT_SKILLS.json/.md` created with 5 RECOMMENDED methodology references (NOT installed/active), 7 EVALUATED and 3 REJECTED. First adoption: PS-001 experimental-design as a new separately-approved pre-run experiment design checklist. Zero-install invariant preserved; no production/design/protected artifact change.
-- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-002)
-- **Current active task:** none — T-SKILL-002 final publication; FDE-007 remains BLOCKED (no remedy validated)
-- **Active agents:** orchestrator; Agents A–E completed and released
+- **Current phase:** T-SKILL-003 — Controlled methodology integration (PS-001 pre-experiment checklist)
+- **Current status:** T-SKILL-003 DRAFT checklist complete. `docs/EXPERIMENT_DESIGN_CHECKLIST.md` (A1–A12) converts PS-001 `experimental-design` v1.5 methodology into SattvaRoute FDE pre-run checks; independent reviewer ACCEPT WITH LIMITATIONS and all findings fixed (A3 no-op control correction, A1/A9 INFERRED labels, A12 baseline/scratch gate). No install, scripts, pip/network, AGENTS.md edit or EDA run. All five catalog entries remain RECOMMENDED pending explicit adoption authorization (D-027).
+- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-003)
+- **Current active task:** none — T-SKILL-003 publication; FDE-007 remains BLOCKED (no remedy validated)
+- **Active agents:** orchestrator; independent reviewer completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
 ## Completed milestones

@@ -4,6 +4,13 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## T-SKILL-003 — PS-001 methodology integration (2026-11-23, orchestrator)
+
+- **Objective:** convert experimental-design methodology into a SattvaRoute-specific pre-experiment checklist without installing the external skill or modifying AGENTS.md.
+- **Work completed:** DRAFT `docs/EXPERIMENT_DESIGN_CHECKLIST.md` (A1–A12) with provenance/attribution; independent review; D-027.
+- **Verdict:** ACCEPTED WITH LIMITATIONS — DRAFT reference, not installed/active; all five catalog entries still RECOMMENDED.
+- **Remaining tasks:** publication; explicit adoption authorization before any status change or install.
+
 ## T-SKILL-002 — Skill adoption research (2026-11-23, orchestrator)
 
 - **Objective:** identify the most valuable skills for SattvaRoute and establish an authoritative project catalog without auto-installing.

@@ -292,3 +292,13 @@ Verification: validator extended with catalog honesty checks (to be run before p
 Files: .skills/PROJECT_SKILLS.json, .skills/PROJECT_SKILLS.md, docs/SKILL_RESEARCH_REPORT.md, docs/decisions/DECISIONS.md D-026, scripts/publish_skill.sh allowlist, PROJECT_STATE.md, coordination/*, logs/*.
 Next: publish; stop after T-SKILL-002; no installation without a new approval gate.
 Lock: T-SKILL-002.lock to be released after publication.
+
+--- SESSION START/END — T-SKILL-003 controlled methodology integration (2026-11-23) ---
+Agent/model: orchestrator + independent reviewer.
+Starting state: publish main 6b77fea = remote; catalog 5 RECOMMENDED; protected artifacts 9/9.
+Work: fetched upstream experimental-design SKILL.md at pinned c21d13b3cc28 (read-only); created docs/EXPERIMENT_DESIGN_CHECKLIST.md (A1-A12) converting Fisher principles and structural-error checks into SattvaRoute FDE pre-run gates; added DRAFT artifact metadata to PS-001 without changing any catalog status.
+Review: ACCEPT WITH LIMITATIONS; fixed A3 (FDE-006U three-way equivalence was instrumentation-neutrality, NOT a no-op control), labelled A1/A9 INFERRED, added A12 baseline immutability + scratch isolation gate.
+Safety: no npx/pip/network, no AGENTS.md edit, no EDA run, no protected artifact change, no install. All 5 entries remain RECOMMENDED.
+Files: docs/EXPERIMENT_DESIGN_CHECKLIST.md, .skills/PROJECT_SKILLS.json/.md, docs/decisions/DECISIONS.md D-027, PROJECT_STATE.md, coordination/*, logs/*.
+Next: publish; stop; explicit adoption authorization required before any status change or install.
+Lock: T-SKILL-003.lock to be released after publication.

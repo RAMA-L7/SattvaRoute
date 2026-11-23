@@ -24,8 +24,10 @@ improves SattvaRoute's reasoning quality. Their scripts, network calls and file 
   approval gate; one-page pre-run checklist.
 - **Value:** better experiment validity and evidence completeness before a run is authorized.
 - **Source/version:** skills.sh page; v1.5 (2026-09-30, MIT), HEAD `c21d13b3cc28`.
-- **Status:** RECOMMENDED — not installed, not active. Upstream `uv pip install`, arXiv fetch,
-  scripts and Write/Bash directives are excluded.
+- **Status:** RECOMMENDED — not installed, not active, adoption not yet authorized. T-SKILL-003
+  derived a **DRAFT** SattvaRoute-specific checklist at `docs/EXPERIMENT_DESIGN_CHECKLIST.md`
+  (methodology only; no upstream scripts, pip/network or `AGENTS.md` changes). Upstream `uv pip
+  install`, arXiv fetch, scripts and Write/Bash directives are excluded.
 - **Verbatim vs inferred:** Fisher principles and "Pre-specify the analysis" are verbatim; the
   mapping to SattvaRoute FDE gaps is INFERRED.
 
@@ -115,3 +117,7 @@ improves SattvaRoute's reasoning quality. Their scripts, network calls and file 
 Adopt **PS-001 experimental-design first** as a **new, separately-approved one-page pre-run design
 checklist** (new template file), not as an edit to `AGENTS.md` or any protected artifact. Then
 PS-002, then PS-003..PS-005. No skill installation is part of this recommendation.
+
+A DRAFT derived checklist now exists at `docs/EXPERIMENT_DESIGN_CHECKLIST.md` (T-SKILL-003). It does
+not change any catalog status: all five entries remain `RECOMMENDED` until explicit adoption
+authorization. Installing the upstream skill remains a separate, gated action.
