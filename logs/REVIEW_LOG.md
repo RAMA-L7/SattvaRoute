@@ -3,6 +3,13 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-021 — T-SKILL-008 prospective R2 shadow (2026-11-23, orchestrator)
+
+- **Inspected:** Agent A R2 application, Agent B blind validity review, Agent C usability review; immutable assessment and proposal anchors.
+- **Findings:** A17 capability UNKNOWN → STOP (unanimous); A3 control identity and A4 macro-scope/ODB contradiction require correction; A13 cost cap required for causal class. A7 adjudicated N/A (no remedy-family value; schema field-name mention does not trigger R2-H), with latent re-check obligation. Stage/shadow DEFERREDs legitimate, not false FAILs.
+- **Conclusion:** R2 gives actionable guidance but is not gate-ready; one prospective shadow only, no preventive-effectiveness claim. R2 remains DRAFT/INACTIVE.
+- **Follow-up:** explicit authorization required for execution, activation, R3 or new milestone.
+
 ## R-020 — T-SKILL-007 R2 revision (2026-11-23, orchestrator)
 
 - **Inspected:** Agent B independent review, Agent C revalidation, R0/R1/R2 hashes and scorecards.

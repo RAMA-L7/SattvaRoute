@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-SKILL-007 complete; R2 checklist remains DRAFT/INACTIVE pending explicit pilot/activation authorization
-- **Current status:** T-SKILL-007 COMPLETE. R2 checklist (`6900ebc8…`) resolves all verified J1–J8/M1–M6 and T-004/005 defects; Agent B ACCEPT WITH LIMITATIONS (F1 lineage typo fixed); Agent C revalidated same 8 cases: P13/Q51/F11/?8/N33/D12/DS8 over 136 cells (128 gate-relevant, assessable 75). R0 (`a445c7ae…`) and R1 (`286c7bbaa…`) preserved byte-for-byte. KB verify PASS, immutable 9/9, validator 13/13. R2 DRAFT/INACTIVE; no EDA/execution/activation/install/protected change.
-- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-007)
-- **Current active task:** none — awaiting explicit authorization for R2 shadow pilot/activation or any new milestone; FDE-007 remains BLOCKED (no remedy validated)
+- **Current phase:** none — T-SKILL-008 complete; R2 checklist remains DRAFT/INACTIVE pending explicit activation authorization
+- **Current status:** T-SKILL-008 COMPLETE. New P-SHADOW-002 (DRT-0419 pin-center causal diagnostic) assessed prospectively with R2 (`6900ebc8…`): PASS3/PARTIAL9/DEFERRED1/DEFERRED-SHADOW1/N-A2/UNKNOWN1(A17→STOP). Blind independent review and usability review reconciled; R2 gave actionable guidance but is not gate-ready. Assessment `3b562544…`; KB verify PASS, immutable 9/9, validator 13/13. R2 DRAFT/INACTIVE; no EDA/execution/approval/install/protected change.
+- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-008)
+- **Current active task:** none — awaiting explicit authorization for R2 activation, R3 revision or any new milestone; FDE-007 remains BLOCKED (no remedy validated)
 - **Active agents:** orchestrator; Agents A/B/C completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 

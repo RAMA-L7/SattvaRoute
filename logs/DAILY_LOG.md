@@ -338,3 +338,12 @@ Verdict: ACCEPT WITH LIMITATIONS. F1 wrong R1 hash citation fixed pre-publicatio
 Integrity: KB verify PASS; immutable 9/9; validator 13/13; R0/R1 unchanged; no EDA/execution/activation/install/protected change.
 Files: docs/EXPERIMENT_DESIGN_CHECKLIST.md (R2 6900ebc8…), docs/EXPERIMENT_DESIGN_CHECKLIST_R1.md, docs/T-SKILL-007_*.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: explicit authorization required for R2 shadow pilot/activation/new milestone. Stop after T-SKILL-007. Lock to be released.
+
+--- SESSION START/END — T-SKILL-008 prospective R2 shadow (2026-11-23) ---
+Agent/model: orchestrator + Agents A (R2 application), B (blind validity), C (usability).
+Starting state: publish main 31e7f56 = remote; R2 6900ebc8…; KB/immutable/validator PASS.
+Work: selected genuinely new P-SHADOW-002 (DRT-0419 pin-center causal diagnostic, not P-SHADOW-001); applied R2 A1–A17; blind independent review; usability review; coordinator adjudication.
+Result: PASS3/PARTIAL9/DEFERRED1/DEFERRED-SHADOW1/N-A2/UNKNOWN1(A17 STOP). Blockers: A17 capability, A3 control identity, A4 macro-scope/ODB contradiction, A13 cost cap. A7 adjudicated N/A (no family value). R2 actionable but not gate-ready; R3 recommendations only.
+Integrity: KB verify PASS; immutable 9/9; validator 13/13; R2 unchanged/inactive; no EDA/execution/approval/install/protected change.
+Files: docs/T-SKILL-008_SHADOW_PROPOSAL.md, docs/T-SKILL-008_SHADOW_ASSESSMENT.md, docs/T-SKILL-008_INDEPENDENT_REVIEW.md, docs/T-SKILL-008_FINAL_REPORT.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: explicit authorization required for activation/R3/new milestone. Stop after T-SKILL-008. Lock to be released.
