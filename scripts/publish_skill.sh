@@ -16,6 +16,8 @@ ALLOW=(
   ".skills/INSTALLATION_REPORT.md"
   ".skills/skill_sources.json"
   ".skills/validate_skills.py"
+  ".skills/PROJECT_SKILLS.json"
+  ".skills/PROJECT_SKILLS.md"
   "scripts/publish_skill.sh"
   "docs/decisions/DECISIONS.md"
   "PROJECT_STATE.md"
@@ -26,7 +28,9 @@ ALLOW=(
   "logs/REVIEW_LOG.md"
   "logs/REPORT_LOG.md"
   "logs/sessions/T-SKILL-001_S001_handoff.md"
+  "logs/sessions/T-SKILL-002_S001_handoff.md"
   "docs/SKILL_FINAL_REPORT.md"
+  "docs/SKILL_RESEARCH_REPORT.md"
 )
 
 echo "PUBLISH_ALLOW_COUNT=${#ALLOW[@]}"

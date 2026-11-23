@@ -18,6 +18,16 @@ The categories below are deliberately kept distinct and must never be treated as
 | Rejected (DUPLICATE / UNSAFE / governance conflict) | 2 primary | `anthropic-code-review-framework`, `graphify` |
 | Quarantined (do not install) | 7 | `SECURITY_AUDIT.md` |
 
+## Adoption research (T-SKILL-002)
+
+This inventory records **actual state only**; conceptual preferences live in the separate
+authoritative catalog `PROJECT_SKILLS.json` / `PROJECT_SKILLS.md`. T-SKILL-002 produced 5 RECOMMENDED
+methodology references (status `RECOMMENDED`, priority MUST ADOPT/HIGH VALUE), 7 EVALUATED and 3
+REJECTED entries. **Statuses remain RECOMMENDED, not INSTALLED/VALIDATED/ACTIVE.** No skill was
+installed. First adoption recommendation: PS-001 `experimental-design` as a new one-page pre-run
+experiment design checklist, subject to a separate approval gate. Evidence:
+`docs/SKILL_RESEARCH_REPORT.md`.
+
 ## Installed skills
 
 **None.** No project skill directories were created. The proposed `engineering-investigation/`,

@@ -4,6 +4,13 @@
 > Commands executed · Test results · Evidence · Failures · Limitations ·
 > Remaining tasks · Milestone verdict.
 
+## T-SKILL-002 — Skill adoption research (2026-11-23, orchestrator)
+
+- **Objective:** identify the most valuable skills for SattvaRoute and establish an authoritative project catalog without auto-installing.
+- **Work completed:** 183 local SKILL.md files searched; 7 external registry queries; 10 full-text external audits; gap analysis; independent review; PROJECT_SKILLS.json/.md catalog; D-026.
+- **Verdict:** ACCEPTED WITH LIMITATIONS — 5 RECOMMENDED methodology references (not installed/active), 7 EVALUATED, 3 REJECTED; first adoption experimental-design.
+- **Remaining tasks:** publish; stop; any installation requires a new approval gate.
+
 ## T-SKILL-001 — Project skill discovery (2026-11-23, orchestrator)
 
 - **Objective:** discover, evaluate, validate and integrate project-specific skills without blind installation.

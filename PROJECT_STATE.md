@@ -4,12 +4,12 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** T-SKILL-001 — Project-specific skill discovery, evaluation, validation and integration
-- **Current status:** Skill discovery COMPLETE. 164 unique skills discovered across local sources; 11 evaluated in depth; **0 installed** by coordinator decision (all capabilities already implemented in project code/process; plausible candidates were duplicates or governance conflicts). `.skills/` inventory/reports created; validator 11/11 PASS; protected artifacts 9/9 unchanged; KB 18 records verified. Workstreams A–D and independent reviewers E/F completed (ACCEPT WITH LIMITATIONS; findings resolved). No production/design/flow change.
-- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-001)
-- **Current active task:** none — T-SKILL-001 final report/publication; awaiting user selection of additional skills; FDE-007 remains BLOCKED (no remedy validated)
-- **Active agents:** orchestrator; Workstreams A–D and reviewers E/F completed and released
-- **Skill system:** no project skills installed; see `.skills/INVENTORY.md` and `.skills/README.md` for binding usage rules
+- **Current phase:** T-SKILL-002 — Skill discovery and adoption research (value-focused, external search)
+- **Current status:** T-SKILL-002 research COMPLETE. 183 local SKILL.md files searched; 7 external registry queries; 10 external candidates audited from full text. Authoritative catalog `.skills/PROJECT_SKILLS.json/.md` created with 5 RECOMMENDED methodology references (NOT installed/active), 7 EVALUATED and 3 REJECTED. First adoption: PS-001 experimental-design as a new separately-approved pre-run experiment design checklist. Zero-install invariant preserved; no production/design/protected artifact change.
+- **Last updated:** 2026-11-23 (orchestrator, T-SKILL-002)
+- **Current active task:** none — T-SKILL-002 final publication; FDE-007 remains BLOCKED (no remedy validated)
+- **Active agents:** orchestrator; Agents A–E completed and released
+- **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
 ## Completed milestones
 

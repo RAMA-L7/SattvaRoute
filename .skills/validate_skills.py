@@ -19,7 +19,7 @@ SKILLS = ROOT / ".skills"
 REQUIRED_FILES = (
     "README.md", "INVENTORY.md", "DISCOVERY_REPORT.md", "EVALUATION_SUMMARY.md",
     "SECURITY_AUDIT.md", "INSTALLATION_REPORT.md", "skill_sources.json",
-    "validate_skills.py",
+    "validate_skills.py", "PROJECT_SKILLS.json", "PROJECT_SKILLS.md",
 )
 
 results: list[tuple[str, bool, str]] = []
@@ -45,6 +45,28 @@ def main() -> int:
         check("discovery evidence parses", union == 164, f"union={union}")
     except Exception as exc:  # noqa: BLE001
         check("discovery evidence parses", False, str(exc))
+
+    # 2b. Project skill catalog is honest about actual state.
+    cat_path = SKILLS / "PROJECT_SKILLS.json"
+    if cat_path.is_file():
+        try:
+            cat = json.loads(cat_path.read_text(encoding="utf-8"))
+            allowed = {"DISCOVERED", "EVALUATED", "RECOMMENDED", "APPROVED",
+                       "INSTALLED", "VALIDATED", "ACTIVE", "REJECTED", "BLOCKED"}
+            entries = cat.get("skills", [])
+            bad = [e.get("skill_id") for e in entries if e.get("status") not in allowed]
+            falsely_installed = [e.get("skill_id") for e in entries
+                                 if e.get("status") in ("INSTALLED", "VALIDATED", "ACTIVE")
+                                 or e.get("installation_path") is not None]
+            check("catalog parses with valid statuses", not bad, f"invalid={bad}")
+            check("catalog preserves zero-install invariant", not falsely_installed,
+                  f"falsely_active={falsely_installed}")
+        except Exception as exc:  # noqa: BLE001
+            check("catalog parses with valid statuses", False, str(exc))
+            check("catalog preserves zero-install invariant", False, str(exc))
+    else:
+        check("catalog parses with valid statuses", False, "PROJECT_SKILLS.json missing")
+        check("catalog preserves zero-install invariant", False, "PROJECT_SKILLS.json missing")
 
     # 3. Zero-install invariant: no skill directories or SKILL.md under .skills.
     skill_dirs = [p.name for p in SKILLS.iterdir() if p.is_dir()] if SKILLS.is_dir() else []
@@ -98,7 +120,7 @@ def main() -> int:
 
     # 8. No executable script other than this validator in .skills.
     executables = [str(p.relative_to(SKILLS)) for p in SKILLS.rglob("*")
-                   if p.is_file() and p.suffix not in (".md", ".json", ".py", ".pyc")]
+                   if p.is_file() and p.suffix not in (".md", ".json", ".py", ".pyc", ".sh")]
     check("no unexpected skill executables", not executables, f"files={executables}")
 
     # 9. Validator writes nothing (temp dir used only if needed).

@@ -282,3 +282,13 @@ Files: .skills/**, scripts/publish_skill.sh, docs/decisions/DECISIONS.md D-025, 
 Next: publish; final report; ask user which additional skills they have installed and wait for explicit approval (no auto-integration). Stop after T-SKILL-001.
 Reviewers E/F: ACCEPT WITH LIMITATIONS; findings resolved (publish script recorded, statuses updated, user decision point + Gate 7 definition in .skills/INSTALLATION_REPORT.md). Lock released.
 Safe for another agent to continue: YES; lock released.
+
+--- SESSION START/END — T-SKILL-002 skill adoption research (2026-11-23) ---
+Agent/model: orchestrator + Agents A (local skills), B (gaps), C (external discovery), D (security/quality), E (independent review).
+Starting state: publish main 479c9a9 = remote; live master uncommitted FDE/skill records; KB verify PASS; immutable 9/9.
+Work: 183 local SKILL.md files re-read with value lens; 7 external `npx skills find` queries (search only); 10 external candidates audited from full SKILL.md at recorded HEAD SHAs; gap analysis G1-G14; authoritative catalog created.
+Decision: 5 RECOMMENDED methodology references (NOT installed/active), 7 EVALUATED, 3 REJECTED; D-026; zero-install invariant preserved. First adoption PS-001 experimental-design as a NEW separately-approved pre-run design checklist (no AGENTS.md edit).
+Verification: validator extended with catalog honesty checks (to be run before publication); KB verify 18 records PASS; protected artifacts unchanged; no npx skills add/init, pip, gcloud, gh, EDA, or global config change.
+Files: .skills/PROJECT_SKILLS.json, .skills/PROJECT_SKILLS.md, docs/SKILL_RESEARCH_REPORT.md, docs/decisions/DECISIONS.md D-026, scripts/publish_skill.sh allowlist, PROJECT_STATE.md, coordination/*, logs/*.
+Next: publish; stop after T-SKILL-002; no installation without a new approval gate.
+Lock: T-SKILL-002.lock to be released after publication.

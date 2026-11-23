@@ -3,6 +3,14 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-015 — T-SKILL-002 skill adoption research (2026-11-23, orchestrator)
+
+- **Inspected:** Agents A–E reports; 183 local SKILL.md corpus, 7 external queries, 10 full-text external audits; proposed catalog wording and strip-lists.
+- **Findings:** zero installs preserved; 5 RECOMMENDED methodology references with REQUIRED relabel (no MUST ADOPT/INSTALLED conflation); gap mapping corrected (causal attribution is not skill-solvable); local candidates compared; strip-lists hardened (no deletions, no protected-artifact edits, D-007 stays human); external counts from C §4 snapshot.
+- **Decisions:** D-026; first adoption PS-001 experimental-design as a new separately-approved pre-run checklist, not an AGENTS.md edit.
+- **Conclusion:** ACCEPT WITH LIMITATIONS; Agent E ACCEPT WITH LIMITATIONS; all five required fixes applied to catalog and report.
+- **Follow-up:** publish; no installation without a new gate.
+
 ## R-013 — T-SKILL-001 skill discovery (2026-11-23, orchestrator)
 
 - **Inspected:** Workstream A discovery, B requirements, C evaluation, D security audits; `.skills/` inventory, reports and validator; protected artifact hashes.
