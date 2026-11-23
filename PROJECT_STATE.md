@@ -4,11 +4,11 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-ENGINEERING-009 complete at diagnostic decision boundary; R2 remains DRAFT/INACTIVE
-- **Current status:** T-ENGINEERING-009 COMPLETE at diagnostic decision boundary. FDE-003..007 reconciled without duplication; bounded root cause confirmed; 18-hypothesis matrix produced; marker provenance (`getSrcs()`) identified as top gap and directly verified API/binary; DRT-0419 confirmed distinct. Proposed ENG009-DIAG-001 diagnostic (log-only provenance + static EOL/GDS pre-work, R2 advisory shadow) passed independent challenge after five blocking fixes. KB verify PASS, immutable 9/9, validator 13/13. No EDA, experiment, approval, remedy or production change.
-- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-009)
-- **Current active task:** none — ENG009-DIAG-001 NOT AUTHORIZED; await explicit approval before rebuild/replay; FDE-007 remains BLOCKED (no remedy validated)
-- **Active agents:** orchestrator; Agents A/B/C/D completed and released
+- **Current phase:** none — T-ENGINEERING-010 complete; ENG009-DIAG-001 executed and adjudicated; R2 remains DRAFT/INACTIVE
+- **Current status:** T-ENGINEERING-010 COMPLETE. ENG009-DIAG-001 executed in isolated scratch: log-only getSrcs instrumentation, binary `7461d0d0…`, OFF/OFF byte-identical equivalence, 107/107 marker-provenance pairs. 2 nm sliver **CONFIRMED ARTIFACT** (own-net clk metal, zero foreign-net 40/0); DRT-0073 root cause updated. Agent B ACCEPT WITH LIMITATIONS; non-blocking F1 reconciled with GDS census. KB appended KB-0019 (19 records, chain PASS). Protected artifacts 9/9, validator 13/13. No remedy, geometry change, or production modification.
+- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-010)
+- **Current active task:** none — await explicit authorization for any corrective experiment or production remedy; FDE-007 remains BLOCKED (no validated remedy)
+- **Active agents:** orchestrator; Agents A/B/C completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
 ## Completed milestones

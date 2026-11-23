@@ -1,0 +1,103 @@
+--- a/source/OpenROAD/src/drt/src/pa/FlexPA_acc_point.cpp
++++ b/source/OpenROAD/src/drt/src/pa/FlexPA_acc_point.cpp
+@@ -55,6 +55,54 @@
+       (logger)->debug(utl::DRT, "pin_access", __VA_ARGS__);                   \
+     }                                                                         \
+   } while (0)
++// FDE-006R: stable, human-readable identity for marker objects. LOG ONLY.
++inline std::string fde006rObjLabel(const frBlockObject* obj)
++{
++  if (obj == nullptr) {
++    return "null";
++  }
++  std::string name;
++  switch (obj->typeId()) {
++    case frcNet:
++      name = static_cast<const frNet*>(obj)->getName();
++      break;
++    case frcInst:
++      name = static_cast<const frInst*>(obj)->getName();
++      break;
++    case frcInstTerm:
++      name = static_cast<const frInstTerm*>(obj)->getName();
++      break;
++    default:
++      break;
++  }
++  return name + "#" + std::to_string(static_cast<int>(obj->typeId())) + ":"
++         + std::to_string(obj->getId());
++}
++inline std::string fde006rSrcsLabel(const frOrderedIdSet<frBlockObject*>& srcs)
++{
++  std::string out;
++  for (const auto* obj : srcs) {
++    if (!out.empty()) {
++      out += ",";
++    }
++    out += fde006rObjLabel(obj);
++  }
++  return out;
++}
++inline std::string fde006rPairsLabel(
++    const std::vector<std::pair<frBlockObject*,
++                                std::tuple<frLayerNum, odb::Rect, bool>>>& objs)
++{
++  std::string out;
++  for (const auto& pair : objs) {
++    if (!out.empty()) {
++      out += ",";
++    }
++    out += fde006rObjLabel(pair.first);
++    out += "@L" + std::to_string(static_cast<int>(std::get<0>(pair.second)));
++  }
++  return out;
++}
+ }  // namespace
+ 
+ /**
+@@ -793,6 +841,7 @@
+     const auto& markers = design_rule_checker.getMarkers();
+     int idx = 0;
+     for (const auto& marker : markers) {
++      const int prov_idx = idx;
+       const odb::Rect box = marker->getBBox();
+       const frConstraint* con = marker->getConstraint();
+       FDE006R_LOG(logger_,
+@@ -805,6 +854,14 @@
+                   getTech()->getLayer(marker->getLayerNum())->getName(),
+                   box.xMin(), box.yMin(), box.xMax(), box.yMax(),
+                   markers.empty());
++      // FDE-006R: object provenance. LOG ONLY: no DRC/control-flow change.
++      FDE006R_LOG(logger_,
++                  "FDE006R PROV stage=planar x={} y={} lay={} idx={} "
++                  "src=[{}] victim=[{}] aggressor=[{}]",
++                  point.x(), point.y(), ap->getLayerNum(), prov_idx,
++                  fde006rSrcsLabel(marker->getSrcs()),
++                  fde006rPairsLabel(marker->getVictims()),
++                  fde006rPairsLabel(marker->getAggressors()));
+     }
+   }
+   return design_rule_checker.getMarkers().empty();
+@@ -1181,6 +1238,7 @@
+     const auto& markers = design_rule_checker.getMarkers();
+     int idx = 0;
+     for (const auto& marker : markers) {
++      const int prov_idx = idx;
+       const odb::Rect box = marker->getBBox();
+       const frConstraint* con = marker->getConstraint();
+       FDE006R_LOG(logger_,
+@@ -1194,6 +1252,14 @@
+                   getTech()->getLayer(marker->getLayerNum())->getName(),
+                   box.xMin(), box.yMin(), box.xMax(), box.yMax(),
+                   markers.empty());
++      // FDE-006R: object provenance. LOG ONLY: no DRC/control-flow change.
++      FDE006R_LOG(logger_,
++                  "FDE006R PROV stage=via x={} y={} lay={} idx={} "
++                  "src=[{}] victim=[{}] aggressor=[{}]",
++                  point.x(), point.y(), ap->getLayerNum(), prov_idx,
++                  fde006rSrcsLabel(marker->getSrcs()),
++                  fde006rPairsLabel(marker->getVictims()),
++                  fde006rPairsLabel(marker->getAggressors()));
+     }
+   }
+   const bool no_drv = design_rule_checker.getMarkers().empty();

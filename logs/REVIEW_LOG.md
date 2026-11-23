@@ -3,6 +3,13 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-023 — T-ENGINEERING-010 diagnostic execution (2026-11-24, orchestrator)
+
+- **Inspected:** Agent A patch/build/replay artifacts, Agent B independent audit, Agent C static EOL/GDS, primary logs and hashes.
+- **Findings:** instrumentation neutrality proven (OFF/OFF byte-identical); 107/107 MARKER/PROV pairs; sliver CONFIRMED artifact with zero foreign-net 40/0. Agent B ACCEPT WITH LIMITATIONS; F1 (PROV lacks rect/net/OBS tag) reconciled with GDS census. RC=137 stalled client then one supervisor relink within cap.
+- **Conclusion:** execution accepted; DRT-0073 root cause updated; KB appended KB-0019; no remedy or geometry authorized.
+- **Follow-up:** explicit authorization required for any corrective experiment or production remedy.
+
 ## R-022 — T-ENGINEERING-009 DRT-0073 investigation (2026-11-24, orchestrator)
 
 - **Inspected:** Agents A/B/C findings, Agent D challenge, state audit, hypothesis matrix, proposed diagnostic.

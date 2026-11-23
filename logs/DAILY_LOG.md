@@ -356,3 +356,12 @@ Verdict: bounded root cause confirmed; marker provenance is top gap; y-envelope 
 Integrity: KB verify PASS; immutable 9/9; validator 13/13; no EDA/execution/approval/remedy/production change.
 Files: docs/ENG009_*.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: ENG009-DIAG-001 NOT AUTHORIZED; explicit approval required before rebuild/replay. Stop at decision boundary. Lock to be released.
+
+--- SESSION START/END — T-ENGINEERING-010 diagnostic execution (2026-11-24) ---
+Agent/model: orchestrator + Agents A (instrumentation), B (independent audit), C (static EOL/GDS).
+Approval: ENG010-AP-001 from user instruction; scope/proposal hash 18cb9017…; cost cap and abort rules active.
+Work: log-only getSrcs provenance patch; incremental relink (RC=137 stalled client then supervisor RC=0, one relink); equivalence replays; full provenance replay; static EOL/GDS pre-work; adjudication.
+Results: patch 92ef2aac…; source 0fc94a9d→0815de7d; binary 7461d0d0…; OFF/OFF byte-identical; 107/107 MARKER/PROV; 2 nm sliver CONFIRMED ARTIFACT (own-net clk, zero foreign-net 40/0); root cause updated. Agent B ACCEPT WITH LIMITATIONS, F1 reconciled.
+Integrity: protected 9/9; KB verify 19/19 chain PASS after append KB-0019; validator 13/13; no production/baseline/remedy/geometry change.
+Files: experiments/ENG009-DIAG-001/**, docs/ENG010_*.md, ENG009_HYPOTHESIS_MATRIX.md, knowledge/kb_records.jsonl, PROJECT_STATE.md, coordination/*, logs/*.
+Next: stop; explicit authorization for corrective experiment/remedy. Lock to be released.
