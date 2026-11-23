@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** T-SKILL-003 — Controlled methodology integration (PS-001 pre-experiment checklist)
+- **Current phase:** none — T-SKILL-003 complete; awaiting explicit adoption authorization
 - **Current status:** T-SKILL-003 DRAFT checklist complete. `docs/EXPERIMENT_DESIGN_CHECKLIST.md` (A1–A12) converts PS-001 `experimental-design` v1.5 methodology into SattvaRoute FDE pre-run checks; independent reviewer ACCEPT WITH LIMITATIONS and all findings fixed (A3 no-op control correction, A1/A9 INFERRED labels, A12 baseline/scratch gate). No install, scripts, pip/network, AGENTS.md edit or EDA run. All five catalog entries remain RECOMMENDED pending explicit adoption authorization (D-027).
 - **Last updated:** 2026-11-23 (orchestrator, T-SKILL-003)
-- **Current active task:** none — T-SKILL-003 publication; FDE-007 remains BLOCKED (no remedy validated)
+- **Current active task:** none — T-SKILL-003 published at `0b1618f`; FDE-007 remains BLOCKED (no remedy validated)
 - **Active agents:** orchestrator; independent reviewer completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
