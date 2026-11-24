@@ -406,3 +406,11 @@ Result: NO-GO at research gate. OBS SPACING / USEMINSPACING OBS documented fixes
 Integrity: KB 19/19 PASS; protected 9/9; validator 13/13; no EDA/source/geometry/ODB/LEF/GDS/config/production change.
 Files: docs/ENG015_*.md, docs/REPORT_INDEX.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: stop; explicit authorization required for any further work.
+
+--- SESSION START/END — T-WORKFLOW-001 remedy-first redesign (2026-11-24) ---
+Agent/model: orchestrator + Agents R/S/P/V + reviewers REV1/REV2.
+Work: architecture audit; controller implementation (remedy_engine.py); hashed KB sidecar (remedy_kb.py, 22 records); budgets/ranking/legality gate; 24 offline tests; DRT-0073 evidence-replay demonstration.
+Result: DRT-0073 demo eliminates 8/10 refuted families, gates top candidate C-GEN at RISK_EXCEEDS_POLICY with named prerequisites; no EDA, no remedy, no production change, no fix claimed. Reviewers ACCEPT WITH FIXES; all findings fixed and re-tested.
+Integrity: new tests 24/24 PASS; KB 19/19; sidecar 22/22; immutable 9/9; validator 13/13; D-028 recorded.
+Files: docs/WF_*.md, scripts/remedy_*.py, scripts/run_remedy_demo.py, config/remedy_budgets.json, knowledge/remedy_*.*, tests/test_remedy_*.py, PROJECT_STATE.md, coordination/*, logs/*.
+Next: stop; no further milestone/implementation/remedy without explicit authorization.

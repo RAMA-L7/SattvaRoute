@@ -1,0 +1,36 @@
+{
+  "policy_id": "SATTVA-REMEDY-TIME-BUDGET-001",
+  "version": 1,
+  "description": "Default time budgets for the remedy-first engineering workflow. Timeouts produce an unresolved report, never an unverified fix.",
+  "budgets_minutes": {
+    "DIAGNOSIS": 15,
+    "RESEARCH": 30,
+    "RANK": 10,
+    "SELECT": 5,
+    "SANDBOX": 45,
+    "VALIDATE": 30,
+    "REPORT": 10,
+    "COMMON_ISSUE_TOTAL": 120,
+    "DIFFICULT_ISSUE_TOTAL": 480
+  },
+  "first_attempt_within_minutes": 60,
+  "selection_min_score": 0.62,
+  "max_candidates_per_cycle": 3,
+  "weights": {
+    "evidence": 0.30,
+    "applicability": 0.25,
+    "effectiveness": 0.20,
+    "risk": 0.15,
+    "cost": 0.05,
+    "reversibility": 0.05
+  },
+  "stop_conditions": [
+    "FIX_VERIFIED",
+    "CANDIDATES_EXHAUSTED",
+    "RISK_EXCEEDS_POLICY",
+    "UNVERIFIED_PASS",
+    "TIME_BUDGET_EXPIRED",
+    "BASELINE_INTEGRITY_FAIL",
+    "UNAUTHORIZED_EXECUTION_REQUESTED"
+  ]
+}

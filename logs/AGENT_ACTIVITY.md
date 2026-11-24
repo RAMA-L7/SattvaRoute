@@ -4,6 +4,7 @@
 
 | Timestamp | Agent | Task | Status | Files touched | Result | Next action |
 |---|---|---|---|---|---|---|
+| 2026-11-24 | orchestrator + Agents R/S/P/V + REV1/REV2 | T-WORKFLOW-001 remedy-first redesign | DONE | docs/WF_*.md, scripts/remedy_*.py, scripts/run_remedy_demo.py, config/remedy_budgets.json, knowledge/remedy_*.*, tests/test_remedy_*.py, coordination/**, logs/** | Controller + KB sidecar + budgets; DRT-0073 demo NO-GO with actionable gap; 24 tests PASS; no EDA/production change | await authorization |
 | 2026-11-24 | orchestrator + Agents A/B/C | T-ENGINEERING-015 research and gate | DONE (NO-GO) | docs/ENG015_*.md, docs/REPORT_INDEX.md, PROJECT_STATE.md, coordination/**, logs/** | Research only; documented LEF fixes refuted at source; no credible candidate; no experiment/fix/production change; integrity PASS | await authorization |
 | 2026-11-24 | orchestrator + Agents A/B/C | T-ENGINEERING-014 remedy feasibility decision | DONE | docs/ENG014_*.md, docs/REPORT_INDEX.md, PROJECT_STATE.md, coordination/**, logs/** | Conceptual only; no remedy authorized; class 6 VIABLE, 1/5 CONDITIONAL, 2/3/4 NOT VIABLE; A/B/C reconciled; no EDA/production change; integrity PASS | await authorization |
 | 2026-11-18 (M0 sessions) | orchestrator | M0 audit, ORFS verify, OpenFinRAM build/run | DONE | docs/milestone0-environment-audit.md, scripts/gen_sram_macro.sh, benchmark/design/OpenFinRAM/** | macro sram_x4x4x1 GDS+LEF+LIB verified | — |

@@ -4,11 +4,11 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-ENGINEERING-015 complete at research gate (NO-GO); no remedy authorized; R2 remains DRAFT/INACTIVE
-- **Current status:** T-ENGINEERING-015 COMPLETE at Phase 2 gate. Research only: documented OBS SPACING / USEMINSPACING OBS fixes were refuted at source level (abutment/prl only; our failure is a true overlap Short); no config knob/upstream backport applies; clk already on-track; generator OBS is hard-coded full-body with no pin-aware config; extended-carve and generator-regeneration hypotheses remain physically unproven. NO-GO: no candidate, no experiment, no source/geometry/production change. KB verify 19/19, protected 9/9, validator 13/13.
-- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-015)
-- **Current active task:** none — no remedy, experiment, or follow-up authorized; FDE-007 remains BLOCKED
-- **Active agents:** orchestrator; Agents A/B/C completed and released
+- **Current phase:** none — T-WORKFLOW-001 complete; remedy-first workflow implemented and tested; no remedy authorized; R2 remains DRAFT/INACTIVE
+- **Current status:** T-WORKFLOW-001 COMPLETE. Added `scripts/remedy_engine.py` (state machine, deterministic ranking, refutation auto-elimination, time budgets, legality gate, KB write-back) and `scripts/remedy_kb.py` (22-record hashed append-only sidecar extending KB). DRT-0073 demonstration reuses ENG009–ENG015 evidence, eliminates 8/10 refuted families, stops at `RISK_EXCEEDS_POLICY` with actionable prerequisites; no EDA, no fix claimed. 24/24 new tests PASS; KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
+- **Last updated:** 2026-11-24 (orchestrator, T-WORKFLOW-001)
+- **Current active task:** none — no remedy, experiment, or follow-up authorized; FDE-007 remains BLOCKED; DRT-0073 remains unresolved (ENG015 NO-GO)
+- **Active agents:** orchestrator; four role agents + two independent reviewers completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
 ## Completed milestones

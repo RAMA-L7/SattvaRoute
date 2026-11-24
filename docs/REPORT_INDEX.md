@@ -2,6 +2,13 @@
 
 > Newest first. This index is advisory; `PROJECT_STATE.md` is the authoritative current snapshot.
 
+## T-WORKFLOW-001 — Remedy-first workflow redesign (2026-11-24)
+- `WF_FINAL_REPORT.md` — authoritative outcome and stop boundary
+- `WF_ARCHITECTURE_AUDIT.md`, `WF_REMEDY_FIRST_WORKFLOW.md`, `WF_AGENT_RESPONSIBILITIES.md`
+- `WF_REMEDY_RANKING.md`, `WF_TIME_BUDGET_AND_VALIDATION.md`, `WF_KB_EXTENSION.md`
+- `WF_DRT0073_DEMONSTRATION.md`, `WF_EFFICIENCY_REPORT.md`
+- `WF_INDEPENDENT_REVIEWS.md`, `WF_COORDINATOR_ADJUDICATION.md`
+
 ## T-ENGINEERING-015 — Evidence-driven research and gate (2026-11-24)
 - `ENG015_FINAL_REPORT.md` — authoritative outcome: NO-GO at research gate
 - `ENG015_RESEARCH_GATE.md` — gate decision and why no candidate qualified

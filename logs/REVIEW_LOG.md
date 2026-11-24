@@ -3,6 +3,13 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-029 — T-WORKFLOW-001 remedy-first workflow (2026-11-24, orchestrator)
+
+- **Inspected:** four role audits (R/S/P/V), controller and KB sidecar implementation, 24 tests, DRT-0073 demo artifact, two post-implementation reviewer reports.
+- **Findings:** reviewers ACCEPT WITH FIXES; major defects (selection on gated stop, timeout+PASS contradiction, unreachable FIX_VERIFIED, INCONCLUSIVE over-refutation, missing stage/KB write-back) all fixed and re-tested.
+- **Conclusion:** workflow implemented and demonstrated honestly; DRT-0073 stops at RISK_EXCEEDS_POLICY with prerequisites; no EDA, no fix claimed, no production change; integrity PASS.
+- **Follow-up:** explicit authorization required for any further work.
+
 ## R-028 — T-ENGINEERING-015 research gate (2026-11-24, orchestrator)
 
 - **Inspected:** Agent A literature research (cited docs/PRs/issues), Agent B source trace with file:line, Agent C independent geometry assessment, local generator source.
