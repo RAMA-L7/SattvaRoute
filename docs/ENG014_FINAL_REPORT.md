@@ -42,6 +42,6 @@ See `ENG014_RISK_AND_VALIDATION.md`: marker `getSrcs()`/object-type/net provenan
 
 ## 6. Integrity and stop
 
-No EDA flow, geometry edit, ODB/LEF/DEF/GDS/source/config change, remedy execution, or production change occurred. R2 remains advisory-only and inactive. KB verify PASS (19/19), protected artifacts 9/9, validator 13/13. Publication closes this milestone.
+No EDA flow, geometry edit, ODB/LEF/DEF/GDS/source/config change, remedy execution, or production change occurred. R2 remains advisory-only and inactive. In the authoritative live tree (`D:\SattvaRoute`): KB verify PASS (19/19), protected artifacts 9/9, validator 13/13. Scope note: the publication mirror (`D:\SattvaRoute_publish`) intentionally excludes the GDS via the publication blocklist, so `verify-immutable` there reports the GDS as missing — a pre-existing environmental limitation, not a T-ENGINEERING-014 change. Protected-artifact verification is authoritative on the live tree. Publication closes this milestone.
 
 **Stop. No subsequent milestone, remedy, experiment, or implementation without explicit user authorization.**
