@@ -3,6 +3,13 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-025 — T-ENGINEERING-012 AP forensics (2026-11-24, orchestrator)
+
+- **Inspected:** Agent A source trace, Agent B artifact reproduction, Agent C blind mechanism, six ODB dumps, primary logs.
+- **Findings:** broad ODB hash verified and 3 APs reproduced; first three candidates generated in both arms; broad makes west planar DRC clean; sparse threshold stops generation. Via/spacing/EOL markers non-binding. Shape-level aggressor rectangle remains UNKNOWN.
+- **Conclusion:** 0→3 explained at predicate level; no-remainder experiment authorized; R2 advisory only; integrity PASS.
+- **Follow-up:** ENG012-DIAG-002 (per-direction DRC source/rect logging) designed, not authorized.
+
 ## R-024 — T-ENGINEERING-011 geometry remedy study (2026-11-24, orchestrator)
 
 - **Inspected:** Agents A/B/C reports, candidate definitions, four primary pin_access logs, marker census and bbox shifts.

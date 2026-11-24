@@ -374,3 +374,11 @@ Results: max legal y margin (120 nm) gave 0 APs, marker census identical to R1-N
 Integrity: KB verify 19/19 PASS; protected 9/9; validator 13/13; R2 unchanged/inactive.
 Files: experiments/ENG011-GEOMETRY/**, docs/ENG011_*.md, ENG009_HYPOTHESIS_MATRIX.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: stop; explicit authorization required for follow-up. Lock to be released.
+
+--- SESSION START/END — T-ENGINEERING-012 forensics (2026-11-24) ---
+Agent/model: orchestrator + Agents A/B/C.
+Work: verified broad ODB 616e39f8… and reproduced 3 APs with provenance binary; read-only DB dumps of 6 ODBs; source trace of AP generation/filter/acceptance; blind mechanism reconstruction.
+Result: 0→3 explained at predicate level (west planar DRC clean; macro one-dir acceptance; sparse threshold stops generation); remaining six candidates in broad were never generated. ENG011 generated all 9 but all failed hasAccess; y-widening moved marker bands only. Exact blocking OBS rect remains UNKNOWN at shape level.
+Integrity: KB verify 19/19 PASS; protected 9/9; validator 13/13; no production/binary/flow change; R2 inactive.
+Files: experiments/ENG012-FORENSICS/**, docs/ENG012_*.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: stop; ENG012-DIAG-002 designed but not authorized. Lock to be released.
