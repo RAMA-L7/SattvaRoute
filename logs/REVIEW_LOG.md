@@ -3,6 +3,13 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-024 — T-ENGINEERING-011 geometry remedy study (2026-11-24, orchestrator)
+
+- **Inspected:** Agents A/B/C reports, candidate definitions, four primary pin_access logs, marker census and bbox shifts.
+- **Findings:** control confound fixed with no-op rebuilt ODB; C3 rejected pre-execution; max legal y margin gave 0 APs and unchanged marker census; spacing bboxes moved to new OBS edges. C2 harmful (208 markers). Independent review ACCEPT WITH LIMITATIONS.
+- **Conclusion:** y-envelope/EOL remedy hypothesis REFUTED; no-remedy outcome supported; no production change; integrity PASS.
+- **Follow-up:** explicit authorization required for any further experiment or remedy.
+
 ## R-023 — T-ENGINEERING-010 diagnostic execution (2026-11-24, orchestrator)
 
 - **Inspected:** Agent A patch/build/replay artifacts, Agent B independent audit, Agent C static EOL/GDS, primary logs and hashes.

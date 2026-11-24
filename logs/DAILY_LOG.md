@@ -365,3 +365,12 @@ Results: patch 92ef2aac…; source 0fc94a9d→0815de7d; binary 7461d0d0…; OFF/
 Integrity: protected 9/9; KB verify 19/19 chain PASS after append KB-0019; validator 13/13; no production/baseline/remedy/geometry change.
 Files: experiments/ENG009-DIAG-001/**, docs/ENG010_*.md, ENG009_HYPOTHESIS_MATRIX.md, knowledge/kb_records.jsonl, PROJECT_STATE.md, coordination/*, logs/*.
 Next: stop; explicit authorization for corrective experiment/remedy. Lock to be released.
+
+--- SESSION START/END — T-ENGINEERING-011 targeted geometry study (2026-11-24) ---
+Agent/model: orchestrator + Agents A/B/C.
+Approval: ENG011-AP-001; bounded scratch pin_access diagnostics only, no full flow/production change.
+Work: verified geometry/rule math (72 vs 120 nm resolved); path-matched control + R1-N reference + C1 y-envelope + C2 corner tab; rejected C3 pre-execution; executed 4 bounded pin_access diagnostics with provenance binary; independent review pre/post.
+Results: max legal y margin (120 nm) gave 0 APs, marker census identical to R1-N (148); spacing bboxes shifted to new OBS edges; C2 worsened markers (208). Y-envelope remedy hypothesis REFUTED; no-remedy outcome. No production/geometry change.
+Integrity: KB verify 19/19 PASS; protected 9/9; validator 13/13; R2 unchanged/inactive.
+Files: experiments/ENG011-GEOMETRY/**, docs/ENG011_*.md, ENG009_HYPOTHESIS_MATRIX.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: stop; explicit authorization required for follow-up. Lock to be released.

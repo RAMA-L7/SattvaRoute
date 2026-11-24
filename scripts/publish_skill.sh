@@ -66,6 +66,11 @@ ALLOW=(
   "docs/ENG010_FINAL_REPORT.md"
   "docs/ENG010_provenance.diff.txt"
   "docs/ENG010_provenance_sample.txt"
+  "docs/ENG011_GEOMETRY_RULE_CALCULATIONS.md"
+  "docs/ENG011_CANDIDATE_DEFINITIONS.md"
+  "docs/ENG011_DIAGNOSTIC_RESULTS.md"
+  "docs/ENG011_INDEPENDENT_REVIEW_AND_ADJUDICATION.md"
+  "docs/ENG011_FINAL_REPORT.md"
   "docs/T-SKILL-005_CHECKLIST_REVISION_REPORT.md"
   "docs/T-SKILL-005_RETROSPECTIVE_COMPARISON.md"
   "docs/T-SKILL-004_RETROSPECTIVE_VALIDATION.md"
@@ -78,6 +83,7 @@ ALLOW=(
   "logs/sessions/T-SKILL-008_S001_handoff.md"
   "logs/sessions/T-ENGINEERING-009_S001_handoff.md"
   "logs/sessions/T-ENGINEERING-010_S001_handoff.md"
+  "logs/sessions/T-ENGINEERING-011_S001_handoff.md"
 )
 
 echo "PUBLISH_ALLOW_COUNT=${#ALLOW[@]}"

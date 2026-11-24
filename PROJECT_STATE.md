@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-ENGINEERING-010 complete; ENG009-DIAG-001 executed and adjudicated; R2 remains DRAFT/INACTIVE
-- **Current status:** T-ENGINEERING-010 COMPLETE. ENG009-DIAG-001 executed in isolated scratch: log-only getSrcs instrumentation, binary `7461d0d0…`, OFF/OFF byte-identical equivalence, 107/107 marker-provenance pairs. 2 nm sliver **CONFIRMED ARTIFACT** (own-net clk metal, zero foreign-net 40/0); DRT-0073 root cause updated. Agent B ACCEPT WITH LIMITATIONS; non-blocking F1 reconciled with GDS census. KB appended KB-0019 (19 records, chain PASS). Protected artifacts 9/9, validator 13/13. No remedy, geometry change, or production modification.
-- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-010)
-- **Current active task:** none — await explicit authorization for any corrective experiment or production remedy; FDE-007 remains BLOCKED (no validated remedy)
+- **Current phase:** none — T-ENGINEERING-011 complete; targeted geometry study closed with no-remedy outcome; R2 remains DRAFT/INACTIVE
+- **Current status:** T-ENGINEERING-011 COMPLETE. Path-matched control + 3 scratch pin_access diagnostics (no full flow) executed. Maximal legal y-envelope (120 nm) produced 0 accepted APs, identical marker census to R1-N reference, and spacing markers shifted to new OBS edges; corner tab worsened markers (208). Y-envelope remedy hypothesis REFUTED; no-remedy outcome supported. Independent review ACCEPT WITH LIMITATIONS resolved control confound and rejected C3. KB verify PASS 19/19, protected 9/9, validator 13/13. No production/geometry change.
+- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-011)
+- **Current active task:** none — await explicit authorization for any further experiment or production remedy; FDE-007 remains BLOCKED (no validated remedy)
 - **Active agents:** orchestrator; Agents A/B/C completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
