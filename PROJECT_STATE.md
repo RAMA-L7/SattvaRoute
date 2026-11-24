@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-ENGINEERING-012 complete; AP generation/rejection forensics closed; R2 remains DRAFT/INACTIVE
-- **Current status:** T-ENGINEERING-012 COMPLETE. Broad-carve ODB `616e39f8…` hash-verified and 3-AP replay reproduced. 0→3 explained at predicate level: same first three AP coords generated; broad carve makes west planar DRC clean; macro needs one clean direction; sparse threshold met then generation stops. ENG011 generated all 9 but all failed `hasAccess()`; y-widening moved marker bands only. Exact blocking OBS rectangle remains shape-level UNKNOWN (instance-level provenance artifact). KB verify PASS 19/19, protected 9/9, validator 13/13. No production/binary/flow change.
-- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-012)
-- **Current active task:** none — ENG012-DIAG-002 (per-direction DRC source/rect logging) designed but NOT AUTHORIZED; await explicit approval; FDE-007 remains BLOCKED
+- **Current phase:** none — T-ENGINEERING-013 complete; westward planar blocker attributed at shape level; R2 remains DRAFT/INACTIVE
+- **Current status:** T-ENGINEERING-013 COMPLETE. Direction-aware rect/fixed logging (patch `8495405b…`, binary `db876fbf…`, neutrality PASS) confirmed westward blocker: fixed M4 master-OBS rectangle absolute `(4704,16560)-(4764,16584)`, Short/cid0/rid48; broad carve removes it and W becomes clean. Shape-level attribution independent of instance label. KB verify 19/19, protected 9/9, validator 13/13; no production/geometry/flow change.
+- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-013)
+- **Current active task:** none — no remedy/follow-up authorized; FDE-007 remains BLOCKED
 - **Active agents:** orchestrator; Agents A/B/C completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 

@@ -382,3 +382,11 @@ Result: 0→3 explained at predicate level (west planar DRC clean; macro one-dir
 Integrity: KB verify 19/19 PASS; protected 9/9; validator 13/13; no production/binary/flow change; R2 inactive.
 Files: experiments/ENG012-FORENSICS/**, docs/ENG012_*.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: stop; ENG012-DIAG-002 designed but not authorized. Lock to be released.
+
+--- SESSION START/END — T-ENGINEERING-013 blocker attribution (2026-11-24) ---
+Agent/model: orchestrator + Agents A/B/C.
+Work: log-only rect/fixed instrumentation of fde006rPairsLabel; incremental relink; neutrality check; control and broad ODB replays.
+Result: westward blocker CONFIRMED shape level — fixed M4 master OBS rect abs (4704,16560)-(4764,16584), Short cid0/rid48, checkMetalSpacing_short. Broad carve removes it; W clean 3/3, 3 APs, DRT-0073=0. Instance label unstable/not decisive. Neutrality PASS.
+Integrity: KB verify 19/19 PASS; protected 9/9; validator 13/13; no production/geometry/flow change.
+Files: experiments/ENG013-BLOCKER/**, docs/ENG013_*.md, ENG012_HYPOTHESIS_MATRIX.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: stop; no remedy or follow-up authorized. Lock to be released.

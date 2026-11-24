@@ -3,6 +3,13 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-026 — T-ENGINEERING-013 blocker attribution (2026-11-24, orchestrator)
+
+- **Inspected:** Agent A source trace, Agent B instrumented replay, Agent C blind prediction; primary logs and rect tuples.
+- **Findings:** W blocker CONFIRMED at shape level — fixed M4 master OBS rect abs `(4704,16560)-(4764,16584)`, Short/cid0/rid48; broad carve removes it. Instance-level label unstable and not relied upon. Instrumentation neutrality PASS.
+- **Conclusion:** shape-level uncertainty from ENG012 closed; no remedy/full-flow authorized; integrity PASS.
+- **Follow-up:** explicit authorization required for any corrective study.
+
 ## R-025 — T-ENGINEERING-012 AP forensics (2026-11-24, orchestrator)
 
 - **Inspected:** Agent A source trace, Agent B artifact reproduction, Agent C blind mechanism, six ODB dumps, primary logs.
