@@ -6,7 +6,7 @@
 ## R-027 — T-ENGINEERING-014 remedy feasibility decision (2026-11-24, orchestrator)
 
 - **Inspected:** Agent A feasibility, Agent B physical review, Agent C validity/reproducibility; confirmed ENG013 blocker evidence; broad-carve provenance and ENG011 refutations.
-- **Findings:** no remedy authorized. Broad carve is causal counterfactual only; west strip already freed in failed R1-N-W; no legal/sufficient geometry demonstrated. C's bounded-experiment recommendation rejected as premature; C provenance caveats recorded without editing historical reports.
+- **Findings:** no remedy authorized. Broad carve is causal counterfactual only; west strip already freed in failed R1-N-W; no legal/sufficient geometry demonstrated. C revised its earlier bounded-experiment draft to class 6 after the R1-N-W negative result; all three final recommendations concur; C provenance caveats recorded without editing historical reports.
 - **Conclusion:** VIABLE = class 6; CONDITIONAL = 1 and 5; NOT VIABLE = 2/3/4. Further diagnostic required before any experiment; no EDA/production change; integrity PASS.
 - **Follow-up:** explicit authorization required for any subsequent milestone, remedy, experiment, or implementation.
 

@@ -32,7 +32,7 @@ This is **not** a claim that no remedy can ever exist (that would overstate the 
 
 ## 4. Independent reviews
 
-Agent A (feasibility), Agent B (independent physical review), and Agent C (validity/reproducibility) were commissioned under read-only constraints. B's physical objection and C's provenance caveats were reconciled against A's class matrix in `ENG014_COORDINATOR_ADJUDICATION.md`. C's recommendation to run a bounded experiment was **partially rejected as premature**; A's and B's positions were adopted with the correction that rect/fixed provenance enrichment was already executed in ENG013-B.
+Agent A (feasibility), Agent B (independent physical review), and Agent C (validity/reproducibility) were commissioned under read-only constraints. B's physical objection and C's provenance caveats were reconciled against A's class matrix in `ENG014_COORDINATOR_ADJUDICATION.md`. **All three final recommendations concur: class 6 (no remedy / further diagnostic) is the immediate posture.** C's earlier draft had proposed a bounded west-strip experiment, but C revised it after recognizing that the exact strip was already carved under D-023 (R1-N-W) with 0 APs; the coordinator adopts the revised recommendation. A's and B's positions were adopted with the correction that rect/fixed provenance enrichment was already executed in ENG013-B.
 
 C identified two minor documentation inaccuracies and one invalid hash label in historical reports. They are recorded in `ENG014_EVIDENCE_VS_INFERENCE.md`; historical reports were preserved, not edited.
 

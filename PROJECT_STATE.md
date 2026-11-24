@@ -5,7 +5,7 @@
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
 - **Current phase:** none — T-ENGINEERING-014 complete; engineering decision issued (no remedy authorized); R2 remains DRAFT/INACTIVE
-- **Current status:** T-ENGINEERING-014 COMPLETE. Conceptual feasibility/adjudication only. Decision: NO REMEDY AUTHORIZED; further diagnostic required before any bounded remedy experiment. Broad-carve success is causal evidence only (frees 120 M4/0 + 92 M4/251 real shapes); minimal west-strip already included in failed R1-N-W; no legal/sufficient remedy demonstrated under current constraints. Agent A/B/C reviews reconciled; C's bounded-experiment recommendation rejected as premature. KB verify 19/19, protected 9/9, validator 13/13; no EDA/geometry/production/flow change.
+- **Current status:** T-ENGINEERING-014 COMPLETE. Conceptual feasibility/adjudication only. Decision: NO REMEDY AUTHORIZED; further diagnostic required before any bounded remedy experiment. Broad-carve success is causal evidence only (frees 120 M4/0 + 92 M4/251 real shapes); minimal west-strip already included in failed R1-N-W; no legal/sufficient remedy demonstrated under current constraints. Agent A/B/C reviews reconciled; all three final recommendations concur on class 6 (C revised its earlier bounded-experiment draft after the R1-N-W negative result). KB verify 19/19, protected 9/9, validator 13/13; no EDA/geometry/production/flow change.
 - **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-014)
 - **Current active task:** none — no remedy, experiment, or follow-up authorized; FDE-007 remains BLOCKED
 - **Active agents:** orchestrator; Agents A/B/C completed and released
