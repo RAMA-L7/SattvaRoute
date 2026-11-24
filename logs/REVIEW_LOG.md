@@ -3,6 +3,13 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-028 — T-ENGINEERING-015 research gate (2026-11-24, orchestrator)
+
+- **Inspected:** Agent A literature research (cited docs/PRs/issues), Agent B source trace with file:line, Agent C independent geometry assessment, local generator source.
+- **Findings:** documented OBS `SPACING 0` / `USEMINSPACING OBS` fixes target abutment/prl only (source PR #10856 early return present but inapplicable to a true overlap Short); no config knob or upstream backport; `clk` on-track (#12162 inapplicable); generator OBS hard-coded with no pin-aware config; extended-carve and generator-regeneration remain physically unproven.
+- **Conclusion:** NO-GO at research gate. No candidate, no preregistered plan invented, no experiment/fix/source/geometry/production change; integrity PASS.
+- **Follow-up:** explicit authorization required for any future work.
+
 ## R-027 — T-ENGINEERING-014 remedy feasibility decision (2026-11-24, orchestrator)
 
 - **Inspected:** Agent A feasibility, Agent B physical review, Agent C validity/reproducibility; confirmed ENG013 blocker evidence; broad-carve provenance and ENG011 refutations.

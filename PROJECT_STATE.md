@@ -4,9 +4,9 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-ENGINEERING-014 complete; engineering decision issued (no remedy authorized); R2 remains DRAFT/INACTIVE
-- **Current status:** T-ENGINEERING-014 COMPLETE. Conceptual feasibility/adjudication only. Decision: NO REMEDY AUTHORIZED; further diagnostic required before any bounded remedy experiment. Broad-carve success is causal evidence only (frees 120 M4/0 + 92 M4/251 real shapes); minimal west-strip already included in failed R1-N-W; no legal/sufficient remedy demonstrated under current constraints. Agent A/B/C reviews reconciled; all three final recommendations concur on class 6 (C revised its earlier bounded-experiment draft after the R1-N-W negative result). KB verify 19/19, protected 9/9, validator 13/13; no EDA/geometry/production/flow change.
-- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-014)
+- **Current phase:** none — T-ENGINEERING-015 complete at research gate (NO-GO); no remedy authorized; R2 remains DRAFT/INACTIVE
+- **Current status:** T-ENGINEERING-015 COMPLETE at Phase 2 gate. Research only: documented OBS SPACING / USEMINSPACING OBS fixes were refuted at source level (abutment/prl only; our failure is a true overlap Short); no config knob/upstream backport applies; clk already on-track; generator OBS is hard-coded full-body with no pin-aware config; extended-carve and generator-regeneration hypotheses remain physically unproven. NO-GO: no candidate, no experiment, no source/geometry/production change. KB verify 19/19, protected 9/9, validator 13/13.
+- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-015)
 - **Current active task:** none — no remedy, experiment, or follow-up authorized; FDE-007 remains BLOCKED
 - **Active agents:** orchestrator; Agents A/B/C completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules

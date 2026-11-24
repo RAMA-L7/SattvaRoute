@@ -2,6 +2,13 @@
 
 > Newest first. This index is advisory; `PROJECT_STATE.md` is the authoritative current snapshot.
 
+## T-ENGINEERING-015 — Evidence-driven research and gate (2026-11-24)
+- `ENG015_FINAL_REPORT.md` — authoritative outcome: NO-GO at research gate
+- `ENG015_RESEARCH_GATE.md` — gate decision and why no candidate qualified
+- `ENG015_CANDIDATE_COMPARISON.md` — candidate matrix with citations and verdicts
+- `ENG015_RESEARCH_REPORT.md` — research findings with source citations
+- `ENG015_INDEPENDENT_REVIEWS.md`, `ENG015_COORDINATOR_ADJUDICATION.md`, `ENG015_BASELINE_RECORD.md`
+
 ## T-ENGINEERING-014 — Remedy feasibility and engineering decision (2026-11-24)
 - `ENG014_FINAL_REPORT.md` — authoritative decision and authorization boundary
 - `ENG014_COORDINATOR_ADJUDICATION.md` — reconciliation of A/B/C; rejection of unsupported claims

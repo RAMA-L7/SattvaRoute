@@ -4,6 +4,7 @@
 
 | Timestamp | Agent | Task | Status | Files touched | Result | Next action |
 |---|---|---|---|---|---|---|
+| 2026-11-24 | orchestrator + Agents A/B/C | T-ENGINEERING-015 research and gate | DONE (NO-GO) | docs/ENG015_*.md, docs/REPORT_INDEX.md, PROJECT_STATE.md, coordination/**, logs/** | Research only; documented LEF fixes refuted at source; no credible candidate; no experiment/fix/production change; integrity PASS | await authorization |
 | 2026-11-24 | orchestrator + Agents A/B/C | T-ENGINEERING-014 remedy feasibility decision | DONE | docs/ENG014_*.md, docs/REPORT_INDEX.md, PROJECT_STATE.md, coordination/**, logs/** | Conceptual only; no remedy authorized; class 6 VIABLE, 1/5 CONDITIONAL, 2/3/4 NOT VIABLE; A/B/C reconciled; no EDA/production change; integrity PASS | await authorization |
 | 2026-11-18 (M0 sessions) | orchestrator | M0 audit, ORFS verify, OpenFinRAM build/run | DONE | docs/milestone0-environment-audit.md, scripts/gen_sram_macro.sh, benchmark/design/OpenFinRAM/** | macro sram_x4x4x1 GDS+LEF+LIB verified | — |
 | 2026-11-18T18:50:42+05:30 | orchestrator | T-M1-001 register + memory system | IN_PROGRESS | AGENTS.md, PROJECT_STATE.md, logs/*, coordination/* | structure created, T-M1-001 locked | macro inspection → controller RTL → netlist |

@@ -398,3 +398,11 @@ Decision: NO REMEDY AUTHORIZED; further diagnostic first; bounded remedy experim
 Integrity: KB 19/19 PASS; protected 9/9; validator 13/13; no EDA/geometry/ODB/LEF/GDS/source/config/production change.
 Files: docs/ENG014_*.md, docs/REPORT_INDEX.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: stop; no subsequent milestone/remedy/experiment/implementation without explicit authorization.
+
+--- SESSION START/END — T-ENGINEERING-015 research and gate (2026-11-24) ---
+Agent/model: orchestrator + Agents A/B/C (read-only research).
+Work: literature/GitHub/source research; independent remedy assessment; coordinator adjudication; generator inspection.
+Result: NO-GO at research gate. OBS SPACING / USEMINSPACING OBS documented fixes refuted by source (abutment/prl only, our failure is true overlap Short); no config knob/backport; clk on-track PR#12162 inapplicable; generator OBS hard-coded full-body; extended-carve/generator-regeneration physically unproven. No candidate, no experiment, no fix.
+Integrity: KB 19/19 PASS; protected 9/9; validator 13/13; no EDA/source/geometry/ODB/LEF/GDS/config/production change.
+Files: docs/ENG015_*.md, docs/REPORT_INDEX.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: stop; explicit authorization required for any further work.
