@@ -390,3 +390,11 @@ Result: westward blocker CONFIRMED shape level — fixed M4 master OBS rect abs 
 Integrity: KB verify 19/19 PASS; protected 9/9; validator 13/13; no production/geometry/flow change.
 Files: experiments/ENG013-BLOCKER/**, docs/ENG013_*.md, ENG012_HYPOTHESIS_MATRIX.md, PROJECT_STATE.md, coordination/*, logs/*.
 Next: stop; no remedy or follow-up authorized. Lock to be released.
+
+--- SESSION START/END — T-ENGINEERING-014 feasibility decision (2026-11-24) ---
+Agent/model: orchestrator + Agents A/B/C (conceptual, read-only).
+Work: remedy-class feasibility, independent physical review, validity/reproducibility review, coordinator adjudication.
+Decision: NO REMEDY AUTHORIZED; further diagnostic first; bounded remedy experiment not justified now. Class 6 VIABLE; 1/5 CONDITIONAL; 2/3/4 NOT VIABLE. Broad carve = causal counterfactual only (120 M4/0 + 92 M4/251 real shapes). Minimal west strip already freed in failed R1-N-W; no legal/sufficient remedy demonstrated. C's bounded-experiment recommendation rejected as premature; C provenance caveats recorded.
+Integrity: KB 19/19 PASS; protected 9/9; validator 13/13; no EDA/geometry/ODB/LEF/GDS/source/config/production change.
+Files: docs/ENG014_*.md, docs/REPORT_INDEX.md, PROJECT_STATE.md, coordination/*, logs/*.
+Next: stop; no subsequent milestone/remedy/experiment/implementation without explicit authorization.

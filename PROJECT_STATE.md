@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-ENGINEERING-013 complete; westward planar blocker attributed at shape level; R2 remains DRAFT/INACTIVE
-- **Current status:** T-ENGINEERING-013 COMPLETE. Direction-aware rect/fixed logging (patch `8495405b…`, binary `db876fbf…`, neutrality PASS) confirmed westward blocker: fixed M4 master-OBS rectangle absolute `(4704,16560)-(4764,16584)`, Short/cid0/rid48; broad carve removes it and W becomes clean. Shape-level attribution independent of instance label. KB verify 19/19, protected 9/9, validator 13/13; no production/geometry/flow change.
-- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-013)
-- **Current active task:** none — no remedy/follow-up authorized; FDE-007 remains BLOCKED
+- **Current phase:** none — T-ENGINEERING-014 complete; engineering decision issued (no remedy authorized); R2 remains DRAFT/INACTIVE
+- **Current status:** T-ENGINEERING-014 COMPLETE. Conceptual feasibility/adjudication only. Decision: NO REMEDY AUTHORIZED; further diagnostic required before any bounded remedy experiment. Broad-carve success is causal evidence only (frees 120 M4/0 + 92 M4/251 real shapes); minimal west-strip already included in failed R1-N-W; no legal/sufficient remedy demonstrated under current constraints. Agent A/B/C reviews reconciled; C's bounded-experiment recommendation rejected as premature. KB verify 19/19, protected 9/9, validator 13/13; no EDA/geometry/production/flow change.
+- **Last updated:** 2026-11-24 (orchestrator, T-ENGINEERING-014)
+- **Current active task:** none — no remedy, experiment, or follow-up authorized; FDE-007 remains BLOCKED
 - **Active agents:** orchestrator; Agents A/B/C completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
