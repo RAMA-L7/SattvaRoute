@@ -2,6 +2,10 @@
 
 > Newest first. This index is advisory; `PROJECT_STATE.md` is the authoritative current snapshot.
 
+## T1 — Live AI diagnosis validation (2026-11-25)
+- `T1_EXPERIMENT_REPORT.md` — provider audit, evidence package, deterministic evaluation, live BLOCKED status
+- `T1_ADJUDICATION.md` — independent reviewer findings and resolution
+
 ## T-PNR-001 — PnR orchestration implementation (2026-11-25)
 - `ARCHITECTURE.md` — current architecture and boundaries
 - `IMPLEMENTATION_GAPS.md` — verified gap list and corrections (plus incident record)

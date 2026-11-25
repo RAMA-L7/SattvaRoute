@@ -423,5 +423,11 @@ Proposal: RESTORE_MACRO_LIB, patch SHA-256 8a7178f6d1c7eb6fb8fb0d815da1e79f07d01
 Integrity: offline suites 33/30/21/5/14 PASS; manifest 28 files PASS; KB 19/19; sidecar 22/22; immutable 9/9; validator 13/13; protected originals unchanged.
 RECOVERY COMPLETED: explicit user approval of exact patch; AP-PNR-003 created/validated; patch applied via sattva_approval guard; recovered run orfs_baseline_recovered_final_20261125T152826305943439Z_27610 rc=0 over 6 approved stages, routed ODB/SPEF/final reports present, DRC 0, setup/hold/slew/fanout/cap 0. Independent review: technical recovery VERIFIED; overall PROVISIONAL only for open live-model credentials and out-of-scope external signoff. Protected tooling changes documented/adjudicated in docs/PNR_ADJUDICATION.md. Stop; no further work without authorization.
 
+--- SESSION START/END — T1 live diagnosis validation (2026-11-25) ---
+Work: read-only provider/evidence/evaluation audits; isolated advisory provider module; GT-free frozen evidence bundle; deterministic diagnosis + 12-metric rubric; 19 offline tests.
+Result: deterministic diagnosis accepted (12/12 CORRECT, hard gates clear); live provider SKIPPED_NO_CREDENTIALS (URL/key unset) -> live invocation NOT RUN, acceptance BLOCKED. No fixture/replay presented as live. No EDA, patch, approval, recovery, benchmark, RTL/SDC/macro/technology change.
+Integrity: 19 new tests PASS; existing regression suites PASS; KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
+Next: live acceptance requires real provider configuration; no further milestone/remedy without explicit authorization.
+
 --- SESSION START — T-PNR-001 (2026-11-25, implementation engineer) ---
 Agent: orchestrator/implementation engineer. Starting git state: D:\SattvaRoute_publish main ac40255 (clean, equals origin). Task: close verified controller/integrity gaps, establish compatible public macro PnR benchmark, deliver one human-gated recovery workflow. Files expected: scripts/**, tests/**, config/configs/**, app/**, docs/**, knowledge/**, coordination/**, logs/**, new isolated benchmark/runs; preserve OpenFinRAM case. Audits running read-only in parallel.

@@ -11,7 +11,8 @@ AI never controls the PnR flow directly. Python controls stage execution; OpenRO
 | Runner | `scripts/run_baseline_orfs.sh` | Collision-safe isolated run dirs; preflight; manifest check; stage loop with timeout/cancellation/job ledger; approval guard after preflight; evidence hashes; `run.json` |
 | Approval | `scripts/sattva_approval.py`, `state/approval_policy.json` | Validate/apply exact patches; approval ID, source run ID, input fingerprint, patch hash, expected original/final hash, candidate ID, profile, expiry, rerun scope; ledger reuse rejection; env-expanded paths |
 | Shared manifest | `config/sattva_manifest.json`, `scripts/manifest.py` | One authoritative dependency list for preflight, fingerprinting, resume compatibility, final evidence bundle |
-| Diagnosis | `scripts/diagnosis_agent.py` | Deterministic evidence parsing/classification; bounded exact patch proposal; optional provider-configurable model note (never fabricated) |
+| Diagnosis | `scripts/diagnosis_agent.py` | Deterministic evidence parsing/classification; bounded exact patch proposal (unverified live note path remains untouched) |
+| Live diagnosis (T1) | `scripts/live_diagnosis.py`, `scripts/evidence_package.py`, `scripts/evaluate_diagnosis.py` | Advisory-only bounded provider call, frozen GT-free evidence bundle, structured output validation, ordinal rubric; no execution/approval authority |
 | CLI | `scripts/pnr_cli.py` | baseline, failure-demo, diagnose, propose, approve-view, resume |
 | Workflow controller | `scripts/remedy_engine.py` | Stage/total clocks, transitions, terminal guards, expiry/cancellation, approval-bound execution, evidence-based verification, KB write-back |
 | KB | `scripts/sattva_kb.py` (19 records), `scripts/remedy_kb.py` (22 hashed sidecar records) | Append-only ledgers, hash chains (integrity, not immutability), locked write transactions, context-scoped refutations, reconsideration |

@@ -106,6 +106,33 @@ def cmd_diagnose(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_live_diagnose(args: argparse.Namespace) -> int:
+    """Advisory-only live model call; never applies or approves anything."""
+    import live_diagnosis as ld
+    from evaluate_diagnosis import grade
+    bundle_dir = Path(args.bundle)
+    bundle = json.loads((bundle_dir / "bundle.json").read_text(encoding="utf-8"))
+    prompt = (bundle_dir / "prompt.txt").read_text(encoding="utf-8")
+    call = ld.call_model(prompt, bundle, raw_out=args.raw_out)
+    result = {"status": "PASS" if call["status"] == "OK" else "BLOCKED",
+              "execution_kind": call["execution_kind"],
+              "provider_status": call["status"],
+              "model_id": call["model_id"], "config_sha256": call["config_sha256"],
+              "prompt_sha256": call["prompt_sha256"],
+              "bundle_sha256": call["bundle_sha256"],
+              "latency_ms": call["latency_ms"], "retries": call["retries"],
+              "token_usage": call["token_usage"], "errors": call["errors"],
+              "note": "advisory only; no patch application, approval, or execution"}
+    if args.out:
+        Path(args.out).write_text(json.dumps({"call": call}, indent=2,
+                                             sort_keys=True) + "\n", encoding="utf-8")
+    if call["status"] == "OK" and args.gt:
+        gt = json.loads(Path(args.gt).read_text(encoding="utf-8"))
+        result["evaluation"] = grade(call["parsed_output"], bundle, gt)
+    _out(result)
+    return 0 if call["status"] in ("OK", "SKIPPED_NO_CREDENTIALS") else 1
+
+
 def cmd_propose(args: argparse.Namespace) -> int:
     from diagnosis_agent import propose_patch
     diag = json.loads(Path(args.diagnosis).read_text(encoding="utf-8"))
@@ -180,6 +207,12 @@ def build_parser() -> argparse.ArgumentParser:
     d.add_argument("--run", required=True)
     d.add_argument("--out")
     d.set_defaults(func=cmd_diagnose)
+    lv = sub.add_parser("live-diagnose")
+    lv.add_argument("--bundle", required=True)
+    lv.add_argument("--gt")
+    lv.add_argument("--raw-out")
+    lv.add_argument("--out")
+    lv.set_defaults(func=cmd_live_diagnose)
     q = sub.add_parser("propose")
     q.add_argument("--diagnosis", required=True)
     q.add_argument("--target", required=True)
