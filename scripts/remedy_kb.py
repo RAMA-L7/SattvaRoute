@@ -31,13 +31,30 @@ import argparse
 import datetime as _dt
 import hashlib
 import json
+import os
 import re
 import sys
+import threading
 from pathlib import Path
 from typing import Any, Iterable
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_LEDGER = ROOT / "knowledge" / "remedy_ledger.jsonl"
+
+try:
+    from sattva_approval import ApprovalError, TargetLock
+except ImportError:  # pragma: no cover - standalone import in tests
+    TargetLock = None
+
+    class ApprovalError(Exception):
+        pass
+
+_PROCESS_LOCK = threading.Lock()
+
+REFUTATION_KINDS = (
+    "TECHNICALLY_REFUTED", "FAILED_AS_TESTED", "NOT_EXECUTED",
+    "INFRASTRUCTURE_BLOCKED", "POLICY_REJECTED", "UNKNOWN",
+)
 
 RECORD_TYPES = (
     "failure_signature", "root_cause", "tool_context", "research_source",
@@ -102,20 +119,34 @@ def validate_record(rec: dict[str, Any]) -> None:
 
 
 def append_record(ledger: str | Path, record: dict[str, Any]) -> dict[str, Any]:
+    """One locked transaction: read -> verify -> duplicate check -> append."""
     validate_record(record)
-    # Never chain onto a corrupted ledger.
-    if Path(ledger).exists() and verify(ledger)["status"] != "PASS":
-        raise RemedyKBError("ledger chain invalid; refusing append")
-    records = load_records(ledger)
-    ids = {r.get("record_id") for r in records}
-    if record["record_id"] in ids:
-        raise RemedyKBError(f"duplicate record_id: {record['record_id']}")
-    sealed = seal(record, last_hash(records))
     path = Path(ledger)
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a", encoding="utf-8") as fh:
-        fh.write(json.dumps(sealed, sort_keys=True, separators=(",", ":")) + "\n")
-    return sealed
+    path.touch()
+
+    def _write() -> dict[str, Any]:
+        if verify(path)["status"] != "PASS":
+            raise RemedyKBError("ledger chain invalid; refusing append")
+        records = load_records(path)
+        ids = {r.get("record_id") for r in records}
+        if record["record_id"] in ids:
+            raise RemedyKBError(f"duplicate record_id: {record['record_id']}")
+        sealed = seal(record, last_hash(records))
+        with path.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(sealed, sort_keys=True, separators=(",", ":")) + "\n")
+            fh.flush()
+            os.fsync(fh.fileno())
+        return sealed
+
+    with _PROCESS_LOCK:
+        if TargetLock is None:  # pragma: no cover
+            return _write()
+        try:
+            with TargetLock(path):
+                return _write()
+        except ApprovalError as exc:
+            raise RemedyKBError(f"ledger lock unavailable: {exc}") from exc
 
 
 def verify(ledger: str | Path, expected_head: str | None = None) -> dict[str, Any]:
@@ -173,23 +204,56 @@ def retrieve(ledger: str | Path, query: str,
             "matches": hits[:limit], "total": len(hits)}
 
 
-def refuted_families(ledger: str | Path, signature: str = "") -> list[str]:
-    """Return families marked refuted/failed, optionally signature-scoped."""
+def refuted_families(ledger: str | Path, signature: str = "",
+                     context: dict[str, Any] | None = None,
+                     kinds: Iterable[str] | None = None) -> list[str]:
+    """Return families refuted under the given context.
+
+    Infrastructure-blocked and not-executed results never count as technical
+    refutations unless explicitly requested via `kinds`.
+    """
     out: set[str] = set()
     q = _tokens(signature)
+    allowed = set(kinds or ("TECHNICALLY_REFUTED", "FAILED_AS_TESTED", "POLICY_REJECTED"))
+    ctx = context or {}
     for rec in load_records(ledger):
-        if rec.get("type") not in REFUTED_TYPES:
+        if rec.get("type") != "refuted_remedy":
             continue
         payload = rec.get("payload", {})
         if payload.get("outcome") not in {"FAIL", "REFUTED", "REJECTED"}:
             continue
+        kind = str(payload.get("refutation_kind", "FAILED_AS_TESTED"))
+        if kind not in allowed:
+            continue
         hay = _tokens(json.dumps(payload, sort_keys=True))
         if q and not (q & hay):
+            continue
+        rec_ctx = payload.get("context", {}) or {}
+        mismatch = False
+        for key in ("design_fingerprint", "tool_version", "geometry",
+                    "exact_modifications_digest"):
+            if rec_ctx.get(key) and ctx.get(key) and rec_ctx[key] != ctx[key]:
+                mismatch = True
+                break
+        if mismatch:
             continue
         fam = payload.get("remedy_family") or payload.get("family")
         if fam:
             out.add(str(fam))
     return sorted(out)
+
+
+def reconsider(ledger: str | Path, family: str, justification: str,
+               new_evidence_refs: Iterable[str]) -> dict[str, Any]:
+    """Record a context-change reconsideration; never deletes the old record."""
+    rid = f"RECON-{family}-{len(load_records(ledger)) + 1:04d}"
+    return append_record(ledger, {
+        "record_id": rid, "type": "engineering_conclusion",
+        "created_at": utc_now(),
+        "payload": {"reconsidered_family": family, "justification": justification,
+                    "new_evidence_refs": list(new_evidence_refs),
+                    "state": "NEEDS_CONTROLLED_VALIDATION"},
+    })
 
 
 def build_parser() -> argparse.ArgumentParser:

@@ -35,9 +35,24 @@ APPLICABILITY_SCORES = {"EXACT": 1.0, "HIGH": 0.8, "PARTIAL": 0.5,
                         "INCOMPATIBLE": 0.0, "UNKNOWN": 0.0}
 REVERSIBILITY_SCORES = {"FULL": 1.0, "PARTIAL": 0.5, "NONE": 0.0}
 LEGALITY_STATES = {"PASS", "CONDITIONAL", "FAIL", "UNKNOWN"}
-VALID_STATES = {"NOT_RUN", "RUNNING", "PASS", "FAIL", "INCONCLUSIVE"}
+VALID_STATES = {"NOT_RUN", "RUNNING", "PASS", "FAIL", "INCONCLUSIVE", "TIMEOUT"}
 REFUTED_OUTCOMES = {"FAIL", "BLOCKED", "REJECTED", "REFUTED"}
 LEGALITY_BLOCK_REASONS = {"physical legality failed", "legality unverified"}
+VALID_TRANSITIONS = {
+    "FAILURE": {"DIAGNOSIS"},
+    "DIAGNOSIS": {"RESEARCH"},
+    "RESEARCH": {"RANK"},
+    "RANK": {"SELECT"},
+    "SELECT": {"SANDBOX", "REPORT"},
+    "SANDBOX": {"VALIDATE", "REPORT"},
+    "VALIDATE": {"REPORT"},
+    "REPORT": set(),
+    "UNRESOLVED": set(),
+    "STOPPED": set(),
+}
+TERMINAL_STATES = {"FIX_VERIFIED", "CANDIDATES_EXHAUSTED", "RISK_EXCEEDS_POLICY",
+                   "UNVERIFIED_PASS", "TIME_BUDGET_EXPIRED",
+                   "BASELINE_INTEGRITY_FAIL", "UNAUTHORIZED_EXECUTION_REQUESTED"}
 FAMILY_ALIASES = {
     "M4_OBS_CORRIDOR": "HAND_OBS_CARVE",
     "NARROW_CARVE": "HAND_OBS_CARVE",
@@ -125,9 +140,12 @@ class RankedCandidate:
 
 @dataclass
 class BudgetTracker:
+    """Monotonic budgets with independent per-stage and total accounting."""
+
     budgets: dict[str, Any]
     now_fn: Callable[[], float] = time.monotonic
     started_at: float = field(init=False)
+    stage_starts: dict[str, float] = field(default_factory=dict)
     checkpoints: list[dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -136,16 +154,31 @@ class BudgetTracker:
     def budget(self, stage: str) -> float:
         return float(self.budgets["budgets_minutes"].get(stage, 0)) * 60.0
 
+    def enter_stage(self, stage: str) -> None:
+        """Start a stage clock at stage entry, independent of total elapsed."""
+        self.stage_starts[stage] = self.now_fn()
+
+    def stage_elapsed(self, stage: str) -> float:
+        start = self.stage_starts.get(stage)
+        return max(0.0, self.now_fn() - start) if start is not None else 0.0
+
     def elapsed(self) -> float:
+        """Total elapsed since controller construction."""
         return max(0.0, self.now_fn() - self.started_at)
 
     def checkpoint(self, stage: str, detail: str = "") -> dict[str, Any]:
-        elapsed, limit = self.elapsed(), self.budget(stage)
-        cp = {"stage": stage, "elapsed_s": round(elapsed, 3),
-              "budget_s": limit, "remaining_s": round(limit - elapsed, 3),
-              "expired": elapsed > limit, "detail": detail}
+        se, limit, te = self.stage_elapsed(stage), self.budget(stage), self.elapsed()
+        cp = {"stage": stage, "stage_elapsed_s": round(se, 3),
+              "total_elapsed_s": round(te, 3), "budget_s": limit,
+              "remaining_s": round(limit - se, 3), "expired": limit > 0 and se > limit,
+              "total_expired": te > self.budget("COMMON_ISSUE_TOTAL"),
+              "detail": detail}
         self.checkpoints.append(cp)
         return cp
+
+    def expired_stage(self, stage: str) -> bool:
+        limit = self.budget(stage)
+        return limit > 0 and self.stage_elapsed(stage) > limit
 
     def expired_total(self, kind: str = "COMMON_ISSUE_TOTAL") -> bool:
         return self.elapsed() > self.budget(kind)
@@ -251,28 +284,49 @@ class RemedyEngine:
         self.budgets = budgets or load_budgets()
         self.budget = BudgetTracker(self.budgets, now_fn=now_fn)
         self.execute = execute
-        self.authorized = authorized
+        self.authorized = authorized  # deprecated shim; prefer approval binding
+        self.approval: dict[str, Any] | None = None
+        self.state_path: Path | None = None
+        self.cancel_event: Any = None  # set by caller; harness must poll it
         self.result = WorkflowResult(failure_id=failure_id)
         self._candidates: list[Candidate] = []
         self._attempted: set[str] = set()
+        self._terminal = False
+        self._diagnosed = False
+        self._last_stage = "FAILURE"
 
     def _set_stop(self, condition: str, gap: str) -> None:
         if condition not in self.budgets["stop_conditions"]:
             raise WorkflowError(f"unknown stop condition: {condition}")
         self.result.stop_condition = condition
         self.result.unresolved_gap = gap
+        self._terminal = True
+
+    def _assert_active(self) -> None:
+        if self._terminal:
+            raise WorkflowError(
+                f"workflow is terminal ({self.result.stop_condition}); no further transitions")
 
     def _stage(self, name: str, detail: str = "") -> None:
         if name not in STAGES:
             raise WorkflowError(f"unknown stage: {name}")
-        self.result.stages.append(name)
+        if name not in ("REPORT", "UNRESOLVED", "STOPPED"):
+            self._assert_active()
+            allowed = VALID_TRANSITIONS.get(self._last_stage, set())
+            if name not in allowed:
+                raise WorkflowError(
+                    f"invalid transition {self._last_stage} -> {name}; allowed={sorted(allowed)}")
+        self.budget.enter_stage(name)
         cp = self.budget.checkpoint(name, detail)
-        if cp["expired"] and self.result.execution_state != "PASS":
+        self.result.stages.append(name)
+        self._last_stage = name
+        if cp["expired"] and name not in ("SANDBOX", "VALIDATE"):
             self._set_stop("TIME_BUDGET_EXPIRED",
                            f"stage {name} exceeded its {self.budget.budget(name) / 60:g} min budget")
 
     def diagnose(self, diagnosis_evidence: dict[str, Any]) -> None:
         self._stage("DIAGNOSIS", "reused existing evidence")
+        self._diagnosed = True
         self.result.evidence["diagnosis"] = diagnosis_evidence
         if not diagnosis_evidence.get("signature"):
             self._set_stop("CANDIDATES_EXHAUSTED", "missing failure signature")
@@ -331,43 +385,142 @@ class RemedyEngine:
         self._attempted.add(candidate_id)
         self.result.evidence.setdefault("attempts", []).append(
             {"candidate_id": candidate_id, "outcome": "FAIL", "reason": reason})
+        self._last_stage = "RESEARCH"  # re-enter ranking for the next attempt
         return self.rank_and_select()
 
     def skip_execution(self, reason: str) -> None:
         """Explicitly record skipped SANDBOX/VALIDATE stages (no silent omission)."""
-        self._stage("SANDBOX", "SKIPPED")
-        self._stage("VALIDATE", "SKIPPED")
+        if not self._diagnosed:
+            raise WorkflowError("cannot skip execution before diagnosis")
+        if self._terminal:
+            # A gated stop still records explicitly why execution did not happen.
+            for stage in ("SANDBOX", "VALIDATE"):
+                self.budget.enter_stage(stage)
+                self.result.stages.append(stage)
+                self.result.checkpoints.append(self.budget.checkpoint(stage, "SKIPPED"))
+            self._last_stage = "VALIDATE"
+        else:
+            self._stage("SANDBOX", "SKIPPED")
+            self._stage("VALIDATE", "SKIPPED")
         self.result.execution_state = "NOT_RUN"
         self.result.evidence["execution"] = {"state": "NOT_RUN", "skipped": True,
                                              "reason": reason}
 
+    def cancel(self, reason: str = "operator or timeout cancellation") -> None:
+        """Request cancellation; the harness must poll the event and stop work."""
+        if self.cancel_event is not None and hasattr(self.cancel_event, "set"):
+            self.cancel_event.set()
+        self.result.evidence.setdefault("cancellation", []).append(reason)
+        if self.result.execution_state in ("RUNNING", "NOT_RUN"):
+            self.result.execution_state = "TIMEOUT"
+        self._set_stop("TIME_BUDGET_EXPIRED", reason)
+
+    def save_state(self) -> dict[str, Any]:
+        """Persist pre-execution state so interruption can be reconciled."""
+        if self.state_path is None:
+            return {"status": "SKIPPED", "reason": "no state_path configured"}
+        snap = {"failure_id": self.failure_id, "stages": self.result.stages,
+                "selection": self.result.selection,
+                "attempted": sorted(self._attempted),
+                "phase": "started" if self.result.execution_state == "RUNNING" else "idle",
+                "stop_condition": self.result.stop_condition,
+                "ledger_head": self.result.evidence.get("ledger_head")}
+        self.state_path.parent.mkdir(parents=True, exist_ok=True)
+        self.state_path.write_text(json.dumps(snap, indent=2, sort_keys=True) + "\n",
+                                   encoding="utf-8")
+        return {"status": "PASS", "path": str(self.state_path), "phase": snap["phase"]}
+
+    def load_state(self, state_path: str | Path) -> dict[str, Any]:
+        """Reconcile an interrupted state without implicitly re-running EDA."""
+        p = Path(state_path)
+        if not p.is_file():
+            return {"status": "PASS", "state": None}
+        state = json.loads(p.read_text(encoding="utf-8"))
+        if state.get("phase") == "started":
+            self._set_stop("BASELINE_INTEGRITY_FAIL",
+                           "interrupted execution state requires operator reconciliation")
+        else:
+            self.result.stages = list(state.get("stages", []))
+            self.result.selection = state.get("selection")
+            self._attempted = set(state.get("attempted", []))
+        return {"status": "PASS", "state": state}
+
+    def _assert_can_execute(self, candidate: Candidate) -> None:
+        self._assert_active()
+        if not self._diagnosed:
+            raise WorkflowError("execution before diagnosis is forbidden")
+        if self.result.selection is None or candidate.candidate_id != self.result.selection:
+            raise WorkflowError(
+                f"candidate {candidate.candidate_id} is not the selected candidate "
+                f"({self.result.selection})")
+        if candidate.candidate_id in self._attempted:
+            raise WorkflowError(
+                f"candidate {candidate.candidate_id} already attempted; new attempt required")
+        if self.budget.expired_total() or self.budget.expired_stage("SANDBOX"):
+            self._set_stop("TIME_BUDGET_EXPIRED", "budget expired before execution")
+            raise WorkflowError("execution blocked: time budget expired")
+        if self.execute is not None and self.approval is None and not self.authorized:
+            self._set_stop("UNAUTHORIZED_EXECUTION_REQUESTED",
+                           "execution requires an approved operation or explicit legacy shim")
+            raise WorkflowError("execution not authorized")
+
+    def _verify_evidence(self, candidate: Candidate, outcome: dict[str, Any]) -> dict[str, Any]:
+        """Evidence bar: callback flags alone never prove a verified recovery."""
+        ev = outcome.get("evidence")
+        if not isinstance(ev, dict):
+            return {"verified": False, "reason": "missing evidence object"}
+        required = ("artifacts", "metrics", "reviewer", "baseline_ref", "treatment_ref",
+                    "checksums")
+        missing = [k for k in required if not ev.get(k)]
+        if missing:
+            return {"verified": False, "reason": f"evidence missing: {missing}"}
+        if outcome.get("state") != "PASS":
+            return {"verified": False, "reason": "worker outcome is not PASS"}
+        return {"verified": True, "reason": "artifacts, metrics, checksums and reviewer recorded"}
+
     def sandbox_and_validate(self, candidate: Candidate) -> dict[str, Any]:
+        self._assert_can_execute(candidate)
         if self.execute is None:
             return self.skip_execution(
                 "no approved execution harness supplied; engine never executes EDA implicitly")
-        if not self.authorized:
-            self._set_stop("UNAUTHORIZED_EXECUTION_REQUESTED",
-                           "execution harness supplied without explicit authorization")
-            self.result.execution_state = "NOT_RUN"
-            self.result.evidence["execution"] = {"state": "NOT_RUN", "reason": "unauthorized"}
-            return self.result.evidence["execution"]
+        if self.approval is not None:
+            from sattva_approval import ApprovalError, validate_approval
+            policy = self.approval.get("policy")
+            if policy is None:
+                raise WorkflowError("approval binding requires a policy")
+            try:
+                check = validate_approval(
+                    self.approval["record"], Path(self.approval["patch"]), Path(policy),
+                    Path(self.approval["design_root"]),
+                    run_id=self.approval["source_run_id"],
+                    decision_id=self.approval.get("decision_id"))
+            except (ApprovalError, KeyError, TypeError) as exc:
+                self._set_stop("UNAUTHORIZED_EXECUTION_REQUESTED", f"approval binding failed: {exc}")
+                raise WorkflowError(f"approval binding failed: {exc}") from exc
+            self.result.evidence["approval"] = check
         self._stage("SANDBOX", candidate.candidate_id)
-        self._stage("VALIDATE", candidate.candidate_id)
+        self._attempted.add(candidate.candidate_id)
+        self.result.execution_state = "RUNNING"
+        self.save_state()
         outcome = self.execute(candidate)
         state = str(outcome.get("state", "INCONCLUSIVE"))
         if state not in VALID_STATES:
             raise WorkflowError("invalid execution state returned")
         self.result.execution_state = state
         self.result.evidence["execution"] = outcome
+        self.save_state()
+        if state == "TIMEOUT":
+            self._set_stop("TIME_BUDGET_EXPIRED", "worker timeout; evidence preserved")
+            return outcome
         if state == "PASS":
-            if outcome.get("verified") is True and outcome.get("independent_review") == "PASS":
+            verdict = self._verify_evidence(candidate, outcome)
+            self.result.evidence["verification"] = verdict
+            if verdict["verified"]:
                 self._set_stop("FIX_VERIFIED",
-                               f"{candidate.candidate_id}: measured improvement, "
-                               "collateral checks and independent review recorded")
+                               f"{candidate.candidate_id}: {verdict['reason']}")
             else:
                 self._set_stop("UNVERIFIED_PASS",
-                               f"{candidate.candidate_id}: PASS lacks verified evidence "
-                               "and independent review; not a fix")
+                               f"{candidate.candidate_id}: {verdict['reason']}")
         return outcome
 
     def report_kb(self, ledger: str | Path, record_id: str) -> dict[str, Any]:
@@ -393,22 +546,33 @@ class RemedyEngine:
                 "record_hash": sealed["record_hash"]}
 
     def report(self) -> dict[str, Any]:
-        """REPORT stage: always emits a usable, internally consistent result."""
+        """REPORT stage: separate execution outcome from reporting outcome.
+
+        A measured PASS is never erased because report formatting exceeded a
+        budget. The report instead flags the timing condition explicitly.
+        """
         self._stage("REPORT", self.result.stop_condition)
         self.result.checkpoints = self.budget.checkpoints
-        if self.budget.expired_total():
-            if self.result.execution_state == "PASS":
-                self.result.execution_state = "INCONCLUSIVE"
-                self.result.evidence["timeout_neutralised_pass"] = True
+        execution_outcome = self.result.execution_state
+        if self.budget.expired_total() and not self._terminal:
             self._set_stop("TIME_BUDGET_EXPIRED",
                            "time budget expired before a verified fix; "
                            "see checkpoints for the stage that consumed it")
-        if self.result.execution_state == "PASS" and self.result.stop_condition not in (
+        if execution_outcome == "PASS" and self.result.stop_condition not in (
                 "FIX_VERIFIED", "UNVERIFIED_PASS"):
             self._set_stop("UNVERIFIED_PASS", "PASS recorded without verified evidence")
+        if self.budget.expired_total() and execution_outcome == "PASS":
+            self.result.evidence["report_verdict"] = "EXPIRED_AFTER_MEASUREMENT"
+            self.result.evidence["execution_outcome_preserved"] = execution_outcome
         if self.result.stop_condition == "CANDIDATES_EXHAUSTED" and not self.result.unresolved_gap:
             self.result.unresolved_gap = "no qualified candidate remained"
-        return self.result.to_dict()
+        out = self.result.to_dict()
+        out["execution_outcome"] = execution_outcome
+        out["report_outcome"] = self.result.stop_condition
+        out["timing"] = {"total_elapsed_s": round(self.budget.elapsed(), 3),
+                         "total_budget_s": self.budget.budget("COMMON_ISSUE_TOTAL"),
+                         "expired": self.budget.expired_total()}
+        return out
 
 
 def build_parser() -> argparse.ArgumentParser:

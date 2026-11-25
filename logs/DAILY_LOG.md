@@ -414,3 +414,14 @@ Result: DRT-0073 demo eliminates 8/10 refuted families, gates top candidate C-GE
 Integrity: new tests 24/24 PASS; KB 19/19; sidecar 22/22; immutable 9/9; validator 13/13; D-028 recorded.
 Files: docs/WF_*.md, scripts/remedy_*.py, scripts/run_remedy_demo.py, config/remedy_budgets.json, knowledge/remedy_*.*, tests/test_remedy_*.py, PROJECT_STATE.md, coordination/*, logs/*.
 Next: stop; no further milestone/implementation/remedy without explicit authorization.
+
+--- SESSION END — T-PNR-001 (2026-11-25, implementation engineer) ---
+Work: read-only audit; hardened runner/approval/controller/KB; shared manifest; CLI + diagnosis interface; compatible Nangate45 hard-macro control benchmark; real baseline run; controlled config failure; deterministic diagnosis and exact patch proposal.
+Baseline: runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464 rc=0, route/SPEF/final reports present, DRC 0, setup/hold 0.
+Failure: experiments/PNR-RECOVERY/missing_macro_lib_20261125T145821Z (attempt-local config) rc=2 at synth.
+Proposal: RESTORE_MACRO_LIB, patch SHA-256 8a7178f6d1c7eb6fb8fb0d815da1e79f07d01f47441d986c40cc2c0abba419cc, PENDING_HUMAN.
+Integrity: offline suites 33/30/21/5/14 PASS; manifest 28 files PASS; KB 19/19; sidecar 22/22; immutable 9/9; validator 13/13; protected originals unchanged.
+Open: live model credentials; approved recovery rerun; external signoff out of scope. Stop at recovery gate; no patch applied.
+
+--- SESSION START — T-PNR-001 (2026-11-25, implementation engineer) ---
+Agent: orchestrator/implementation engineer. Starting git state: D:\SattvaRoute_publish main ac40255 (clean, equals origin). Task: close verified controller/integrity gaps, establish compatible public macro PnR benchmark, deliver one human-gated recovery workflow. Files expected: scripts/**, tests/**, config/configs/**, app/**, docs/**, knowledge/**, coordination/**, logs/**, new isolated benchmark/runs; preserve OpenFinRAM case. Audits running read-only in parallel.

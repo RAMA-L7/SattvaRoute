@@ -3,6 +3,13 @@
 > What was inspected · problems · risks · decisions · validation · reviewer conclusion · follow-up.
 > Newest entry first.
 
+## R-030 — T-PNR-001 implementation + recovery gate (2026-11-25, implementation engineer)
+
+- **Inspected:** three read-only audits (runner/approval, controller/KB, benchmark/environment); all changed code; five real EDA attempts; baseline/failure artifacts; exact patch proposal.
+- **Findings:** 20 verified gaps corrected; control baseline rc=0 with routed ODB, SPEF, clean DRC/timing reports; controlled failure rc=2 from attempt-local config; deterministic diagnosis and exact patch pending. Live model unavailable and explicitly labelled. One execution-mirror transcript overwrite restored immediately; no original/protected artifact changed.
+- **Conclusion:** implementation and baseline acceptance satisfied; recovery remains PENDING human approval; no fix applied.
+- **Follow-up:** explicit approval of exact patch `RESTORE_MACRO_LIB` required before rerun/verification.
+
 ## R-029 — T-WORKFLOW-001 remedy-first workflow (2026-11-24, orchestrator)
 
 - **Inspected:** four role audits (R/S/P/V), controller and KB sidecar implementation, 24 tests, DRT-0073 demo artifact, two post-implementation reviewer reports.

@@ -4,11 +4,11 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T-WORKFLOW-001 complete; remedy-first workflow implemented and tested; no remedy authorized; R2 remains DRAFT/INACTIVE
-- **Current status:** T-WORKFLOW-001 COMPLETE. Added `scripts/remedy_engine.py` (state machine, deterministic ranking, refutation auto-elimination, time budgets, legality gate, KB write-back) and `scripts/remedy_kb.py` (22-record hashed append-only sidecar extending KB). DRT-0073 demonstration reuses ENG009–ENG015 evidence, eliminates 8/10 refuted families, stops at `RISK_EXCEEDS_POLICY` with actionable prerequisites; no EDA, no fix claimed. 24/24 new tests PASS; KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
-- **Last updated:** 2026-11-24 (orchestrator, T-WORKFLOW-001)
-- **Current active task:** none — no remedy, experiment, or follow-up authorized; FDE-007 remains BLOCKED; DRT-0073 remains unresolved (ENG015 NO-GO)
-- **Active agents:** orchestrator; four role agents + two independent reviewers completed and released
+- **Current phase:** T-PNR-001 at recovery approval gate — implementation + baseline complete; no recovery patch applied; R2 remains DRAFT/INACTIVE
+- **Current status:** T-PNR-001. Hardened runner/approval/controller/KB; added shared manifest, diagnosis interface, CLI, and Nangate45 hard-macro control benchmark. Baseline `orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464` rc=0 through route/extraction/final timing with 0 DRC and 0 setup/hold violations. Controlled failure under `experiments/PNR-RECOVERY/missing_macro_lib_20261125T145821Z/` rc=2 at synth; exact patch proposal PENDING. OpenFinRAM DRT-0073 preserved unresolved; no production change. KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
+- **Last updated:** 2026-11-25 (implementation engineer, T-PNR-001)
+- **Current active task:** await explicit human approval of exact recovery patch `RESTORE_MACRO_LIB` (SHA-256 `8a7178f6…`)
+- **Active agents:** implementation engineer; three read-only audit agents completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
 ## Completed milestones

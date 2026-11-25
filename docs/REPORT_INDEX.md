@@ -2,6 +2,15 @@
 
 > Newest first. This index is advisory; `PROJECT_STATE.md` is the authoritative current snapshot.
 
+## T-PNR-001 — PnR orchestration implementation (2026-11-25)
+- `ARCHITECTURE.md` — current architecture and boundaries
+- `IMPLEMENTATION_GAPS.md` — verified gap list and corrections (plus incident record)
+- `CONTROL_BENCHMARK_SELECTION.md`, `BENCHMARK_PREPARATION.md`
+- `BASELINE_ACCEPTANCE_CRITERIA.md` — frozen before treatment
+- `RECOVERY_WORKFLOW.md` — commands and human approval gate
+- `PIPELINE_TEST_RESULTS.md` — tests actually run
+- `PNR_FINAL_REPORT.md` — outcome and open acceptance items
+
 ## T-WORKFLOW-001 — Remedy-first workflow redesign (2026-11-24)
 - `WF_FINAL_REPORT.md` — authoritative outcome and stop boundary
 - `WF_ARCHITECTURE_AUDIT.md`, `WF_REMEDY_FIRST_WORKFLOW.md`, `WF_AGENT_RESPONSIBILITIES.md`

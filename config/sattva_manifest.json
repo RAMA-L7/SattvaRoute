@@ -1,0 +1,71 @@
+{
+  "manifest_id": "SATTVA-MANIFEST-001",
+  "version": 1,
+  "description": "Authoritative dependency manifest shared by runner preflight, input fingerprinting, approval validation, resume compatibility and evidence bundles. Paths are project-root relative; machine paths are resolved from SATTVA_ROOT.",
+  "project_root_env": "SATTVA_ROOT",
+  "orfs": {
+    "revision": "25b6429c1644a8682852646bebf19ff164402c76",
+    "root_env": "SATTVA_MIRROR",
+    "root_default": "tools/OpenROAD-flow-scripts"
+  },
+  "tools": {
+    "openroad_env": "OPENROAD_EXE",
+    "openroad_default": "/usr/local/bin/openroad",
+    "yosys_env": "YOSYS_EXE",
+    "yosys_default": "/usr/bin/yosys",
+    "klayout_env": "KLAYOUT_CMD",
+    "klayout_default": "/mnt/d/tools/KLayout/bin/klayout.sh"
+  },
+  "designs": {
+    "control_benchmark_nangate": {
+      "path": "benchmark/design/nangate_macro_control",
+      "config": "config.mk",
+      "sdc": "constraint.sdc",
+      "rtl_top": "rtl/sattva_macro_top.v",
+      "rtl_blackbox": "rtl/fakeram45_64x32_bb.v",
+      "netlist": "netlist/sattva_macro_top_synth.v",
+      "provenance": "netlist/synth_provenance.txt",
+      "source": "Nangate45 platform fakeram45_64x32 at ORFS 25b6429"
+    },
+    "unresolved_regression": {
+      "path": "benchmark/design/sattva_sram",
+      "config": "config.mk",
+      "sdc": "constraint.sdc",
+      "pdn": "pdn_sattva.tcl",
+      "macro_placement": "macro_placement.tcl",
+      "netlist": "netlist/sattva_ctrl_synth.v",
+      "macro_lef": "macro/sram_x4x4x1.lef",
+      "macro_lib": "macro/sram_x4x4x1.lib",
+      "macro_gds": "macro/sram_x4x4x1.gds",
+      "status": "UNRESOLVED_DRT0073_PRESERVED"
+    },
+    "control_benchmark": {
+      "path": "benchmark/design/riscv32i_sattva",
+      "config": "config.mk",
+      "source": "upstream asap7/riscv32i at ORFS 25b6429",
+      "status": "FEASIBILITY_FAILED_YOSYS_ASAP7",
+      "note": "macro views are supplied by the pinned ASAP7 platform, listed under flow_files"
+    }
+  },
+  "flow_files": [
+    "tools/OpenROAD-flow-scripts/flow/Makefile",
+    "tools/OpenROAD-flow-scripts/flow/scripts/global_route.tcl",
+    "tools/OpenROAD-flow-scripts/flow/scripts/synth_preamble.tcl",
+    "tools/OpenROAD-flow-scripts/flow/scripts/synth_stdcells.tcl",
+    "tools/OpenROAD-flow-scripts/flow/scripts/final_outputs.tcl",
+    "tools/OpenROAD-flow-scripts/flow/platforms/asap7/config.mk",
+    "tools/OpenROAD-flow-scripts/flow/platforms/asap7/rcx_patterns.rules",
+    "tools/OpenROAD-flow-scripts/flow/platforms/asap7/lef/fakeram7_256x32.lef",
+    "tools/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/fakeram7_256x32.lib",
+    "tools/OpenROAD-flow-scripts/flow/platforms/asap7/verilog/fakeram7_256x32.v"
+  ],
+  "policy": "state/approval_policy.json",
+  "approval_tool": "scripts/sattva_approval.py",
+  "runner": "scripts/run_baseline_orfs.sh",
+  "recovery": {
+    "controller": "scripts/remedy_engine.py",
+    "kb": "scripts/remedy_kb.py",
+    "budgets": "config/remedy_budgets.json",
+    "cli": "scripts/pnr_cli.py"
+  }
+}

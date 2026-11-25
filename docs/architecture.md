@@ -1,59 +1,38 @@
-# Implemented architecture
+# SattvaRoute — Current Architecture (T-PNR-001)
 
-This document describes what exists in this release. Empty placeholder directories are identified as such.
+## Control boundary
 
-## 1. Stage runner (implemented)
+AI never controls the PnR flow directly. Python controls stage execution; OpenROAD executes; parsers extract evidence; the diagnosis interface classifies/proposes; an approval service authorizes; deterministic code applies approved patches and resumes. Engineering PASS is a report-level verdict, never a return code.
 
-`scripts/run_baseline_orfs.sh` is the workflow controller:
+## Components (verified present)
 
-- generates a nanosecond UTC stamp + PID and atomically creates `runs/orfs_baseline_<stamp>_<pid>/` (collision-safe);
-- runs required preflight checks and **blocks execution** if any required tool/input is missing; KLayout is optional/warned;
-- records `preflight.txt`, machine-readable `preflight.json`, and the exact `mirror.patch` diff; hashes inputs, the executed binaries, the runner and the patched `global_route.tcl`;
-- executes the fixed stage sequence `check-yosys → check-openroad → synth → floorplan → place → cts → route → finish`;
-- captures each stage's stdout/stderr into `evidence/stage_<stage>.log`;
-- stops at the first non-zero stage exit code and records `stages.txt`, `stages.tsv`, machine-readable `run.json`, and `postflight.txt`; hashes all produced artifacts/reports;
-- exits with the failed stage's return code (or 1 for preflight failure), so schedulers can trust `$?`;
-- never overwrites a previous run. Paths are parameterised via `SATTVA_*` / `OPENROAD_EXE` / `YOSYS_EXE` environment variables.
+| Layer | File | Role |
+|---|---|---|
+| Runner | `scripts/run_baseline_orfs.sh` | Collision-safe isolated run dirs; preflight; manifest check; stage loop with timeout/cancellation/job ledger; approval guard after preflight; evidence hashes; `run.json` |
+| Approval | `scripts/sattva_approval.py`, `state/approval_policy.json` | Validate/apply exact patches; approval ID, source run ID, input fingerprint, patch hash, expected original/final hash, candidate ID, profile, expiry, rerun scope; ledger reuse rejection; env-expanded paths |
+| Shared manifest | `config/sattva_manifest.json`, `scripts/manifest.py` | One authoritative dependency list for preflight, fingerprinting, resume compatibility, final evidence bundle |
+| Diagnosis | `scripts/diagnosis_agent.py` | Deterministic evidence parsing/classification; bounded exact patch proposal; optional provider-configurable model note (never fabricated) |
+| CLI | `scripts/pnr_cli.py` | baseline, failure-demo, diagnose, propose, approve-view, resume |
+| Workflow controller | `scripts/remedy_engine.py` | Stage/total clocks, transitions, terminal guards, expiry/cancellation, approval-bound execution, evidence-based verification, KB write-back |
+| KB | `scripts/sattva_kb.py` (19 records), `scripts/remedy_kb.py` (22 hashed sidecar records) | Append-only ledgers, hash chains (integrity, not immutability), locked write transactions, context-scoped refutations, reconsideration |
+| Budgets | `config/remedy_budgets.json` | Configurable stage/total budgets, weights, thresholds, stop conditions |
+| Tests | `tests/test_*.py`, `tests/test_runner.sh` | Offline unit/integration suites |
 
-Each stage delegates to ORFS `make`, which invokes a single OpenROAD process with the stage Tcl script. The fail-fast rule is execution control, not evidence of engineering success.
+## Separation of concerns (required by the task)
 
-## 2. EDA execution and adapters (implemented)
+- **Execution status:** stage RC, jobs.jsonl, timeout/cancellation records, run directory.
+- **Engineering verdict:** report-level review of artifacts/metrics/violations; `NOT EVALUATED` until review.
+- **Approval status:** PENDING until exact human approval; enforced by `sattva_approval.py`.
+- **Evidence completeness:** preflight/manifest hashes, artifact_sha256.txt, source-run identity, proposal/diagnosis refs.
+- **Recovery outcome:** baseline vs failed attempt vs recovered attempt comparison.
 
-- OpenROAD (`bazel-nostamp`) performs synthesis handoff, floorplan, placement, CTS, global routing and detailed routing.
-- The ASAP7 platform provides technology, libraries and the baseline PDN strategy.
-- Design-local adapters: `config.mk`, `constraint.sdc`, `pdn_sattva.tcl`, `macro_placement.tcl`.
+## UI
 
-## 3. Evidence collection (implemented)
+`app/backend`, `app/frontend`, `app/worker` are placeholders (empty). The usable entry point for this milestone is the CLI (`scripts/pnr_cli.py`); no decorative web UI or broad dashboard work was added.
 
-Per run:
+## Boundaries
 
-```
-runs/<id>/evidence/   preflight.txt/json, mirror.patch, stages.txt/tsv, run.json,
-                      stage_*.log, artifact_sha256.txt (all produced files)
-runs/<id>/work/       ORFS results/logs/databases scoped by per-run WORK_HOME
-```
-
-Immutable baseline: `orfs_baseline_20261118T152845Z` (6/7 stages pass, route rc=2 DRT-0305) is never modified. Full run directories are kept locally; this repository publishes curated summaries only.
-
-## 4. Diagnosis layer (implemented as a documented process)
-
-Investigations are performed by independent agents with disjoint read-only scopes. Each agent cites verbatim logs, exact ODB state, and installed tool source lines. Reports live in `docs/investigations/`. The orchestrator integrates and adjudicates; agents do not edit project-wide state.
-
-## 5. Approval service (implemented and offline-verified — FDE-002)
-
-`scripts/sattva_approval.py` is a standard-library-only deterministic boundary:
-
-- durable approval JSON binds approval ID, decision ID, source run ID, input fingerprint, exact patch SHA-256, target file + expected original hash, earliest affected stage, contiguous rerun scope, approver, `APPROVED`/`REJECTED`, timestamp and optional note;
-- `validate` rejects missing/rejected/malformed records, unknown or altered patches, fingerprint/run/decision/scope/original-hash mismatches, and stale/reused approvals via an append-only JSONL ledger;
-- `apply` accepts only targets inside `state/approval_policy.json`'s explicit `allowed_roots`, rejects traversal and symlinks, applies a strict single-target unified diff atomically, preserves a backup, writes before/after hashes and rollback evidence, and refuses concurrent modification via an exclusive lock;
-- the runner calls `guard` before any patch application and again immediately before the affected stage(s); when an approval gate is configured it runs **only** the declared rerun scope after checking the source run's evidence-based input artifacts.
-
-D-013 (failed) and D-014 (applied, partial) remain recorded in `docs/decisions/`. No real approval for a real patch was fabricated during FDE-002; all tests use temporary files.
-
-## 6. Persistent run state (implemented, file-based + JSON)
-
-`PROJECT_STATE.md`, `coordination/*`, `logs/*`, plus machine-readable per-run `evidence/preflight.json`, `evidence/run.json`, `evidence/approval_guard.json`, `evidence/approval_apply.json`, and the approval ledger under `state/`.
-
-## 7. Not implemented in this release
-
-`app/`, `configs/`, `artifacts/` and `experiments/` are empty placeholders in the local project. There is no backend, worker, persistent database service, or dashboard in this publication. `tests/` now contains two **offline** suites (`test_runner.sh`, `test_approval.py`) — these are not an EDA integration suite; no real flow run is executed by them.
+- OpenFinRAM/SattvaRoute macro case stays unresolved (DRT-0073) as a regression/research case.
+- R2 experiment checklist remains DRAFT/INACTIVE.
+- GDS export and external DRC/LVS signoff are outside scope.
+- Local CLI approval is single-user only; no enterprise identity verification is implied.
