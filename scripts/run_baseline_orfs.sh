@@ -59,6 +59,8 @@ SOURCE_RUN=${SATTVA_SOURCE_RUN:-}
 SOURCE_RUN_ID=${SATTVA_SOURCE_RUN_ID:-}
 DECISION_ID=${SATTVA_DECISION_ID:-}
 APPROVAL_ACTIVE=0
+JOB_TIMEOUT_SECS=${SATTVA_JOB_TIMEOUT_SECS:-0}
+RESULTS_ROOT=${SATTVA_RESULTS_ROOT:-$SOURCE_RUN/work/results/asap7/sattva_sram/base}
 STAGES=(check-yosys check-openroad synth floorplan place cts route finish)
 
 if [ -n "$APPROVAL$PATCH_FILE$POLICY$SOURCE_RUN$SOURCE_RUN_ID$DECISION_ID" ]; then
@@ -70,10 +72,8 @@ if [ -n "$APPROVAL$PATCH_FILE$POLICY$SOURCE_RUN$SOURCE_RUN_ID$DECISION_ID" ]; th
       exit 1
     fi
   done
-  python3 "$APPROVAL_TOOL" guard \
-    --approval "$APPROVAL" --patch "$PATCH_FILE" --policy "$POLICY" \
-    --design-root "$DESIGN" --run-id "$SOURCE_RUN_ID" \
-    --decision-id "$DECISION_ID" --evidence-dir "$EV" || exit 1
+  # Guard is applied AFTER preflight (see below) so a failed preflight never
+  # touches the execution mirror. Only completeness is checked here.
   APPROVAL_ACTIVE=1
 fi
 
@@ -105,14 +105,24 @@ check_cmd() {
 check_dir  mirror_flow            "$FLOW"                                  required
 check_file mirror_makefile        "$FLOW/Makefile"                         required
 check_file patched_flow_script    "$MIRROR/flow/scripts/global_route.tcl"   required
+DESIGN_PROFILE=${SATTVA_DESIGN_PROFILE:-sattva_sram}
 check_file design_config          "$CFG"                                   required
-check_file constraint             "$DESIGN/constraint.sdc"                 required
-check_file pdn                    "$DESIGN/pdn_sattva.tcl"                  required
-check_file netlist                "$DESIGN/netlist/sattva_ctrl_synth.v"     required
-check_file rtl_controller         "$DESIGN/rtl/sattva_ctrl.v"               required
-check_file macro_lef              "$DESIGN/macro/sram_x4x4x1.lef"           required
-check_file macro_lib              "$DESIGN/macro/sram_x4x4x1.lib"           required
-check_file macro_gds              "$DESIGN/macro/sram_x4x4x1.gds"           optional
+if [ "$DESIGN_PROFILE" = "sattva_sram" ]; then
+  check_file constraint           "$DESIGN/constraint.sdc"                 required
+  check_file pdn                  "$DESIGN/pdn_sattva.tcl"                  required
+  check_file netlist              "$DESIGN/netlist/sattva_ctrl_synth.v"     required
+  check_file rtl_controller       "$DESIGN/rtl/sattva_ctrl.v"               required
+  check_file macro_lef            "$DESIGN/macro/sram_x4x4x1.lef"           required
+  check_file macro_lib            "$DESIGN/macro/sram_x4x4x1.lib"           required
+  check_file macro_gds            "$DESIGN/macro/sram_x4x4x1.gds"           optional
+else
+  # Upstream-style config: all collateral lives in the pinned ORFS tree and
+  # is fingerprinted by the shared manifest.
+  check_dir upstream_rtl          "$FLOW/designs/src/riscv32i"              required
+  check_file upstream_sdc         "$FLOW/designs/asap7/riscv32i/constraint.sdc" required
+  check_file platform_macro_lef   "$FLOW/platforms/asap7/lef/fakeram7_256x32.lef" required
+  check_file platform_macro_lib   "$FLOW/platforms/asap7/lib/NLDM/fakeram7_256x32.lib" required
+fi
 check_cmd  openroad               "$OPENROAD_EXE"                           required
 check_cmd  yosys                  "$YOSYS_EXE"                              required
 check_cmd  make                   "$(command -v make || echo /nonexistent)" required
@@ -153,10 +163,21 @@ check_cmd  klayout                "$(command -v klayout || echo /nonexistent)" o
 git -C "$MIRROR" diff --binary > "$EV/mirror.patch" 2>/dev/null || true
 MIRROR_SHA=$(sha256sum "$MIRROR/flow/scripts/global_route.tcl" 2>/dev/null | awk '{print $1}')
 RUNNER_SHA=$(sha256sum "$0" | awk '{print $1}')
+MANIFEST=${SATTVA_MANIFEST:-$ROOT/config/sattva_manifest.json}
+MANIFEST_SHA=$(sha256sum "$MANIFEST" 2>/dev/null | awk '{print $1}')
+if [ -f "$MANIFEST" ] && [ "${SATTVA_MANIFEST_CHECK:-1}" != "0" ]; then
+  if ! python3 "$SCRIPT_DIR/manifest.py" --manifest "$MANIFEST" --check \
+      > "$EV/manifest.json" 2>&1; then
+    required_fail=1
+    echo "MANIFEST CHECK FAILED; see $EV/manifest.json" >> "$EV/preflight.txt"
+  fi
+else
+  echo '{"status":"SKIPPED","reason":"manifest absent or check disabled"}' > "$EV/manifest.json"
+fi
 
-python3 - "$CHECKS" "$EV/preflight.json" "$ID" "$MIRROR_SHA" "$RUNNER_SHA" "$required_fail" <<'PY'
+python3 - "$CHECKS" "$EV/preflight.json" "$ID" "$MIRROR_SHA" "$RUNNER_SHA" "$required_fail" "$MANIFEST_SHA" <<'PY'
 import json, sys
-checks_path, out, run_id, mirror_sha, runner_sha, fail = sys.argv[1:7]
+checks_path, out, run_id, mirror_sha, runner_sha, fail, manifest_sha = sys.argv[1:8]
 checks = []
 with open(checks_path) as fh:
     for line in fh:
@@ -165,7 +186,7 @@ with open(checks_path) as fh:
             checks.append(dict(name=parts[0], status=parts[1], required=parts[2], path=parts[3]))
 doc = dict(run_id=run_id, required_ok=(fail == "0"), checks=checks,
            mirror_global_route_sha256=mirror_sha, runner_sha256=runner_sha,
-           first_failed_stage=None)
+           manifest_sha256=manifest_sha, first_failed_stage=None)
 with open(out, "w") as fh:
     json.dump(doc, fh, indent=2)
     fh.write("\n")
@@ -177,10 +198,29 @@ if [ "$required_fail" -ne 0 ]; then
   exit 1
 fi
 
+# Patch application only now: preflight has passed, so no stage-less mirror edit.
+if [ "$APPROVAL_ACTIVE" -eq 1 ]; then
+  python3 "$APPROVAL_TOOL" guard \
+    --approval "$APPROVAL" --patch "$PATCH_FILE" --policy "$POLICY" \
+    --design-root "$DESIGN" --run-id "$SOURCE_RUN_ID" \
+    --decision-id "$DECISION_ID" --evidence-dir "$EV" || exit 1
+fi
+
 # ------------- rerun scope enforcement + second revalidation ------------------
 if [ "$APPROVAL_ACTIVE" -eq 1 ]; then
+  # Verify SOURCE_RUN really is the run named by the approval.
+  if [ -f "$SOURCE_RUN/evidence/run.json" ]; then
+    python3 - "$SOURCE_RUN/evidence/run.json" "$SOURCE_RUN_ID" <<'PY'
+import json, sys
+doc = json.load(open(sys.argv[1]))
+if doc.get("run_id") != sys.argv[2]:
+    raise SystemExit(f"source run identity mismatch: {doc.get('run_id')} != {sys.argv[2]}")
+PY
+    [ $? -eq 0 ] || exit 1
+  fi
   python3 "$APPROVAL_TOOL" check-source-artifacts \
-    --approval "$APPROVAL" --policy "$POLICY" --source-work "$SOURCE_RUN/work" || exit 1
+    --approval "$APPROVAL" --policy "$POLICY" --source-work "$SOURCE_RUN/work" \
+    --results-root "$RESULTS_ROOT" || exit 1
   # Resume only the declared affected stages; prerequisite products come from
   # the immutable source run, never from an inferred dependency graph.
   cp -a "$SOURCE_RUN/work/results" "$WORK/" || exit 1
@@ -197,23 +237,69 @@ fi
 
 # ------------------------- stage loop ----------------------------------------
 STAGE_TSV="$EV/stages.tsv"
+JOBS="$EV/jobs.jsonl"
 : > "$STAGE_TSV"
+: > "$JOBS"
 overall=0
+active_pid=""
 
+# Reconcile an interrupted/prior run without launching duplicate jobs.
+start_index=0
+if [ -n "${SATTVA_RESUME_DIR:-}" ] && [ -f "$SATTVA_RESUME_DIR/evidence/stages.tsv" ]; then
+  cp -a "$SATTVA_RESUME_DIR/work/results" "$WORK/" 2>/dev/null || true
+  while read -r s rc _ _; do
+    if [ "$rc" = "0" ] && [ "$start_index" -lt "${#STAGES[@]}" ]; then
+      printf '%s\t0\tRESUMED\tRESUMED\n' "$s" >> "$STAGE_TSV"
+      printf '%s rc=0 RESUMED (no duplicate job)\n' "$s" >> "$EV/stages.txt"
+      start_index=$((start_index + 1))
+    else
+      break
+    fi
+  done < "$SATTVA_RESUME_DIR/evidence/stages.tsv"
+fi
+
+on_signal() {
+  echo "CANCELLED $(date -Iseconds) active_pid=${active_pid:-none}" > "$EV/cancellation.json"
+  if [ -n "$active_pid" ]; then kill -TERM "$active_pid" 2>/dev/null || true; fi
+  echo "RUN_CANCELLED rc=143" | tee -a "$EV/stages.txt"
+  exit 143
+}
+trap on_signal INT TERM
+
+idx=0
 for s in "${STAGES[@]}"; do
+  if [ "$idx" -lt "$start_index" ]; then idx=$((idx + 1)); continue; fi
   t0=$(date -Iseconds)
-  make -C "$FLOW" DESIGN_CONFIG="$CFG" "${OVERRIDES[@]}" "$s" \
-    > "$EV/stage_$s.log" 2>&1
-  rc=$?
+  printf '{"stage":"%s","phase":"starting","pid":null,"start":"%s"}\n' "$s" "$t0" >> "$JOBS"
+  if [ "$JOB_TIMEOUT_SECS" -gt 0 ] && command -v timeout >/dev/null 2>&1; then
+    timeout --signal=TERM --kill-after=30 "${JOB_TIMEOUT_SECS}s" \
+      make -C "$FLOW" DESIGN_CONFIG="$CFG" "${OVERRIDES[@]}" "$s" \
+      > "$EV/stage_$s.log" 2>&1 &
+  else
+    make -C "$FLOW" DESIGN_CONFIG="$CFG" "${OVERRIDES[@]}" "$s" \
+      > "$EV/stage_$s.log" 2>&1 &
+  fi
+  active_pid=$!
+  stage_pid=$active_pid
+  wait "$active_pid"; rc=$?
+  active_pid=""
   t1=$(date -Iseconds)
+  printf '{"stage":"%s","phase":"finished","pid":%s,"end":"%s","rc":%s}\n' \
+    "$s" "$stage_pid" "$t1" "$rc" >> "$JOBS"
   printf '%s\t%s\t%s\t%s\n' "$s" "$rc" "$t0" "$t1" >> "$STAGE_TSV"
   printf '%s rc=%s start=%s end=%s\n' "$s" "$rc" "$t0" "$t1" >> "$EV/stages.txt"
+  if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
+    printf '{"stage":"%s","phase":"timeout","rc":%s}\n' "$s" "$rc" >> "$JOBS"
+    echo "STAGE TIMEOUT: $s (rc=$rc) — evidence preserved" | tee -a "$EV/stages.txt"
+  fi
   if [ "$rc" -ne 0 ]; then
     overall=$rc
     echo "STAGE FAILED: $s (rc=$rc) — stopping (later stages depend on it)" | tee -a "$EV/stages.txt"
     break
   fi
+  idx=$((idx + 1))
 done
+trap - INT TERM
 
 # ------------------------- postflight evidence --------------------------------
 {
@@ -227,9 +313,9 @@ done
 # Hash every produced artifact and report, not just a whitelist.
 find "$WORK" -type f -print0 2>/dev/null | xargs -0 -r sha256sum > "$EV/artifact_sha256.txt" 2>/dev/null
 
-python3 - "$STAGE_TSV" "$EV/run.json" "$ID" "$overall" "$RUN" "$MIRROR_SHA" "$RUNNER_SHA" <<'PY'
+python3 - "$STAGE_TSV" "$EV/run.json" "$ID" "$overall" "$RUN" "$MIRROR_SHA" "$RUNNER_SHA" "$MANIFEST_SHA" <<'PY'
 import json, sys
-tsv, out, run_id, rc, run_dir, mirror_sha, runner_sha = sys.argv[1:8]
+tsv, out, run_id, rc, run_dir, mirror_sha, runner_sha, manifest_sha = sys.argv[1:9]
 stages = []
 with open(tsv) as fh:
     for line in fh:
@@ -239,7 +325,7 @@ with open(tsv) as fh:
 failed = next((s["stage"] for s in stages if s["rc"] != 0), None)
 doc = dict(run_id=run_id, run_dir=run_dir, overall_rc=int(rc),
            first_failed_stage=failed, mirror_global_route_sha256=mirror_sha,
-           runner_sha256=runner_sha, stages=stages,
+           runner_sha256=runner_sha, manifest_sha256=manifest_sha, stages=stages,
            engineering_verdict="NOT EVALUATED — report-level review required (D-007)")
 with open(out, "w") as fh:
     json.dump(doc, fh, indent=2)

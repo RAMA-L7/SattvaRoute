@@ -32,7 +32,8 @@ REQUIRED_FIELDS = (
     "earliest_affected_stage", "rerun_scope", "status", "approver",
     "timestamp",
 )
-OPTIONAL_FIELDS = ("note",)
+OPTIONAL_FIELDS = ("note", "candidate_id", "expected_final_hash",
+                  "expires_at", "source_artifact_hashes", "profile")
 HUNK_RE = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@")
 
 
@@ -80,23 +81,38 @@ def atomic_write_json(path: Path, doc: dict) -> None:
 def operation_id(approval: dict) -> str:
     """Stable identity of the approved operation (excludes approver note/time)."""
     keys = ("approval_id", "decision_id", "source_run_id", "patch_sha256",
-            "target_file", "earliest_affected_stage", "rerun_scope")
+            "target_file", "earliest_affected_stage", "rerun_scope", "candidate_id",
+            "profile")
     payload = {k: approval.get(k) for k in keys}
     return sha256_bytes(json.dumps(payload, sort_keys=True).encode("utf-8"))
 
 
 def load_policy(path: Path) -> dict:
     policy = load_json(path)
+    if not os.environ.get("SATTVA_ROOT"):
+        # Default to the project root containing state/approval_policy.json.
+        os.environ["SATTVA_ROOT"] = str(path.resolve().parent.parent)
+    # Resolve project-relative variables instead of hard-coded machine paths.
+    for key in ("ledger",):
+        if isinstance(policy.get(key), str):
+            policy[key] = os.path.expandvars(policy[key])
+    policy["allowed_roots"] = [os.path.expandvars(str(p))
+                               for p in policy.get("allowed_roots", [])]
     for key in ("allowed_roots", "stages", "stage_inputs", "input_files", "ledger"):
         if key not in policy:
             raise ApprovalError(f"policy missing required key: {key}")
     return policy
 
 
-def compute_input_fingerprint(design_root: Path, policy: dict) -> str:
+def compute_input_fingerprint(design_root: Path, policy: dict,
+                              profile: str | None = None) -> str:
     """Fingerprint the design inputs named by policy (relative to design_root)."""
+    files = policy["input_files"]
+    if profile:
+        files = policy.get("recovery_profiles", {}).get(profile, {}).get(
+            "input_files", files)
     items = []
-    for rel in policy["input_files"]:
+    for rel in files:
         p = design_root / rel
         if not p.is_file():
             raise ApprovalError(f"input file missing for fingerprint: {p}")
@@ -184,11 +200,21 @@ def validate_approval(approval: dict, patch_path: Path, policy: dict,
         _dt.datetime.fromisoformat(approval["timestamp"])
     except (ValueError, TypeError) as exc:
         raise ApprovalError(f"invalid timestamp: {exc}") from exc
+    if approval.get("expires_at"):
+        try:
+            expiry = _dt.datetime.fromisoformat(approval["expires_at"])
+        except (ValueError, TypeError) as exc:
+            raise ApprovalError(f"invalid expires_at: {exc}") from exc
+        if _dt.datetime.now(_dt.timezone.utc) >= expiry:
+            raise ApprovalError("approval has expired")
+    if approval.get("candidate_id") is not None and not str(approval["candidate_id"]).strip():
+        raise ApprovalError("candidate_id must be non-empty when present")
 
     patch_bytes = patch_path.read_bytes()
     if sha256_bytes(patch_bytes) != approval["patch_sha256"]:
         raise ApprovalError("patch SHA-256 mismatch")
-    if compute_input_fingerprint(design_root, policy) != approval["input_fingerprint"]:
+    if compute_input_fingerprint(design_root, policy, approval.get("profile")) \
+            != approval["input_fingerprint"]:
         raise ApprovalError("input fingerprint mismatch")
 
     target = Path(approval["target_file"])
@@ -204,9 +230,11 @@ def validate_approval(approval: dict, patch_path: Path, policy: dict,
     check_ledger(ledger, approval["approval_id"], op_id, for_apply=for_apply)
 
     current_hash = sha256_file(target)
-    if expected_target_hash is not None:
-        if current_hash != expected_target_hash:
-            raise ApprovalError("target final hash mismatch on resumed validation")
+    declared_final = approval.get("expected_final_hash")
+    if (expected_target_hash is not None or declared_final) and not for_apply:
+        want = expected_target_hash or declared_final
+        if current_hash != want:
+            raise ApprovalError("target final hash mismatch")
     elif current_hash != approval["expected_original_hash"]:
         raise ApprovalError("target original hash mismatch")
 
@@ -385,7 +413,8 @@ def cmd_create(args) -> None:
         approval_id=args.approval_id,
         decision_id=args.decision_id,
         source_run_id=args.source_run_id,
-        input_fingerprint=compute_input_fingerprint(design_root, policy),
+        input_fingerprint=compute_input_fingerprint(design_root, policy,
+                                                     getattr(args, "profile", None)),
         patch_sha256=sha256_file(patch),
         target_file=str(target),
         expected_original_hash=sha256_file(target),
@@ -397,6 +426,10 @@ def cmd_create(args) -> None:
     )
     if args.note:
         approval["note"] = args.note
+    for opt in ("candidate_id", "expected_final_hash", "expires_at", "profile"):
+        val = getattr(args, opt, None)
+        if val:
+            approval[opt] = val
     validate_scope(approval, policy)
     approval["operation_id"] = operation_id(approval)
     atomic_write_json(Path(args.out), approval)
@@ -461,7 +494,10 @@ def cmd_guard(args) -> None:
         second = validate_approval(approval, patch, policy, Path(args.design_root),
                                    run_id=args.run_id, decision_id=args.decision_id,
                                    for_apply=True)
-        if first != second:
+        # validated_at is a timestamp emitted per call; ignore it in comparison.
+        a = {k: v for k, v in first.items() if k != "validated_at"}
+        b = {k: v for k, v in second.items() if k != "validated_at"}
+        if a != b:
             raise ApprovalError("approval state changed between validation passes")
         record = apply_patch(approval, patch, policy, Path(args.evidence_dir))
         apply_phase = record["phase"]
@@ -481,14 +517,32 @@ def cmd_check_source_artifacts(args) -> None:
     policy = load_policy(Path(args.policy))
     approval = load_json(Path(args.approval))
     scope = validate_scope(approval, policy)
-    results_root = Path(args.source_work) / "results" / "asap7" / "sattva_sram" / "base"
-    missing = {}
+    stage_inputs = policy.get("recovery_profiles", {}).get(
+        approval.get("profile"), {}).get("stage_inputs", policy["stage_inputs"])
+    results_root = Path(getattr(args, "results_root", None) or
+                        (Path(args.source_work) / "results" / "asap7" / "sattva_sram" / "base"))
+    manifest = Path(args.source_work) / "evidence" / "artifact_sha256.txt"
+    recorded = {}
+    if manifest.is_file():
+        for line in manifest.read_text(encoding="utf-8", errors="replace").splitlines():
+            parts = line.split()
+            if len(parts) >= 2:
+                recorded[parts[-1]] = parts[0]
+    missing, stale = {}, {}
     for stage in scope:
-        needed = policy["stage_inputs"].get(stage, [])
+        needed = stage_inputs.get(stage, [])
         missing[stage] = [f for f in needed if not (results_root / f).is_file()]
+        if recorded:
+            stale[stage] = [f for f in needed
+                            if f in recorded and (results_root / f).is_file()
+                            and sha256_file(results_root / f) != recorded[f]]
     if any(missing.values()):
         raise ApprovalError(f"source artifacts missing for rerun scope: {missing}")
-    print("SOURCE_ARTIFACTS_OK " + json.dumps({s: policy["stage_inputs"].get(s, []) for s in scope}))
+    if any(stale.values()):
+        raise ApprovalError(f"source artifacts changed since baseline: {stale}")
+    print("SOURCE_ARTIFACTS_OK " + json.dumps(
+        {"scope": {s: stage_inputs.get(s, []) for s in scope},
+         "hash_checked": bool(recorded)}))
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -509,6 +563,10 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--policy", required=True)
     c.add_argument("--out", required=True)
     c.add_argument("--note")
+    c.add_argument("--candidate-id")
+    c.add_argument("--expected-final-hash")
+    c.add_argument("--expires-at")
+    c.add_argument("--profile")
     c.set_defaults(func=cmd_create)
 
     v = sub.add_parser("validate")
@@ -543,6 +601,7 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--approval", required=True)
     s.add_argument("--policy", required=True)
     s.add_argument("--source-work", required=True)
+    s.add_argument("--results-root")
     s.set_defaults(func=cmd_check_source_artifacts)
     return p
 

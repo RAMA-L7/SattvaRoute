@@ -2,7 +2,8 @@
   "policy_id": "SATTVA-APPROVAL-POLICY-001",
   "description": "Explicit boundary and stage facts for exact-patch approval enforcement. Stage inputs are derived from flow/Makefile do-step rules (floorplan<=1_synth.odb, place<=2_floorplan.odb, cts<=3_place.odb, route<=4_cts.odb via 5_1_grt, finish<=5_route.odb).",
   "allowed_roots": [
-    "/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/scripts"
+    "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/scripts",
+    "$SATTVA_ROOT/experiments/PNR-RECOVERY"
   ],
   "stages": [
     "check-yosys", "check-openroad", "synth", "floorplan", "place", "cts", "route", "finish"
@@ -28,5 +29,18 @@
     "macro/sram_x4x4x1.lib",
     "macro/sram_x4x4x1.gds"
   ],
-  "ledger": "/mnt/d/SattvaRoute/state/approval_ledger.jsonl"
+  "ledger": "$SATTVA_ROOT/state/approval_ledger.jsonl",
+  "recovery_profiles": {
+    "riscv32i_attempt": {
+      "input_files": ["config.mk"],
+      "stage_inputs": {
+        "synth": ["1_synth.odb"],
+        "floorplan": ["2_floorplan.odb"],
+        "place": ["3_place.odb"],
+        "cts": ["4_cts.odb"],
+        "route": ["5_route.odb"],
+        "finish": ["6_final.odb"]
+      }
+    }
+  }
 }
