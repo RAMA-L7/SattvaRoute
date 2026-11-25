@@ -12,13 +12,15 @@
 - Deterministic diagnosis and exact patch proposal PENDING_HUMAN (`RESTORE_MACRO_LIB`, SHA-256 `8a7178f6…`).
 - Offline suites: 33 remedy + 30 approval + 21 KB + 5 recovery-CLI + 14 runner checks PASS; manifest 28 hashed files PASS; KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
 
+## Recovery completed
+Explicit user approval received; AP-PNR-003 created/validated; exact patch SHA-256 `8a7178f6…` applied via `sattva_approval.py guard`; recovered run `orfs_baseline_recovered_final_20261125T152826305943439Z_27610` rc=0 over 6 approved stages with routed ODB/SPEF/final reports, DRT-0199 violations=0, setup/hold/slew/fanout/cap 0. Independent review: technical recovery VERIFIED; overall PROVISIONAL only for open items below.
+
 ## Open
-- Live model credentials (`SATTVA_MODEL_URL`) absent; model acceptance item open.
-- Human approval of exact patch; then resume affected stages and verify against frozen criteria.
+- Live model credentials (`SATTVA_MODEL_URL`) absent; deterministic diagnosis used and labelled.
 - External DRC/LVS signoff outside scope.
 
 ## Stop boundary
-No patch applied. No production/design/protected artifact changed. OpenFinRAM DRT-0073 remains unresolved; R2 advisory/inactive.
+No design/protected original changed. OpenFinRAM DRT-0073 remains unresolved; R2 advisory/inactive. Protected tooling changes (runner/policy) were explicitly authorized and adjudicated in `docs/PNR_ADJUDICATION.md`.
 
-## Next command after approval
-`python3 scripts/pnr_cli.py resume --approval <approved.json> --patch <proposal.patch> --design-root <attempt design dir> --source-run <failed run> --source-run-id <failed run id> --decision-id <D-...>`
+## Next
+Stop. No further milestone, remedy, experiment, or production change without explicit authorization.

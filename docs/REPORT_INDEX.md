@@ -10,6 +10,7 @@
 - `RECOVERY_WORKFLOW.md` — commands and human approval gate
 - `PIPELINE_TEST_RESULTS.md` — tests actually run
 - `PNR_FINAL_REPORT.md` — outcome and open acceptance items
+- `PNR_ADJUDICATION.md` — independent recovery review adjudication
 
 ## T-WORKFLOW-001 — Remedy-first workflow redesign (2026-11-24)
 - `WF_FINAL_REPORT.md` — authoritative outcome and stop boundary

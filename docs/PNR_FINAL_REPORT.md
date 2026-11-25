@@ -1,8 +1,8 @@
 # T-PNR-001 — PnR Orchestration Implementation and Recovery Gate
 
 - **Date:** 2026-11-25
-- **Status:** Implementation complete; control baseline accepted; controlled failure captured; **recovery gate PENDING human approval**.
-- **No production/design/protected artifact changed. No recovery patch applied.**
+- **Status:** Implementation complete; control baseline accepted; controlled failure captured; human approval received; approved patch applied through existing enforcement boundary; recovery rerun rc=0 with endpoint artifacts verified.
+- **No production/design/protected original changed.** The only recovery change is the approved patch to the attempt-local config.
 
 ## 1. Verified state at start
 
@@ -22,7 +22,7 @@ Selected after preserving two failed ASAP7 feasibility attempts (Yosys 0.33 cann
 
 ## 5. Controlled failure and proposal
 
-Fixture `experiments/PNR-RECOVERY/missing_macro_lib_20261125T145821Z/` changes only an attempt-local config: the macro Liberty reference points to a missing file. Real runner produced RC 2 at synth. Deterministic diagnosis classified `MISSING_MACRO_LIB`; optional model unavailable and explicitly labelled. Exact unified-diff proposal (`RESTORE_MACRO_LIB`, SHA-256 `8a7178f6…`) is PENDING. No patch has been applied.
+Fixture `experiments/PNR-RECOVERY/missing_macro_lib_20261125T145821Z/` changes only an attempt-local config: the macro Liberty reference points to a missing file. Real runner produced RC 2 at synth. Deterministic diagnosis classified `MISSING_MACRO_LIB`; optional model unavailable and explicitly labelled. Exact unified-diff proposal (`RESTORE_MACRO_LIB`, SHA-256 `8a7178f6…`) was presented and explicitly approved. Approval `AP-PNR-003` (operation `3205f326…`) was created/validated and the exact patch applied through `sattva_approval.py guard`. Recovered run `runs/orfs_baseline_recovered_final_20261125T152826305943439Z_27610`: rc=0 over the 6 approved stages (`synth…finish`, preflight/checks inherited from the baseline), routed ODB/SPEF/final reports present, `5_route_drc.rpt` empty (=0 violations; `DRT-0199 Number of violations = 0`), setup/hold/slew/fanout/cap counts 0. Three-way comparison in `experiments/PNR-RECOVERY/.../comparison.json`.
 
 ## 6. Tests and integrity
 
@@ -31,9 +31,9 @@ Offline: 33 remedy, 30 approval, 21 KB, 5 recovery-CLI, 14 runner checks — all
 ## 7. Open acceptance items
 
 1. Live model diagnosis: `SATTVA_MODEL_URL` not configured; deterministic classification used, live-model item open.
-2. Full approved recovery, rerun and verification: pending your exact approval.
-3. External signoff DRC/LVS: outside milestone scope.
+2. External signoff DRC/LVS: outside milestone scope.
+3. Live model acceptance remains open; the recovery diagnosis was deterministic and labelled.
 
-## 8. Stop at gate
+## 8. Stop
 
-The next action requires your explicit approval of the exact displayed patch and operation. No further milestone, implementation, remedy, or production change without it.
+The approved recovery is complete and verified from real artifacts. No further milestone, remedy, experiment, or production change without explicit authorization.

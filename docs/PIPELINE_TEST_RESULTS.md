@@ -23,6 +23,7 @@ Recorded under `runs/orfs_baseline_*`. Each has `evidence/preflight.json`, `mani
 | `fakeram_control_20261125T140125...` | upstream `asap7/riscv32i-mock-sram/fakeram7_256x32` | 2 | Same ASAP7 Liberty/Yosys incompatibility. Preserved as failed feasibility evidence. |
 | `nangate_macro_control_20261125T144339456871595Z_11464` | Nangate45 + platform `fakeram45_64x32` wrapper | 0 | **Baseline ACCEPTED**: all 8 stages rc=0; routed ODB, `6_final.spef`, `6_final.def`, `6_final.gds`, `6_finish.rpt`, `5_route_drc.rpt` present; DRC report has 0 violations; setup/hold/slew/fanout/cap violation counts 0; TNS/WNs 0.00; worst slack 899.75 ns at 1000 ps. |
 | `failure_20261125T145821Z_20261125T145821234238490Z_20208` | attempt-local config with invalid macro Liberty reference | 2 | Controlled failure: synth stopped on missing `missing_fakeram45_64x32.lib`. Fixture `experiments/PNR-RECOVERY/missing_macro_lib_20261125T145821Z/`. Original benchmark untouched. |
+| `recovered_final_20261125T152826305943439Z_27610` | same attempt with approved patch `RESTORE_MACRO_LIB` | 0 | Recovery endpoint reached: 6 approved stages (`synth…finish`) rc=0 in 325 s, routed ODB/SPEF/final reports present, empty DRC report with `DRT-0199 violations=0`, setup/hold/slew/fanout/cap counts 0. Approval `AP-PNR-003`, operation `3205f326…`, patch SHA-256 `8a7178f6…`. |
 
 ## Controlled failure and proposal
 
@@ -34,6 +35,5 @@ No original ORFS design/platform file was modified. One execution-mirror `synth.
 
 ## Not run / open
 
-- Live model diagnosis (no `SATTVA_MODEL_URL` configured): acceptance item remains open.
-- Full human-approved recovery: pending exact approval at the gate.
+- Live model diagnosis (no `SATTVA_MODEL_URL` configured): acceptance item remains open; deterministic classification was used.
 - External DRC/LVS signoff: outside scope. ORFS `finish` produced GDS and internal reports only.

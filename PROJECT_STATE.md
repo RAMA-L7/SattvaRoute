@@ -4,11 +4,11 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** T-PNR-001 at recovery approval gate — implementation + baseline complete; no recovery patch applied; R2 remains DRAFT/INACTIVE
-- **Current status:** T-PNR-001. Hardened runner/approval/controller/KB; added shared manifest, diagnosis interface, CLI, and Nangate45 hard-macro control benchmark. Baseline `orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464` rc=0 through route/extraction/final timing with 0 DRC and 0 setup/hold violations. Controlled failure under `experiments/PNR-RECOVERY/missing_macro_lib_20261125T145821Z/` rc=2 at synth; exact patch proposal PENDING. OpenFinRAM DRT-0073 preserved unresolved; no production change. KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
+- **Current phase:** none — T-PNR-001 complete; recovery verified from real artifacts; two acceptance items explicitly open; R2 remains DRAFT/INACTIVE
+- **Current status:** T-PNR-001 COMPLETE. Hardened runner/approval/controller/KB; shared manifest, diagnosis interface, CLI, Nangate45 hard-macro control benchmark. Baseline rc=0; controlled failure rc=2 at synth; explicit human approval `AP-PNR-003` applied exact patch `RESTORE_MACRO_LIB` (SHA-256 `8a7178f6…`); recovered run `orfs_baseline_recovered_final_20261125T152826305943439Z_27610` rc=0 over 6 approved stages with routed ODB/SPEF/final reports, 0 DRC and 0 setup/hold/slew/fanout/cap violations. Independent review: technical recovery VERIFIED, overall PROVISIONAL only because live-model credentials absent and external signoff out of scope. OpenFinRAM DRT-0073 preserved unresolved; no design/protected original changed. KB 19/19, sidecar 22/22, immutable 9/9 (refreshed for authorized tooling), validator 13/13.
 - **Last updated:** 2026-11-25 (implementation engineer, T-PNR-001)
-- **Current active task:** await explicit human approval of exact recovery patch `RESTORE_MACRO_LIB` (SHA-256 `8a7178f6…`)
-- **Active agents:** implementation engineer; three read-only audit agents completed and released
+- **Current active task:** none — no further milestone/remedy/production change without explicit authorization
+- **Active agents:** implementation engineer + 3 audit agents + 1 independent reviewer completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
 ## Completed milestones

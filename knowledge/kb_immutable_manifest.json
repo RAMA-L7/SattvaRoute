@@ -1,5 +1,5 @@
 {
-  "captured_at": "2026-11-25T00:00:00+00:00",
+  "captured_at": "2026-11-25T16:00:00+00:00",
   "protected_hashes": {
     "AGENTS.md": "6663f13b4722c9df17f2351762ec82d12a9725d4e960ac3848080e2121e5804d",
     "benchmark/design/sattva_sram/config.mk": "63481bef34742cd452a7125492ff55eaa0d62b13621c6cfd5e7ada4f46cdea84",
@@ -7,9 +7,9 @@
     "benchmark/design/sattva_sram/macro/sram_x4x4x1.gds": "12c56777a060270215ad7c43a881230febc9f3dc272bf9a436da60efd510d651",
     "benchmark/design/sattva_sram/macro/sram_x4x4x1.lef": "f1c18877c27152bc81dce3bfa76308f29c9faa54047de4ac5a3f7d160b4bba31",
     "benchmark/design/sattva_sram/macro/sram_x4x4x1.lib": "18fcf727c197178b2a75f8c20eb527b38f6fb01f4d114d7036225116e84bac4e",
-    "scripts/run_baseline_orfs.sh": "c17a97fe913d28f8523eb8fbbed937aaf284d1113d1810be2c524308ec2582c5",
+    "scripts/run_baseline_orfs.sh": "90d24d5e24353fa655af0d5cfffcc67c74b6b819275a02ad7268491b3a421367",
     "scripts/sattva_approval.py": "1714f0fce7329760816a62cb12f7525c2fb71625486bbb09a1163328b643487d",
-    "state/approval_policy.json": "0a6c150957c3eb7d0d37e43f3b51dc0b1c71be9a822fea4ff6b1195c10dce3bc"
+    "state/approval_policy.json": "bd62d64980bfb58a9978db063bb42521dc817358665b34a5f0a59b721a4cee2a"
   },
   "schema_version": 1
 }

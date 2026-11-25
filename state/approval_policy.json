@@ -31,6 +31,17 @@
   ],
   "ledger": "$SATTVA_ROOT/state/approval_ledger.jsonl",
   "recovery_profiles": {
+    "nangate_macro_attempt": {
+      "input_files": ["constraint.sdc", "netlist/sattva_macro_top_synth.v"],
+      "stage_inputs": {
+        "synth": [],
+        "floorplan": [],
+        "place": [],
+        "cts": [],
+        "route": [],
+        "finish": []
+      }
+    },
     "riscv32i_attempt": {
       "input_files": ["config.mk"],
       "stage_inputs": {

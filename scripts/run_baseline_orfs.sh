@@ -200,6 +200,12 @@ fi
 
 # Patch application only now: preflight has passed, so no stage-less mirror edit.
 if [ "$APPROVAL_ACTIVE" -eq 1 ]; then
+  # Carry an already-applied approval state into this isolated attempt so the
+  # guard recognises a resumed operation instead of attempting a second apply.
+  APPROVAL_STATE_RUN=${SATTVA_APPROVAL_STATE_RUN:-}
+  if [ -n "$APPROVAL_STATE_RUN" ] && [ -f "$APPROVAL_STATE_RUN/evidence/approval_apply.json" ]; then
+    cp "$APPROVAL_STATE_RUN/evidence/approval_apply.json" "$EV/approval_apply.json"
+  fi
   python3 "$APPROVAL_TOOL" guard \
     --approval "$APPROVAL" --patch "$PATCH_FILE" --policy "$POLICY" \
     --design-root "$DESIGN" --run-id "$SOURCE_RUN_ID" \
@@ -223,7 +229,11 @@ PY
     --results-root "$RESULTS_ROOT" || exit 1
   # Resume only the declared affected stages; prerequisite products come from
   # the immutable source run, never from an inferred dependency graph.
-  cp -a "$SOURCE_RUN/work/results" "$WORK/" || exit 1
+  # A failure at the first stage may have produced no reusable results;
+  # absence is valid, so do not fail the recovery.
+  if [ -d "$SOURCE_RUN/work/results" ]; then
+    cp -a "$SOURCE_RUN/work/results" "$WORK/" || exit 1
+  fi
   mapfile -t STAGES < <(python3 -c \
     'import json,sys; print("\n".join(json.load(open(sys.argv[1]))["rerun_scope"]))' \
     "$EV/approval_guard.json")
