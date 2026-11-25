@@ -34,6 +34,7 @@ ALLOW=(
   "docs/PIPELINE_TEST_RESULTS.md"
   "docs/PNR_FINAL_REPORT.md"
   "docs/PNR_ADJUDICATION.md"
+  "docs/T1_LIVE_R2_EXPERIMENT_REPORT.md"
   "docs/T1_EXPERIMENT_REPORT.md"
   "docs/T1_ADJUDICATION.md"
   "scripts/live_diagnosis.py"
@@ -167,6 +168,7 @@ ALLOW=(
   "logs/sessions/T-WORKFLOW-001_S001_handoff.md"
   "logs/sessions/T-PNR-001_S001_handoff.md"
   "logs/sessions/T1-LIVE-DIAG_S001_handoff.md"
+  "logs/sessions/T1-LIVE-R2_S001_handoff.md"
 )
 
 echo "PUBLISH_ALLOW_COUNT=${#ALLOW[@]}"

@@ -2,6 +2,9 @@
 
 > Newest first. This index is advisory; `PROJECT_STATE.md` is the authoritative current snapshot.
 
+## T1-LIVE-R2 — Conformant diagnosis rerun (2026-11-25)
+- `T1_LIVE_R2_EXPERIMENT_REPORT.md` — genuine invocation, 12 metrics, hard gates, grade-only, independent review, verdict REJECTED
+
 ## T1 — Live AI diagnosis validation (2026-11-25)
 - `T1_EXPERIMENT_REPORT.md` — provider audit, evidence package, deterministic evaluation, live BLOCKED status
 - `T1_ADJUDICATION.md` — independent reviewer findings and resolution

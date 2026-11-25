@@ -48,18 +48,24 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--grade-only", action="store_true",
                         help="regrade the existing live_call.json without a new provider call")
+    parser.add_argument("--prompt", default=str(E / "prompt.txt"),
+                        help="prompt file; evidence bundle is always the frozen v1 bundle")
+    parser.add_argument("--out-dir", default=str(OUT),
+                        help="artifact directory for this invocation")
+    parser.add_argument("--max-tokens", type=int, default=900)
     args = parser.parse_args()
+    out_dir = Path(args.out_dir)
     bundle = json.loads((E / "bundle.json").read_text(encoding="utf-8"))
-    prompt = (E / "prompt.txt").read_text(encoding="utf-8")
+    prompt = Path(args.prompt).read_text(encoding="utf-8")
     gt = json.loads((E / "gt.json").read_text(encoding="utf-8"))
     if args.grade_only:
-        call = json.loads((OUT / "live_call.json").read_text(encoding="utf-8"))
+        call = json.loads((out_dir / "live_call.json").read_text(encoding="utf-8"))
         if call.get("parsed_output") is not None:
             from live_diagnosis import validate_refs
             refs = validate_refs(call["parsed_output"], bundle)
             call["reference_validation"] = refs
             call["refs_valid"] = refs["valid"]
-            (OUT / "live_call.json").write_text(
+            (out_dir / "live_call.json").write_text(
                 json.dumps(call, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         if call.get("parsed_output") is None:
             print(json.dumps({"status": "NOT_RUN", "reason": "no parsed output to grade"}))
@@ -68,7 +74,7 @@ def main() -> int:
         evaluation["call_status"] = call["status"]
         evaluation["score_semantics"] = ("diagnostic_only" if not evaluation["diagnosis_accepted"]
                                          else "accepted")
-        (OUT / "live_eval.json").write_text(
+        (out_dir / "live_eval.json").write_text(
             json.dumps(evaluation, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(json.dumps({"status": "PASS", "graded": True,
                           "diagnosis_accepted": evaluation["diagnosis_accepted"],
@@ -80,11 +86,11 @@ def main() -> int:
         model=os.environ.get("SATTVA_MODEL_NAME", "qwen2.5:7b-instruct"),
         key_present=False, provider="openai-compatible",
         timeout_s=300.0, max_attempts=1, min_interval_s=0.0,
-        temperature=0.0, max_tokens=900)
-    OUT.mkdir(parents=True, exist_ok=True)
+        temperature=0.0, max_tokens=args.max_tokens)
+    out_dir.mkdir(parents=True, exist_ok=True)
     call = call_model(prompt, bundle, cfg, transport=ps_transport,
-                      live_transport=True, raw_out=OUT / "raw_response.txt")
-    (OUT / "live_call.json").write_text(json.dumps(call, indent=2, sort_keys=True) + "\n",
+                      live_transport=True, raw_out=out_dir / "raw_response.txt")
+    (out_dir / "live_call.json").write_text(json.dumps(call, indent=2, sort_keys=True) + "\n",
                                         encoding="utf-8")
     result: dict[str, Any] = {"status": call["status"],
                               "execution_kind": call["execution_kind"],
@@ -97,14 +103,14 @@ def main() -> int:
                               "refs_valid": call["refs_valid"],
                               "errors": call["errors"]}
     if call.get("parsed_output") is not None:
-        (OUT / "live_output.json").write_text(
+        (out_dir / "live_output.json").write_text(
             json.dumps(call["parsed_output"], indent=2, sort_keys=True) + "\n",
             encoding="utf-8")
         evaluation = grade(call["parsed_output"], bundle, gt)
         evaluation["call_status"] = call["status"]
         evaluation["score_semantics"] = ("diagnostic_only" if not evaluation["diagnosis_accepted"]
                                          else "accepted")
-        (OUT / "live_eval.json").write_text(
+        (out_dir / "live_eval.json").write_text(
             json.dumps(evaluation, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         result["evaluation"] = evaluation
     print(json.dumps(result, indent=2, sort_keys=True))

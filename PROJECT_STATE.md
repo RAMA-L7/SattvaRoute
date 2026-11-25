@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T1-LIVE BLOCKED (genuine call made, diagnosis not accepted); no recovery/production change; R2 remains DRAFT/INACTIVE
-- **Current status:** T1-LIVE. Genuine local Ollama invocation via narrow forwarder (`qwen2.5:7b-instruct`, HTTP 200, 1313 tokens, 141,518 ms) using frozen GT-free evidence. Live response `SCHEMA_INVALID` and unstructured evidence refs → `diagnosis_accepted=false`; hard gate correctly blocks acceptance. Deterministic diagnosis remains accepted (12/12 CORRECT). Reviewer-found grader bugs fixed without changing rubric thresholds; 23 offline tests PASS; reproducible `--grade-only` evaluation. No GT leak, patch, approval, EDA, or design/protected change. KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
-- **Last updated:** 2026-11-25 (implementation engineer, T1-LIVE)
-- **Current active task:** none — schema-conformant live re-run required to unblock acceptance; no further milestone/remedy/production change without explicit authorization
+- **Current phase:** none — T1-LIVE-R2 complete; verdict REJECTED (genuine valid diagnosis fails acceptance); no recovery/production change; R2 remains DRAFT/INACTIVE
+- **Current status:** T1-LIVE-R2. One genuine Ollama call (`qwen2.5:7b-instruct`, HTTP 200, 920/524/1444 tokens, 158,030 ms) with frozen bundle and clarified prompt_r2. Output schema-valid; E03/E04/E05 refs resolved; all hard gates false; `diagnosis_accepted=false` because `patch_correctness=INCORRECT` ("None proposed"), stage scope partial, alternatives unsupported. Grade-only reproduces; 23 live tests + 14 runner checks PASS. Independent review verified integrity/safety; coordinator adjudicated REJECTED under task definitions. No GT leak, patch, approval, EDA, or design/protected change. KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
+- **Last updated:** 2026-11-25 (implementation engineer, T1-LIVE-R2)
+- **Current active task:** none — no further milestone/remedy/production change without explicit authorization
 - **Active agents:** implementation engineer + 3 audit agents + 1 independent reviewer completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 
