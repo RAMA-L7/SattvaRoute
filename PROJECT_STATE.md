@@ -4,10 +4,10 @@
 
 - **Project name:** SattvaRoute — AI-assisted Physical Design Orchestration and Recovery
 - **Current milestone:** Milestone 1 — Baseline Execution (routing incomplete)
-- **Current phase:** none — T1 complete (offline/live-blocked); no recovery/production change; R2 remains DRAFT/INACTIVE
-- **Current status:** T1 COMPLETE with live acceptance BLOCKED. Added isolated advisory provider layer, GT-free frozen evidence bundle, deterministic rule-based diagnosis, 12-metric ordinal rubric, and 21 offline tests (all PASS). Deterministic diagnosis accepted with all 12 metrics CORRECT. No provider URL/credentials configured → `SKIPPED_NO_CREDENTIALS`; no live invocation, no fabricated result. T-PNR-001 baseline/failure/recovery evidence unchanged; OpenFinRAM DRT-0073 remains unresolved. KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
-- **Last updated:** 2026-11-25 (implementation engineer, T1)
-- **Current active task:** none — live provider configuration required to unblock live diagnosis; no further milestone/remedy/production change without explicit authorization
+- **Current phase:** none — T1-LIVE BLOCKED (genuine call made, diagnosis not accepted); no recovery/production change; R2 remains DRAFT/INACTIVE
+- **Current status:** T1-LIVE. Genuine local Ollama invocation via narrow forwarder (`qwen2.5:7b-instruct`, HTTP 200, 1313 tokens, 141,518 ms) using frozen GT-free evidence. Live response `SCHEMA_INVALID` and unstructured evidence refs → `diagnosis_accepted=false`; hard gate correctly blocks acceptance. Deterministic diagnosis remains accepted (12/12 CORRECT). Reviewer-found grader bugs fixed without changing rubric thresholds; 23 offline tests PASS; reproducible `--grade-only` evaluation. No GT leak, patch, approval, EDA, or design/protected change. KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
+- **Last updated:** 2026-11-25 (implementation engineer, T1-LIVE)
+- **Current active task:** none — schema-conformant live re-run required to unblock acceptance; no further milestone/remedy/production change without explicit authorization
 - **Active agents:** implementation engineer + 3 audit agents + 1 independent reviewer completed and released
 - **Skill system:** no project skills installed; see `.skills/PROJECT_SKILLS.md` for the catalog and `.skills/README.md` for binding usage rules
 

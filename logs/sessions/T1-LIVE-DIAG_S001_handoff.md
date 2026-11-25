@@ -15,8 +15,11 @@
 ## Outcome
 Live provider URL/credentials unset → `SKIPPED_NO_CREDENTIALS`, status BLOCKED, no model call, no tokens/latency/cost, no live acceptance claim. No fixture or replay labeled live. No recovery, patch application, approval, EDA, or design/protected change.
 
+## T1-LIVE update
+Genuine local Ollama call completed through `scripts/run_t1_live.py` + narrow PowerShell forwarder: HTTP 200, `qwen2.5:7b-instruct`, 805/508/1313 tokens, 141,518 ms. Response `SCHEMA_INVALID` (three fields as strings) and evidence IDs cited only as unstructured strings; `refs_valid=false` after validator fix; `diagnosis_accepted=false`. Preserved failed attempts in `v1_live_attempt1/` and `v1_live_attempt2/`. Independent review found two grader bugs (string-length inflation, vacuous refs) and an out-of-band evaluation provenance gap — all fixed without changing rubric thresholds. `run_t1_live.py --grade-only` reproduces `live_eval.json`. 23 offline tests PASS.
+
 ## Open
-Live acceptance requires a real provider URL/model and key if needed. External signoff remains out of scope.
+Schema-conformant live re-run required. External signoff remains out of scope.
 
 ## Stop
 No further milestone, remedy, experiment, or production change without explicit authorization.

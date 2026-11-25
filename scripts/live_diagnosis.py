@@ -159,6 +159,21 @@ def validate_refs(obj: dict[str, Any], bundle: dict[str, Any]) -> dict[str, Any]
             for value in node:
                 walk(value)
     walk(obj)
+    unstructured = False
+    for field in ("supporting_evidence", "contradicting_evidence",
+                  "alternative_hypotheses", "risk_assessment"):
+        value = obj.get(field)
+        if isinstance(value, list):
+            for item in value:
+                if isinstance(item, str) and re.search(r"\bE0[1-6]\b", item):
+                    results.append({"ref": "UNSTRUCTURED", "status": "UNRESOLVED"})
+                    unstructured = True
+    if unstructured:
+        return {"refs": results, "fabricated": fabricated,
+                "distinct_valid": len({r["ref"] for r in results
+                                       if r["status"] == "RESOLVED"}),
+                "valid": False,
+                "errors": ["evidence IDs present only as unstructured strings"]}
     return {"refs": results, "fabricated": fabricated,
             "distinct_valid": len({r["ref"] for r in results
                                    if r["status"] == "RESOLVED"}),
@@ -167,6 +182,7 @@ def validate_refs(obj: dict[str, Any], bundle: dict[str, Any]) -> dict[str, Any]
 
 def call_model(prompt: str, bundle: dict[str, Any], config: ModelConfig | None = None,
                *, transport: Callable[..., tuple[int, bytes, dict[str, str]]] | None = None,
+               live_transport: bool = False,
                sleep_fn: Callable[[float], None] = time.sleep,
                raw_out: str | Path | None = None,
                key: str = "") -> dict[str, Any]:
@@ -176,7 +192,8 @@ def call_model(prompt: str, bundle: dict[str, Any], config: ModelConfig | None =
     started_utc = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     record: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION, "status": "SKIPPED_NO_CREDENTIALS",
-        "execution_kind": "stub" if transport is not None else "live_api_candidate",
+        "execution_kind": ("live_api" if live_transport or transport is None
+                           else "stub"),
         "provider": cfg.provider, "model_id": cfg.model,
         "config_sha256": cfg.fingerprint(), "prompt_version": PROMPT_VERSION,
         "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(),

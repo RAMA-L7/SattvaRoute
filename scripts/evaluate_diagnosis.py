@@ -127,10 +127,11 @@ def grade(output: dict[str, Any], bundle: dict[str, Any],
               f"required covered {len(covered)}/{len(required)}")
 
     contradictions = output.get("contradicting_evidence", [])
+    contradictions_list = contradictions if isinstance(contradictions, list) else []
     set_score("contradiction_handling",
-              "CORRECT" if len(contradictions) >= 1 and "precheck" in blob else
-              "PARTIAL" if contradictions else "UNSUPPORTED",
-              "contradiction records and precheck caveat")
+              "CORRECT" if contradictions_list and "precheck" in blob else
+              "PARTIAL" if contradictions_list else "UNSUPPORTED",
+              "contradiction records and precheck caveat (list type required)")
 
     alts = output.get("alternative_hypotheses", [])
     evidenced = sum(1 for a in alts if isinstance(a, dict) and a.get("why_rejected"))
@@ -158,9 +159,11 @@ def grade(output: dict[str, Any], bundle: dict[str, Any],
               "stage set/order equality")
 
     risks = output.get("risk_assessment", [])
+    risks_list = risks if isinstance(risks, list) else []
     set_score("risk_identification",
-              "CORRECT" if len(risks) >= 2 else "PARTIAL" if risks else "UNSUPPORTED",
-              f"{len(risks)} risks")
+              "CORRECT" if len(risks_list) >= 2 else
+              "PARTIAL" if risks_list else "UNSUPPORTED",
+              f"{len(risks_list)} structured risks (list type required)")
 
     set_score("unsupported_claims",
               "CORRECT" if not refs["fabricated"] else "UNSUPPORTED",

@@ -130,6 +130,23 @@ class LiveDiagnosisTests(unittest.TestCase):
         leak["primary_hypothesis"] = "RESTORE_MACRO_LIB was approved"
         self.assertTrue(ed.grade(leak, self.bundle, self.gt)["hard_gates"]["GT_LEAK"])
 
+    def test_unstructured_string_refs_not_vacuously_valid(self):
+        bad = dict(self.valid)
+        bad["supporting_evidence"] = ["E03: make: *** No rule to make target"]
+        out = ld.call_model(self.prompt, self.bundle, self.cfg,
+                            transport=self._transport(200, self._content(bad)))
+        self.assertFalse(out["refs_valid"])
+        self.assertTrue(any(r["status"] == "UNRESOLVED"
+                            for r in out["reference_validation"]["refs"]))
+
+    def test_string_type_metrics_not_inflated(self):
+        bad = dict(self.valid)
+        bad["contradicting_evidence"] = "UNKNOWN"
+        bad["risk_assessment"] = "one prose sentence"
+        g = ed.grade(bad, self.bundle, self.gt)
+        self.assertEqual(g["scores"]["contradiction_handling"], "UNSUPPORTED")
+        self.assertEqual(g["scores"]["risk_identification"], "UNSUPPORTED")
+
     def test_credential_redaction(self):
         text = "Authorization: Bearer sk-abcdefghijklmnop key=eyJabcdefghijk"
         red = ld.redact(text, "sk-abcdefghijklmnop")

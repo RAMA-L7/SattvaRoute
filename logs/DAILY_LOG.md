@@ -429,5 +429,10 @@ Result: deterministic diagnosis accepted (12/12 CORRECT, hard gates clear); live
 Integrity: 19 new tests PASS; existing regression suites PASS; KB 19/19, sidecar 22/22, immutable 9/9, validator 13/13.
 Next: live acceptance requires real provider configuration; no further milestone/remedy without explicit authorization.
 
+--- SESSION START/END — T1-LIVE genuine diagnosis (2026-11-25) ---
+Work: provider/evidence audits; genuine local Ollama call through narrow PowerShell forwarder; reproducible grading; independent review; grader bug fixes.
+Result: HTTP 200 genuine invocation (qwen2.5:7b-instruct, 805/508/1313 tokens, 141518 ms). Live response SCHEMA_INVALID; evidence IDs unstructured -> refs_valid false after validator fix; diagnosis_accepted=false. Deterministic remains 12/12 CORRECT. Reviewer grader bugs fixed without rubric change; 23 offline tests PASS; grade-only reproduces evaluation. No GT leak, patch, approval, EDA, or design/protected change.
+Next: schema-conformant live re-run required; no further milestone/remedy without explicit authorization.
+
 --- SESSION START — T-PNR-001 (2026-11-25, implementation engineer) ---
 Agent: orchestrator/implementation engineer. Starting git state: D:\SattvaRoute_publish main ac40255 (clean, equals origin). Task: close verified controller/integrity gaps, establish compatible public macro PnR benchmark, deliver one human-gated recovery workflow. Files expected: scripts/**, tests/**, config/configs/**, app/**, docs/**, knowledge/**, coordination/**, logs/**, new isolated benchmark/runs; preserve OpenFinRAM case. Audits running read-only in parallel.

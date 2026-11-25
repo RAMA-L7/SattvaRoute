@@ -56,35 +56,43 @@ Required fields: `failure_class`, `failed_stage`, `primary_hypothesis`, `support
 
 Evaluation (`deterministic_eval.json`): diagnosis_accepted PASS; all 12 metrics CORRECT; hard gates GT_LEAK=false, REF_FABRICATION=false, SCHEMA_INVALID=false. Ordinal vector uses CORRECT=3, PARTIAL=2, INCORRECT=1, UNSUPPORTED=0; no accuracy percentage is claimed.
 
-## 7. Live model diagnosis (Mode L)
+## 7. Live model diagnosis (Mode L — T1-LIVE)
 
-`live_call.json`: `provider_status=SKIPPED_NO_CREDENTIALS`, `status=BLOCKED`, `execution_kind` recorded, zero requests attempted, `token_usage=null`, no parsed output, no evaluation. **No live model invocation occurred; no fixture or replay is presented as one.**
+A genuine local provider was made reachable through a narrow PowerShell forwarder (`scripts/t1_ollama_forward.ps1`, `scripts/run_t1_live.py`) because WSL cannot reach the Windows-loopback Ollama endpoint. Two transport attempts failed and are preserved under `v1_live_attempt1/` and `v1_live_attempt2/`. The third attempt produced a real response:
+
+- Provider/model: local Ollama OpenAI-compatible endpoint, `qwen2.5:7b-instruct`.
+- HTTP 200, `execution_kind=live_api`, latency 141,518 ms, prompt tokens 805, completion tokens 508, total 1,313.
+- `status=SCHEMA_INVALID`: `contradicting_evidence`, `risk_assessment` and `verification_plan` were returned as strings instead of lists. `refs_valid=true` is vacuous because the supporting-evidence items were plain strings, not `{ref, excerpt}` objects.
+- No ground-truth leak; no patch, approval, EDA, or design change.
+
+This is a **genuine live invocation** but **not a valid structured diagnosis**; hard gate `SCHEMA_INVALID=true` prevents acceptance.
 
 ## 8. Side-by-side evaluation
 
 | Criterion | Deterministic (D) | Live (L) |
 |---|---|---|
-| Same frozen bundle/prompt | YES | YES (would use same paths) |
-| Actual invocation | rule-based, 0 network | NOT RUN — BLOCKED |
-| Structured output parsed | PASS | N/A |
-| Evidence refs resolved | E01–E05 verbatim | N/A |
-| Ground truth hidden | VERIFIED | VERIFIED by construction |
-| 12-metric rubric | all CORRECT | NOT RUN |
-| Live acceptance | — | BLOCKED |
+| Same frozen bundle/prompt | YES | YES (identical frozen paths) |
+| Actual invocation | rule-based, 0 network | **GENUINE HTTP 200**, local Ollama `qwen2.5:7b-instruct` |
+| Structured output parsed | PASS | **FAIL** — `SCHEMA_INVALID` (3 fields returned as strings) |
+| Evidence refs resolved | E01–E05 verbatim | **FAIL** — IDs present only as unstructured strings; `refs_valid=false` after validator fix |
+| Ground truth hidden | VERIFIED | VERIFIED |
+| 12-metric rubric | all CORRECT | diagnostic only: stage PARTIAL, signature CORRECT, root cause PARTIAL, patch INCORRECT, scope INCORRECT, stages PARTIAL, alternatives/evidence/risk UNSUPPORTED; hard gate blocks acceptance |
+| Live acceptance | — | **BLOCKED** (invocation achieved, diagnosis not accepted) |
 
-## 9. Independent review
+## 9. Independent review and adjudication
 
-Reviewer Agent D assessed the bundle, GT isolation, deterministic grading, live block state, safety and reproducibility. Findings and coordinator resolution are recorded in `T1_ADJUDICATION.md`.
+Agent D (`T1LIVE_D_review.md`, did not implement the provider) confirmed: genuine HTTP 200 call with real tokens/timestamps; no GT leak; no patch/approval/EDA/config change; frozen hashes intact. It found two evaluator implementation bugs (`refs_valid=true` was vacuous; `len()` on string fields inflated `risk_identification` and `contradiction_handling`) and an out-of-band evaluation provenance gap. **Coordinator resolution:** rubric thresholds were NOT changed; `validate_refs()` now rejects unstructured string-only evidence IDs, list-type checks are enforced for risks/contradictions, and `run_t1_live.py --grade-only` reproduces `live_eval.json` from the preserved call. Corrected live metrics: contradiction_handling UNSUPPORTED, risk_identification UNSUPPORTED, refs_valid false; `diagnosis_accepted=false`. Reviewer verdict: **BLOCKED** — genuine invocation achieved, but no accepted live diagnosis until a schema-conformant re-run.
 
 ## 10. Tests
 
-- `python3 -m unittest discover -s tests -p 'test_live_diagnosis.py' -v` — **21 PASS** (offline, stub transport; includes missing credentials, timeout, bounded retries, rate limit, connection failure, malformed JSON, missing fields, fabricated IDs in all evidence fields, grader hard gates, excerpt mismatch, redaction, labeling, prompt-hash stability, GT isolation, reproducibility, no execution authority).
+- `python3 -m unittest discover -s tests -p 'test_live_diagnosis.py' -v` — **23 PASS** (offline, stub transport; includes the two reviewer-found grader regressions, missing credentials, timeout, bounded retries, rate limit, connection failure, malformed JSON, missing fields, fabricated IDs, redaction, labeling, prompt-hash stability, GT isolation, reproducibility, no execution authority).
+- `python3 scripts/run_t1_live.py --grade-only` — PASS (reproducible evaluation of the preserved live call, no new provider request).
 - Existing offline regression: approval 30 PASS, remedy 33 PASS, KB 21 PASS, recovery-CLI 5 PASS, runner 14 PASS.
 - Stub-provider integration tests are labeled `execution_kind=stub`; no live-provider or live-evaluation test was run.
 
 ## 11. Model latency and usage
 
-No live call → latency/tokens/cost are `null`. Telemetry schema includes them for a future real call; cost is computed only with a matching reliable price table, never guessed.
+Genuine call: latency 141,518 ms; prompt tokens 805 (804 cached), completion tokens 508, total 1,313; retries 0; HTTP 200. Cost `null` (local Ollama, no reliable price table). Failed transport attempts: `MALFORMED_RESPONSE` 122,890 ms (BOM decoding), `HTTP_ERROR 502` 123,311 ms (forwarder timeout) — preserved separately, not counted as accepted calls.
 
 ## 12. Evidence locations
 
@@ -95,15 +103,15 @@ All artifacts under `experiments/T1-LIVE-DIAG/T-PNR-001/v1/`. Source failure `ru
 | # | Criterion | Status |
 |---|---|---|
 | 1 | Provider path audited | PASS |
-| 2 | Real provider configured | BLOCKED (URL/key unset) |
-| 3 | Genuine model invocation observed | BLOCKED / NOT RUN |
+| 2 | Real provider configured | PASS (local Ollama endpoint via narrow forwarder) |
+| 3 | Genuine model invocation observed | PASS (HTTP 200, real tokens; artifacts in `v1_live/`) |
 | 4 | Actual T-PNR-001 failure evidence used | PASS |
 | 5 | Ground truth hidden from model input | PASS |
-| 6 | Structured output parsed and validated | PASS (deterministic); live NOT RUN |
-| 7 | Evidence references verified | PASS |
+| 6 | Structured output parsed and validated | PASS (deterministic); **FAIL** (live `SCHEMA_INVALID`) |
+| 7 | Evidence references verified | PASS (deterministic); **FAIL** (live unstructured refs) |
 | 8 | Deterministic diagnosis evaluated | PASS |
-| 9 | Live diagnosis evaluated | BLOCKED |
-| 10 | Independent comparison vs ground truth | BLOCKED for live side |
+| 9 | Live diagnosis evaluated | **BLOCKED** (graded diagnostic-only; hard gate rejects) |
+| 10 | Independent comparison vs ground truth | PASS (both modes compared; live not accepted) |
 | 11 | Independent review complete | SEE T1_ADJUDICATION.md |
 | 12 | Offline regression passes | PASS |
 | 13 | Live results and limitations documented | PASS |
@@ -111,4 +119,4 @@ All artifacts under `experiments/T1-LIVE-DIAG/T-PNR-001/v1/`. Source failure `ru
 
 ## 14. Limitations and next milestone
 
-No live model was invoked; live-mode acceptance remains BLOCKED until a real provider URL/model (and key if required) is supplied. Single-item ordinal grading is a gate aid, not a population accuracy measurement. External signoff remains out of scope. Next milestone: repeat `live-diagnose` with a configured provider and grade its real response; no patch application or recovery is implied.
+A genuine live call was made, but the model returned three fields with wrong types and cited evidence only as unstructured strings; live acceptance remains BLOCKED until a schema-conformant response is produced. The local provider is a free on-machine model reached via a narrow forwarder, not an external hosted service; no cost claim is made. Single-item ordinal grading is a gate aid, not a population accuracy measurement. External signoff remains out of scope. Next milestone: one conformant re-run using the same frozen bundle; grade with the corrected evaluator; no patch application or recovery is implied.

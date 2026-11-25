@@ -37,6 +37,8 @@ ALLOW=(
   "docs/T1_EXPERIMENT_REPORT.md"
   "docs/T1_ADJUDICATION.md"
   "scripts/live_diagnosis.py"
+  "scripts/run_t1_live.py"
+  "scripts/t1_ollama_forward.ps1"
   "scripts/evidence_package.py"
   "scripts/evaluate_diagnosis.py"
   "tests/test_live_diagnosis.py"
