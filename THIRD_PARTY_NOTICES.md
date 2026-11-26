@@ -12,6 +12,10 @@ The MIT license in `LICENSE` covers **original SattvaRoute code and documents on
 | `sram_x4x4x1.lef`, `sram_x4x4x1.lib` | Generated locally by OpenFinRAM with the public ASAP7 academic technology | Outputs of a BSD-3 generator; derived from public ASAP7 collateral | Included because the supported PnR flow requires them. Attribution retained; consult ASAP7 terms before commercial redistribution. |
 | ASAP7 | Arizona State University predictive technology model | Public academic PDK; consult its own license | External platform. Standard-cell libraries and tech files are **not** included here. |
 | Yosys | <https://github.com/YosysHQ/yosys> | ISC / GPL (see upstream) | External synthesis tool. Not vendored. |
+| Nangate45 platform (ORFS `flow/platforms/nangate45`) | Pinned ORFS revision `25b6429c...` | Per upstream Nangate notice; the ORFS script license does not cover all platform data | External platform for the published `nangate_macro_control` benchmark. LEF/Liberty/RCX files are **not** committed; they are referenced by hash in `config/sattva_manifest.json`. Do not assume redistribution rights. |
+| `fakeram45_64x32` abstract macro (`.lib`, `.lef`) | ORFS Nangate45 platform | Platform/upstream terms | Abstract macro used by the control benchmark. **Not** a foundry-characterized SRAM. Pinned by hash; not vendored. |
+
+A full attribution and dependency inventory, including the Nangate45/FakeRAM package, is maintained in `docs/governance/THIRD_PARTY.md`. Licensing scope and a recommendation (owner decision required) are in `docs/governance/LICENSING.md`. This notice is supplemented, not rewritten.
 
 ## Deliberately excluded from this repository
 
