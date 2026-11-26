@@ -4,8 +4,8 @@ Status: record of local skill discovery and application. **No tools or skills we
 
 ## Directories inspected
 
-- `D:\agent-skills\skills` — contains `adobe`, `agent-desktop`, `animation-interactive`, `data-lineage`, `data-manager`, `Database`, `dbt`, `design-ui`, `desktop`, `developer`, `discovery`, `finance-business`, `mcp`, `scroll-craft`, `upstream-pr-contribution`, `youtube`, plus README/.gitkeep.
-- `D:\SattvaRoute_publish\.skills` — existing project reports: `DISCOVERY_REPORT.md`, `EVALUATION_SUMMARY.md`, `INSTALLATION_REPORT.md`, `INVENTORY.md`, `PROJECT_SKILLS.json/.md`, `README.md`, `SECURITY_AUDIT.md`, `skill_sources.json`, `validate_skills.py`.
+- Local agent skill registry (`agent-skills/skills`) — contains `adobe`, `agent-desktop`, `animation-interactive`, `data-lineage`, `data-manager`, `Database`, `dbt`, `design-ui`, `desktop`, `developer`, `discovery`, `finance-business`, `mcp`, `scroll-craft`, `upstream-pr-contribution`, `youtube`, plus README/.gitkeep.
+- Repository-local `.skills` directory — existing project reports: `DISCOVERY_REPORT.md`, `EVALUATION_SUMMARY.md`, `INSTALLATION_REPORT.md`, `INVENTORY.md`, `PROJECT_SKILLS.json/.md`, `README.md`, `SECURITY_AUDIT.md`, `skill_sources.json`, `validate_skills.py`.
 - OpenCode skill registry (available skills list) — includes `graphify`, `opencode`, `agent-desktop`, `hallmark`, `motionforge`, `unslop`, `adobe`, and domain-specific skills.
 
 ## Selected and applied

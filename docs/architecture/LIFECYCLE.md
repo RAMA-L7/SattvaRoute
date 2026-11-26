@@ -24,7 +24,7 @@ Stage inputs used for invalidation (from the flow Makefile do-step rules):
 
 1. `pnr_cli.py baseline` invokes `run_baseline_orfs.sh` with `SATTVA_DESIGN`, `SATTVA_DESIGN_PROFILE`, `SATTVA_ROOT`, and a tag.
 2. Runner performs manifest preflight (profile-scoped): revision, local patches, collateral hashes, tool hashes.
-3. Runner executes stages, capturing `evidence/run.json`, `stages.tsv`, `stage_*.log`, `preflight`, `manifest.json`, `mirror.patch`, artifact hashes, `postflight`.
+3. Runner executes stages, capturing `evidence/run.json`, `stages.tsv`, `stage_*.log`, `preflight.txt`/`preflight.json`/`preflight_checks.tsv`, `manifest.json`, `mirror.patch`, artifact hashes, `postflight`.
 4. CLI reports `status` from the process return code but explicitly sets `engineering_verdict: NOT EVALUATED - inspect reports`.
 5. `verify_run.py` must be run separately to produce a report-level verdict.
 

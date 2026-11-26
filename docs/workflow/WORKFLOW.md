@@ -18,7 +18,7 @@ Preflight runs first; stages execute with evidence capture. The CLI output statu
 
 ## 2. Evidence collection
 
-Evidence is captured automatically under `<run>/evidence/`. Review `run.json`, `stages.tsv`, `stage_*.log`, `preflight`, `manifest.json`. See `docs/architecture/EVIDENCE.md`, `docs/reference/ARTIFACTS.md`.
+Evidence is captured automatically under `<run>/evidence/`. Review `run.json`, `stages.tsv`, `stage_*.log`, `preflight.txt`/`preflight.json`, `manifest.json`. See `docs/architecture/EVIDENCE.md`, `docs/reference/ARTIFACTS.md`.
 
 ## 3. Failure diagnosis
 

@@ -9,7 +9,7 @@ Status: describes artifacts actually produced/consumed. See `docs/architecture/E
 | `run.json` | Run identity, declared stages, summary |
 | `stages.tsv` | Stage names + return codes |
 | `stage_*.log` | Per-stage tool output (diagnosis source) |
-| `preflight` | Profile-scoped preflight result |
+| `preflight.txt`, `preflight.json`, `preflight_checks.tsv` | Profile-scoped preflight result |
 | `manifest.json` | Resolved dependency view + canonical fingerprint |
 | `mirror.patch` | Declared ORFS local patches |
 | `artifact_sha256.txt` | Hash manifest for selected artifacts |

@@ -1,6 +1,6 @@
 # Verification system
 
-Status: implemented. Source: `scripts/verify_run.py` (also `docs/VERIFICATION.md` for detailed earlier notes).
+Status: implemented. Source: `scripts/verify_run.py` (the Phase 5 note at `docs/VERIFICATION.md` is preserved as historical/superseded).
 
 ## Separation principle
 

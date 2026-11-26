@@ -21,7 +21,7 @@ A missing-file error is matched against resolved paths, so an override in an att
 | `riscv32i_sattva` | `FEASIBILITY_FAILED_YOSYS_ASAP7` | Inactive; ASAP7 feasibility profile |
 | `sattva_sram` | `UNRESOLVED_DRT0073_PRESERVED` | Inactive; historical ASAP7 SRAM regression; not reopened |
 
-Only the active profile is checked. Inactive profiles are declared but never validated or modified.
+Only the active profile is checked during the control-benchmark flow. Other profiles are declared and can be explicitly selected with `--profile` (the runner has branches for them), but they are not validated for the control benchmark and were not modified in this milestone.
 
 ## Collateral (pinned, external, not redistributed)
 

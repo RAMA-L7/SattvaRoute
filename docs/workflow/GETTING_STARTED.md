@@ -5,7 +5,7 @@ Status: commands verified against `scripts/pnr_cli.py`, `manifest.py`, `verify_r
 ## Prerequisites
 
 - Python ≥ 3.10, GNU Make, Bash.
-- An external ORFS checkout at pinned revision `25b6429c1644a8682852646bebf19ff164402c76` with the two declared local patches applied (`evidence/mirror.patch`).
+- An external ORFS checkout at pinned revision `25b6429c1644a8682852646bebf19ff164402c76` with the two declared local patches applied (paths, reasons and SHA-256 in `config/sattva_manifest.json`; the runner-generated `evidence/mirror.patch` is not published).
 - Pinned OpenROAD and Yosys binaries (hashes in `config/sattva_manifest.json`).
 - No network credentials required for offline diagnosis/tests. A model provider is optional and advisory.
 
@@ -27,7 +27,7 @@ Nothing is vendored: ORFS, PDKs, tool binaries, and platform libraries are exter
 ```
 git clone https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts
 git -C OpenROAD-flow-scripts checkout 25b6429c1644a8682852646bebf19ff164402c76
-git -C OpenROAD-flow-scripts apply <path-to>/evidence/mirror.patch
+# apply the two local patches declared in config/sattva_manifest.json
 # build openroad + yosys to match pinned sha256 in config/sattva_manifest.json
 export SATTVA_MIRROR=<checkout>
 ```
@@ -39,7 +39,7 @@ python3 scripts/manifest.py --check --profile nangate_macro_control --mirror "$S
 python3 scripts/pnr_cli.py status
 ```
 
-`status` reports manifest digest, control benchmark path, and the approval-gate reminder. A hash/revision mismatch fails here.
+`status` reports manifest digest, control benchmark path, and the approval-gate reminder. Note: `pnr_cli.py status` prints top-level `PASS` and a nested `manifest` result; it does not propagate `manifest.py --check` failures to its own exit code. Use `python3 scripts/manifest.py --check --profile nangate_macro_control --mirror <orfs>` as the authoritative preflight gate (it returns non-zero on mismatch).
 
 ## Offline tests (no credentials, no flow)
 

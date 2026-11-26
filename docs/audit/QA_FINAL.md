@@ -6,7 +6,7 @@ Status: completed. Scope: documentation-only. QA inspected the repository and ra
 
 | Check | Method | Result |
 |---|---|---|
-| Markdown inventory | Recursive scan of `*.md` excluding `.git` | 254 Markdown files at final check; 66 new docs plus 11 modified tracked files in this milestone |
+| Markdown inventory | Recursive scan of `*.md` excluding `.git` | 254 Markdown files at final check; 66 new docs under the documentation directories plus 4 new root/index/coordination files (70 added), and 12 modified tracked files in the published commit |
 | Relative link integrity | Regex extraction of `](target)` with path resolution per file | 0 broken relative links (one README link to a moved workflow doc found and corrected) |
 | Code fence balance | Count of triple-backtick fences per new/overhauled file | 0 unbalanced files |
 | Mermaid presence | Search for ` ```mermaid ` blocks | 6 canonical diagrams in `docs/diagrams/` |
@@ -32,7 +32,7 @@ Status: completed. Scope: documentation-only. QA inspected the repository and ra
 1. Agent workstreams A–E failed due to inference service overload / free-usage limits; coordinator authored serially. Recorded in `coordination/DOC_OVERHAUL_PLAN.md`.
 2. No Mermaid renderer and no Python interpreter available in this shell; Mermaid syntax was reviewed manually and the offline suite was not re-executed here. An unsupported "166 passed" figure was corrected to 157 counted test methods after independent QA.
 3. Pre-existing raw control bytes in `docs/HELDOUT_RECOVERY.md` (lines ~9, 151-156) corrupt a few words. This is a historical evidence record; it was **not modified** in this milestone and is recorded as a follow-up for owner review.
-4. `benchmark/design/nangate_macro_control/config.mk` contains `/mnt/d/...` default values for `WORK_HOME` and `KLAYOUT_CMD` (`?=` overrides). The claim "no machine-specific paths in published config" was therefore corrected in current docs and flagged in `docs/audit/DOC_AUDIT.md`; the config file itself was not changed.
+4. `benchmark/design/nangate_macro_control/config.mk` contains `/mnt/d/...` default values for `WORK_HOME` and `KLAYOUT_CMD` (`?=` overrides). The claim was corrected in place in other current docs and marked as superseded inline in `docs/REPRODUCIBILITY.md` (with a QA correction note at its end) and in `docs/audit/DOC_AUDIT.md`; the config file itself was not changed.
 5. No external independent reproduction of the benchmark is claimed.
 6. License change and live-AI enablement require owner action; not performed.
 7. Independent QA was eventually obtained from Agent F after earlier agent sessions failed due to service limits; all seven actionable defects it found were either corrected here or recorded as owner-review follow-ups.

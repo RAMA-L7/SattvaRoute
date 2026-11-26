@@ -11,7 +11,7 @@ For each run, under the run directory's `evidence/`:
 | `run.json` | Run identity, declared stages, environment summary |
 | `stages.tsv` | Stage names and return codes |
 | `stage_*.log` | Per-stage tool output (the source for log-based diagnosis) |
-| `preflight` | Manifest preflight outcome (profile, revision, patches, hashes) |
+| `preflight.txt`, `preflight.json`, `preflight_checks.tsv` | Profile-scoped manifest preflight outcome (profile, revision, patches, hashes) |
 | `manifest.json` | Resolved active-profile dependency view and canonical fingerprint |
 | `mirror.patch` | Declared local patches applied to the pinned ORFS mirror |
 | `artifact_sha256.txt` | Hash manifest for selected artifacts |

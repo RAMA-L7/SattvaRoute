@@ -1,3 +1,5 @@
+> **Historical / superseded for current documentation.** This Phase 5 note is preserved verbatim as engineering history; it uses the earlier four-value status vocabulary. For the authoritative current verifier, use `docs/architecture/VERIFICATION.md` and `docs/reference/STATUS_CODES.md`. No technical meaning in this record was changed.
+
 # Verification (Phase 5) — `scripts/verify_run.py`
 
 Report-level verification, **separate from comparison and separate from

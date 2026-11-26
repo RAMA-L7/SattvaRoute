@@ -15,7 +15,7 @@ Status: describes the published control benchmark. Authoritative: `docs/REPRODUC
 
 ## Netlist provenance
 
-Prepared from the ORFS canonicalize stage (Yosys 0.33, `SATTVA_YOSYS_COMPAT=1` gate for the pinned build) and Yosys synthesis with the pinned typical Liberty; exact commands are in `docs/REPRODUCIBILITY.md` and the provenance file. PnR starts from the cached netlist (`SYNTH_NETLIST_FILES`); no re-synthesis during recovery. Macro interface consistency (netlist ↔ LEF ↔ Liberty pins) is checked.
+Prepared from the ORFS canonicalize stage (Yosys 0.33, `SATTVA_YOSYS_COMPAT=1` gate for the pinned build) and Yosys synthesis with the pinned typical Liberty; exact commands are in `docs/REPRODUCIBILITY.md` and the provenance file. PnR starts from the cached netlist (`SYNTH_NETLIST_FILES`); no re-synthesis during recovery. Macro interface consistency (netlist ↔ LEF ↔ Liberty pins) was observed during benchmark preparation and recorded in `docs/REPRODUCIBILITY.md`; it is not an automated capability in `scripts/`.
 
 ## External, not redistributed
 

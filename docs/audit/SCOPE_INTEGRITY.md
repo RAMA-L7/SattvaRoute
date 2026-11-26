@@ -5,7 +5,7 @@ Status: verified from `git status` and `git diff --stat` at milestone end. Branc
 ## Working tree inventory
 
 - Modified tracked files: **12** — `README.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CITATION.cff`, `THIRD_PARTY_NOTICES.md`, `docs/architecture.md`, `docs/recovery.md`, `docs/workflow.md`, `docs/REPRODUCIBILITY.md` (appended QA correction note only), plus appended outcome records in `PROJECT_STATE.md`, `coordination/TASK_BOARD.md`, `coordination/ACTIVE_WORK.md`.
-- Untracked new files/directories: **15** root entries covering `CODE_OF_CONDUCT.md`, `SUPPORT.md`, `coordination/DOC_OVERHAUL_PLAN.md`, `docs/DOCUMENTATION_INDEX.md`, and 12 new documentation directories.
+- Untracked new files/directories: **15** root entries covering `CODE_OF_CONDUCT.md`, `SUPPORT.md`, `coordination/DOC_OVERHAUL_PLAN.md`, `docs/DOCUMENTATION_INDEX.md`, and 11 new documentation directories under `docs/`.
 - New documentation files: **66** across `docs/product`, `docs/architecture`, `docs/engineering`, `docs/workflow`, `docs/security`, `docs/reproducibility`, `docs/reference`, `docs/governance`, `docs/research`, `docs/diagrams`, `docs/audit` (plus the root/index files above).
 
 ## Scope confirmations

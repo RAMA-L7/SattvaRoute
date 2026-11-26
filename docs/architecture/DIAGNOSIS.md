@@ -10,7 +10,7 @@ A run directory containing `evidence/`: `stages.tsv`, `stage_*.log`, `run.json`,
 
 The engine maps observed patterns to a bounded family set, including:
 
-`MISSING_LIB`, `MISSING_LEF`, `MISSING_TECH_LEF`, `MISSING_SC_LIB`, `MISSING_SC_LEF`, `MISSING_CONSTRAINT`, `MISSING_NETLIST`, `UNKNOWN_LIB_CELL`, `PIN_ACCESS`, `INSUFFICIENT_EVIDENCE`.
+`MISSING_MACRO_LIB`, `MISSING_MACRO_LEF`, `MISSING_TECH_LEF`, `MISSING_SC_LIB`, `MISSING_SC_LEF`, `MISSING_CONSTRAINT`, `MISSING_NETLIST`, `PIN_ACCESS`, `UNKNOWN`. `UNKNOWN_LIB_CELL` and `INSUFFICIENT_EVIDENCE` are defined constants in `diagnosis_agent.py` but are not emitted as a `family`; `insufficient_evidence` is a proposal **status**, not a family.
 
 Log patterns include `No rule to make target`, `No such file or directory`, `cannot/can't/unable to open`, `not found`, `does not exist`, `DRT-\d+`, `not found in library`, `No access point`, and generic `ERROR`. Configuration variables are grouped as library vars (`ADDITIONAL_LIBS`, `ADDITIONAL_LIB`, `SC_LIB`, `MACRO_LIB`, `LIB_FILES`), LEF vars (`ADDITIONAL_LEFS`, `ADDITIONAL_LEF`, `SC_LEF`, `TECH_LEF`, `MACRO_LEF`), SDC vars (`SDC_FILE`), and netlist vars (`VERILOG_FILES`, `SYNTH_NETLIST_FILES`, `VERILOG_FILES_BLACKBOX`). Make constructs (`$(shell …)`, unresolved `$(VAR)`, conditionals) are recognized so an overridden value is not mistaken for an absolute one.
 

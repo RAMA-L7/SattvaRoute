@@ -4,7 +4,7 @@ Status: failure-handling guidance. Do not "fix" by relaxing constraints, swappin
 
 ## Preflight fails
 
-Symptom: `manifest.py --check` mismatch. Likely causes: ORFS HEAD not at pinned revision; working tree contains changes beyond the two declared patches; tool binary hash mismatch; collateral hash mismatch; wrong `SATTVA_MIRROR`. Response: reacquire pinned checkout, apply `evidence/mirror.patch`, rebuild/point pinned tool binaries. Do not bypass preflight.
+Symptom: `manifest.py --check` mismatch. Likely causes: ORFS HEAD not at pinned revision; working tree contains changes beyond the two declared patches; tool binary hash mismatch; collateral hash mismatch; wrong `SATTVA_MIRROR`. Response: reacquire pinned checkout, apply the two local patches declared in `config/sattva_manifest.json` (the runner-generated `evidence/mirror.patch` is not published), rebuild/point pinned tool binaries. Do not bypass preflight.
 
 ## Diagnosis says `insufficient_evidence` / `NO_PROPOSAL`
 

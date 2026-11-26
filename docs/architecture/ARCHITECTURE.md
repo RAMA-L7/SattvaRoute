@@ -45,7 +45,7 @@ See `docs/architecture/LIFECYCLE.md` and `docs/workflow/WORKFLOW.md` for the ful
 
 - **Approval boundary:** no patch is applied unless `sattva_approval.py validate` passes against the exact patch hash, policy, design root, run ID, and decision ID.
 - **Isolation boundary:** recovery runs in a separate attempt directory; originals and baseline are preserved.
-- **Profile boundary:** only the active manifest profile is checked; inactive profiles are declared, not validated.
+- **Profile boundary:** only the active manifest profile is checked; other profiles are declared and can be explicitly selected with `--profile`, but are not validated for the control benchmark.
 - **Verification boundary:** verification never modifies the run it inspects.
 
 ## Related

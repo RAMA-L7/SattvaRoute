@@ -6,13 +6,13 @@ Status: describes implemented evaluation assets. Frozen rubric: `scripts/evaluat
 
 - **Frozen rubric:** `evaluate_diagnosis_v2.py` (v2) is frozen; `evaluate_diagnosis.py` retains deterministic/grade subcommands for earlier methodology.
 - **Bundles:** `scripts/evidence_package.py` builds bounded evidence bundles; ground truth is kept separate from the bundle.
-- **Grading:** `grade --output <out> --bundle <bundle> [--gt <gt>] [--out <result>]` compares a diagnosis output against the bundle and ground truth under the frozen rubric.
+- **Grading:** `evaluate_diagnosis_v2.py grade --output <out> --bundle <bundle> [--gt <gt>] [--out <result>]` compares a diagnosis output against the bundle and ground truth under the frozen v2 rubric.
 - **Deterministic path:** `evaluate_diagnosis.py deterministic --bundle <bundle>` grades rule-based classification without a model.
-- **Live path:** `pnr_cli.py live-diagnose` can call a model and optionally grade; without credentials the call is `SKIPPED_NO_CREDENTIALS`/`BLOCKED` and is **not counted** as a successful AI evaluation.
+- **Live path:** `pnr_cli.py live-diagnose` can call a model and optionally grade through `evaluate_diagnosis.py` (v1), **not** the frozen v2 rubric; without credentials the call is `SKIPPED_NO_CREDENTIALS`/`BLOCKED` and is **not counted** as a successful AI evaluation.
 
 ## Recovery evaluation
 
-Recovery is evaluated by independent verification (`verify_run.py --baseline B --failure F --recovery R ...`), not by the runner return code. A recovery is not a fix if verification shows regressions, missing evidence, or inconclusive reports. The held-out case (`docs/HELDOUT_RECOVERY.md`) is a correctly executed example: deterministic diagnosis → human-approved patch → isolated attempt → `verify_recovery` PASS.
+Recovery is evaluated by independent verification (`verify_run.py --baseline B --failure F --recovery R ...`), not by the runner return code. A recovery is not a fix if verification shows regressions, missing evidence, or inconclusive reports. The held-out case (`docs/HELDOUT_RECOVERY.md`) is a correctly executed example: deterministic diagnosis → human-approved patch → isolated attempt → `verify_recovery` PASS. Its evidence records a 1000 ns clock; it does not validate the newer 1 ns active profile.
 
 ## Protocol rules
 

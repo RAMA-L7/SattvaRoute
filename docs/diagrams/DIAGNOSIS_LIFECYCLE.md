@@ -5,10 +5,10 @@ Status: implemented deterministic lifecycle.
 ```mermaid
 flowchart TD
     F["Failed run"] --> EC["Evidence capture: run.json, stages.tsv, logs"]
-    EC --> AI["Artifact inspection: resolved config + reports"]
-    AI --> FC["Failure classification: bounded family set"]
-    FC --> RC["Root-cause analysis: evidence-supported mechanism"]
-    RC --> EB["Evidence binding: evidence_refs + earliest stage"]
+    EC --> ART["Artifact inspection: resolved config + reports"]
+    ART --> FC["Failure classification: bounded family set"]
+    FC --> RCA["Root-cause analysis: evidence-supported mechanism"]
+    RCA --> EB["Evidence binding: evidence_refs + earliest stage"]
     EB --> S{"Bounded rule applies?"}
     S -->|"yes"| CP["Candidate correction: exact diff, hashes, risks"]
     S -->|"no"| IE["insufficient_evidence / NO_PROPOSAL"]

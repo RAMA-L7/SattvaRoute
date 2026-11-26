@@ -10,9 +10,9 @@ flowchart TD
     HU -->|"reject"| RJ["REJECTED: cannot validate or apply"]
     AC --> EX{"Expired or reused?"}
     EX -->|"yes"| INV["Invalid: blocked by expiry / ledger"]
-    EX -->|"no"| VD["validate: hash, path, scope, fingerprint, IDs"]
-    VD -->|"pass"| RDY["Ready for apply"]
-    VD -->|"fail"| BLK["FAIL: no apply"]
+    EX -->|"no"| VAL["validate: hash, path, scope, fingerprint, IDs"]
+    VAL -->|"pass"| RDY["Ready for apply"]
+    VAL -->|"fail"| BLK["FAIL: no apply"]
 ```
 
 Notes: the CLI never manufactures an approval. Ledger is append-only; `validate` rejects reuse and unsafe scope. See `docs/architecture/APPROVAL.md`, `docs/security/SAFETY.md`.

@@ -14,7 +14,7 @@ A recovery attempt is an **isolated run** that applies a human-approved, exact-h
 4. Execution: `pnr_cli.py resume` validates approval first, then invokes `run_baseline_orfs.sh` with the approved patch and source-run binding.
 5. Result collection: the attempt directory captures its own evidence independently of the baseline.
 6. Independent verification: `verify_run.py --baseline B --failure F --recovery R` compares report-level checks and flags regressions.
-7. Recovery verdict: fixed / regressed / inconclusive / blocked, based on verification — not on the runner return code.
+7. Recovery verdict: fixed / regressed / inconclusive / blocked — an engineer's interpretation of report-level verification, not an emitted status. `verify_run.py` emits `PASS`/`FAIL`/`UNKNOWN` for `verify_recovery.overall`; the verdict is derived from those checks, not from the runner return code.
 
 ## Isolation properties
 
@@ -25,7 +25,7 @@ A recovery attempt is an **isolated run** that applies a human-approved, exact-h
 
 ## Verified recovery evidence
 
-- Held-out missing-LEF case: real failure at synthesis → approved patch `AP-HELDOUT-LEFS-001` → recovery run `orfs_baseline_heldout_recovered_..._8250` rc=0 → `verify_recovery` PASS. The diagnosis and correction were **deterministic**, not live-AI.
+- Held-out missing-LEF case: real failure at synthesis → approved patch `AP-HELDOUT-LEFS-001` → recovery run `orfs_baseline_heldout_recovered_..._8250` rc=0 → `verify_recovery` PASS. The diagnosis and correction were **deterministic**, not live-AI. Context: that run used the historical `constraint.sdc` at **1000 ns** (recorded in `evidence/timing/heldout_recovered_audit.json`); it is not a verification of the newer 1 ns active profile.
 - 1 ns SDC correction: explicitly approved, applied to `config.mk`, new baseline PASS, `verify_run` PASS; original SDC preserved.
 
 ## Non-claims

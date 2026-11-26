@@ -87,8 +87,8 @@
 
 - Status: COMPLETE (documentation-only). Branch `main`, base `783d7655af36b084fe958c216a54a0b7a58f58d8`.
 - Coordinator authored serially; Agents A-E failed due to inference service overload / free usage limits (recorded in `coordination/DOC_OVERHAUL_PLAN.md`). Local skills inspected; `graphify` used read-only for codebase mapping; no installs.
-- Created 66 new documentation files across 12 directories; rewrote `README.md` and `CONTRIBUTING.md`; supplemented `SECURITY.md`, `CITATION.cff`, `THIRD_PARTY_NOTICES.md`; added `CODE_OF_CONDUCT.md`, `SUPPORT.md`; marked three legacy notes superseded with headers only.
+- Created 70 new files (66 docs under 11 new `docs/` directories plus `CODE_OF_CONDUCT.md`, `SUPPORT.md`, `docs/DOCUMENTATION_INDEX.md`, `coordination/DOC_OVERHAUL_PLAN.md`); rewrote `README.md` and `CONTRIBUTING.md`; supplemented `SECURITY.md`, `CITATION.cff`, `THIRD_PARTY_NOTICES.md`; added `CODE_OF_CONDUCT.md`, `SUPPORT.md`; marked three legacy notes superseded with headers only.
 - Authoritative sources: `docs/product/PRODUCT.md`, `docs/reference/GLOSSARY.md`, `docs/reference/CAPABILITIES.md`, `docs/DOCUMENTATION_INDEX.md`, `docs/REPRODUCIBILITY.md`.
-- QA: 249 Markdown files scanned; 0 broken relative links; 6 Mermaid diagrams; balanced fences. Evidence mapping, QA, and scope integrity in `docs/audit/`.
+- QA: 254 Markdown files scanned; 0 broken relative links; 6 Mermaid diagrams; balanced fences. Evidence mapping, QA, and scope integrity in `docs/audit/`.
 - No production source, benchmark, SDC, LEF/Liberty, evidence, Git history, LICENSE, PR/merge, experiments, or recovery changed. No push/PR/merge.
 - Open: live AI unavailable without credentials; external independent reproduction not performed; DRT-0073 unresolved; license recommendation awaits owner decision; offline suite not re-executed here (Python interpreter unavailable in shell); an unsupported "166 passed" figure was corrected to 157 counted test methods after independent QA.

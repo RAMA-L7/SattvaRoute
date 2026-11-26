@@ -25,7 +25,7 @@ Status: general engineering background, included only to orient readers. **Sattv
 
 ## Important distinctions
 
-- **Pin access** is a routing-era failure where a macro pin cannot be reached; evidence includes `No access point`, DRT codes, and LEF/Liberty pin geometry. See `docs/engineering/MACRO_PIN_ACCESS.md`.
+- **Pin access** is a routing-era failure where a macro pin cannot be reached; the classifier emits `PIN_ACCESS` for `No access point` or `DRT-0073`, with LEF/Liberty pin geometry as supporting evidence. See `docs/engineering/MACRO_PIN_ACCESS.md`.
 - **Macro collateral** (LEF, Liberty, optional GDS) must match the pinned platform and macro. The control benchmark uses an **abstract** `fakeram45_64x32`, not a characterized foundry SRAM. See `docs/engineering/CONFIG_COLLATERAL.md`.
 - **Timing units** must be read from `report_units` and Liberty `time_unit` before interpreting bare periods. See `docs/engineering/SDC_TIMING.md`.
 - **Verification boundaries** separate router-internal checks from signoff. See `docs/engineering/VERIFICATION_BOUNDARIES.md`.

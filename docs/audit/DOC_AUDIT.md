@@ -4,7 +4,7 @@ Status: Phase 0/1 audit record. No engineering files were changed.
 
 ## Repository confirmation
 
-- Repository: `D:\SattvaRoute_publish`, branch `main`, commit `783d7655af36b084fe958c216a54a0b7a58f58d8` (PR #1 squash merge).
+- Repository: this SattvaRoute checkout; base branch `main` at commit `783d7655af36b084fe958c216a54a0b7a58f58d8` (PR #1 squash merge); published on `docs/product-documentation-overhaul`.
 - Documentation milestone started with a clean tree; edits in this milestone are all documentation/coordination files.
 
 ## Findings
@@ -50,7 +50,27 @@ Status: Phase 0/1 audit record. No engineering files were changed.
 - An unsupported "166 passed / 166 tests" figure was found in five new documents and root files. Corrected everywhere to "157 `def test_` methods defined in `tests/*.py` (counted here); prior records report suites passing; not re-executed in this shell".
 - `verify_run.py` has no `--json` flag (only in its module docstring). Removed from `docs/reference/CLI.md` and `docs/architecture/VERIFICATION.md`.
 - Cross-references pointed to nonexistent `docs/security/APPROVAL_MODEL.md`, `docs/security/AI_RISKS.md`, `docs/security/PATCH_POLICY.md`, `docs/workflow/RECOVERY_FLOW.md`. Repointed to existing `docs/security/SAFETY.md`, `docs/security/INPUT_AND_AI_RISKS.md`, `docs/workflow/WORKFLOW.md`. Markdown link check remains at 0 broken links.
-- `benchmark/design/nangate_macro_control/config.mk` has overridable `/mnt/d/...` defaults for `WORK_HOME` and `KLAYOUT_CMD`; "no machine-specific paths" claims were corrected in current docs, and a QA correction note was appended to `docs/REPRODUCIBILITY.md`. The config file was not changed.
+- `benchmark/design/nangate_macro_control/config.mk` has overridable `/mnt/d/...` defaults for `WORK_HOME` and `KLAYOUT_CMD`; "no machine-specific paths" claims were corrected in place in other current docs; in `docs/REPRODUCIBILITY.md` the two original claims are marked superseded inline and a QA correction note was appended. The config file was not changed.
 - `docs/HELDOUT_RECOVERY.md` contains pre-existing raw control bytes that corrupt a few words. It is a historical evidence record; left unchanged and recorded as an owner-review follow-up in `docs/audit/QA_FINAL.md`.
 - "Timing audit" capability was downgraded from VALIDATED to IMPLEMENTED because no unit test references `scripts/timing_audit.py`.
 - `docs/security/SAFETY.md` now distinguishes approval-record fields from CLI arguments; threat-model source citations corrected.
+
+## Pre-PR corrections (documentation-only, second commit on this branch)
+
+Independent pre-PR review workstreams reported, and the coordinator corrected:
+
+- Stale counts (QA_FINAL 11→12 modified; TASK_BOARD 8→12; PROJECT_STATE/DOC_OVERHAUL_PLAN 249→254 Markdown files; 12→11 new documentation directories).
+- Malformed coordination table rows where the new `T-DOC-001` entry was concatenated onto the prior row.
+- Redundant self-contradiction in `docs/REPRODUCIBILITY.md`: two "no machine paths" claims are now marked superseded inline, with the existing QA correction note retained.
+- Absolute local paths removed from newly added coordination/audit docs; branch metadata clarified as base vs publication branch.
+- Threat-model citation corrected: `sattva_approval.py:325-341` is a 0600 target-file lock, not a ledger lock.
+- Diagnosis family identifiers corrected to source: `MISSING_MACRO_LIB`, `MISSING_MACRO_LEF`, `UNKNOWN`; `insufficient_evidence` is a proposal status, not a family.
+- Artifact names corrected: `preflight.txt` / `preflight.json` / `preflight_checks.tsv`.
+- `evidence/mirror.patch` is runner-generated per run and not published; reproduction instructions now point to the manifest's declared patches instead of a nonexistent published file.
+- `pnr_cli.py status` top-level PASS does not propagate `manifest.py --check` failure; the authoritative gate is `manifest.py --check`.
+- "Macro interface consistency is checked" downgraded to an observed, documented fact with no automated checker.
+- DRT-0305 described as a net-classification failure (not pin access); `PIN_ACCESS` emitted for `No access point` or `DRT-0073`.
+- Held-out recovery evidence recorded at 1000 ns; clarified that it does not validate the newer 1 ns active profile.
+- Optional `live-diagnose --gt` grades with v1 `evaluate_diagnosis.py`, not the frozen v2 rubric.
+- Inactive profiles are explicitly selectable via `--profile`, not validated for the control benchmark; proposal `PENDING` (source) vs `PENDING_HUMAN` (CLI) distinguished; recovery verdict labels described as interpretation of `PASS`/`FAIL`/`UNKNOWN`.
+- `docs/VERIFICATION.md` marked historical/superseded; Mermaid node IDs made consistent across diagrams.

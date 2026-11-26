@@ -14,7 +14,7 @@ Where a term has a common industry meaning that differs from SattvaRoute usage, 
 | **Diagnosis** | The deterministic process that reads run evidence and produces a classification, failure mechanism, evidence references, earliest affected stage, and affected downstream stages. Implemented in `scripts/diagnosis_agent.py`. |
 | **Deterministic diagnosis** | Classification derived only from parsed evidence and bounded rules. This is the implemented default. It does not require a model or credentials. |
 | **AI/model diagnosis** | Optional advisory note from a configured model provider via `scripts/live_diagnosis.py`. Advisory only; never applies or approves anything. Unavailable without credentials (`SKIPPED_NO_CREDENTIALS`). |
-| **Evidence** | Immutable artifacts captured from a run: `evidence/run.json`, `stages.tsv`, `stage_*.log`, `preflight`, `manifest.json`, hashes, approval records, postflight. Missing evidence stays missing. |
+| **Evidence** | Immutable artifacts captured from a run: `evidence/run.json`, `stages.tsv`, `stage_*.log`, `preflight.txt`/`preflight.json`/`preflight_checks.tsv`, `manifest.json`, hashes, approval records, postflight. Missing evidence stays missing. |
 | **Evidence reference** | A concrete path to an artifact that supports a diagnosis or verification check. Diagnoses carry `evidence_refs`. |
 | **Candidate patch / proposed correction** | A textual, bounded, reviewable change derived from a diagnosis. It is **not applied** by proposal commands. Status `PENDING_HUMAN` until approved. |
 | **Approval** | A human-signed record created by `scripts/sattva_approval.py` binding an exact patch hash, target, decision ID, source run ID, rerun scope, and earliest affected stage. |
@@ -22,12 +22,12 @@ Where a term has a common industry meaning that differs from SattvaRoute usage, 
 | **Recovery attempt / recovery run** | An isolated run that applies an approved change and reruns only the affected stages. Originals and baseline are not modified in place. |
 | **Verification** | Independent, report-level checking of a run (`scripts/verify_run.py`). Separate from diagnosis and from recovery execution. |
 | **Engineering validation** | Human interpretation of verified reports to decide whether engineering goals (e.g. acceptable timing) are met. A tool PASS is not engineering acceptance. |
-| **Recovery verdict** | The outcome of comparing baseline, failure, and recovery runs: fixed, regressed, inconclusive, or blocked. Derived from independent verification, not from the recovery process return code. |
+| **Recovery verdict** | An engineer's interpretation of a baseline/failure/recovery comparison: fixed, regressed, inconclusive, or blocked. Not an emitted status: `verify_run.py` emits `PASS`/`FAIL`/`UNKNOWN`. Derived from independent verification, not from the recovery process return code. |
 | **Fingerprint** | A canonical digest of the resolved, active-profile inputs (dependencies, collateral, tool hashes, ORFS revision and local patches) produced by `scripts/manifest.py`. |
 | **Reproducibility** | The goal that a documented run can be recreated from pinned inputs without author-specific paths or untracked files. The published `config.mk` still has overridable `/mnt/d/...` defaults to set locally. Not a claim that another engineer has tested it. |
 | **Stage** | One step of the ORFS flow: `check-yosys`, `check-openroad`, `synth`, `floorplan`, `place`, `cts`, `route`, `finish`. Stage boundaries and inputs are declared in `state/approval_policy.json`. |
 | **Rerun scope** | The set of stages an approved change is permitted to invalidate and rerun, derived from the earliest affected stage. Broad reruns are not permitted. |
-| **Profile** | A named dependency scope in `config/sattva_manifest.json`. Only the active profile is checked; inactive profiles are declared but never validated. |
+| **Profile** | A named dependency scope in `config/sattva_manifest.json`. While `nangate_macro_control` is active, only that profile is checked; other profiles are declared and may be explicitly selected with `--profile`, but they are not validated for the control benchmark. |
 | **Control benchmark** | `benchmark/design/nangate_macro_control`: Nangate45 standard cells plus the platform `fakeram45_64x32` abstract macro. The validated scope. |
 | **Historical case** | A preserved, unresolved investigation (notably `DRT-0073`/OpenFinRAM). Not reopened or relabeled. |
 

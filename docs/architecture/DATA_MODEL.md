@@ -16,12 +16,12 @@ Status: describes artifacts actually produced/consumed. See `docs/reference/ARTI
 
 ## Run artifacts
 
-Per run: `evidence/` (run.json, stages.tsv, stage logs, preflight, manifest.json, mirror.patch, artifact hashes, approval records, postflight) and `work/results/`, `work/reports/`. Full databases are not published; curated summaries and hashes are.
+Per run: `evidence/` (run.json, stages.tsv, stage logs, preflight.txt/preflight.json/preflight_checks.tsv, manifest.json, mirror.patch, artifact hashes, approval records, postflight) and `work/results/`, `work/reports/`. Full databases are not published; curated summaries and hashes are.
 
 ## Records
 
 - **Diagnosis record:** family, mechanism, evidence_refs, earliest affected stage, downstream invalidation, status.
-- **Proposal record:** exact diff, target, variable, current/intended resolved values, original/patch hashes, risks, verification criteria, `approval_status: PENDING_HUMAN`.
+- **Proposal record:** exact diff, target, variable, current/intended resolved values, original/patch hashes, risks, verification criteria. `diagnosis_agent.propose_patch` emits `approval_status: PENDING`; `pnr_cli.py propose` relabels CLI output to `PENDING_HUMAN`. Neither value authorizes application.
 - **Approval record:** approval/decision/source-run IDs, patch hash, target, earliest stage, rerun scope, approver, status, optional expiry/expected-final-hash. Written through the approval service; appended to `state/approval_ledger.jsonl`.
 - **Fingerprint:** canonical manifest digest of resolved active-profile inputs.
 - **Verification record:** named checks with status, detail, evidence paths.

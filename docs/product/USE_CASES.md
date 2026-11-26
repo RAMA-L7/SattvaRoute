@@ -36,7 +36,7 @@ Acquire the pinned ORFS revision, apply the two recorded local patches, build th
 
 ## UC-9 — Evaluate diagnosis quality in research
 
-Use the frozen `evaluate_diagnosis_v2.py` rubric and held-out bundles. Live-AI calls are advisory and counted only with real credentials; without them the status is `BLOCKED`/`SKIPPED_NO_CREDENTIALS`. See `docs/reproducibility/EVALUATION.md`.
+Use the frozen `evaluate_diagnosis_v2.py` rubric and held-out bundles. The optional `live-diagnose --gt` path grades through `evaluate_diagnosis.py` (v1), not the frozen v2 rubric. Live-AI calls are advisory and counted only with real credentials; without them the status is `BLOCKED`/`SKIPPED_NO_CREDENTIALS`. See `docs/reproducibility/EVALUATION.md`.
 
 ## Non-use cases
 

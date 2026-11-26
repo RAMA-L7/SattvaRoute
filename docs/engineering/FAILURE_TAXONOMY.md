@@ -8,15 +8,15 @@ From `scripts/diagnosis_agent.py`:
 
 | Family | Typical evidence | Notes |
 |---|---|---|
-| `MISSING_LIB` | `No rule to make target ... .lib`, missing path in resolved `ADDITIONAL_LIBS`/`SC_LIB`/`MACRO_LIB` | Macro or standard-cell Liberty absent |
-| `MISSING_LEF` | Missing `.lef` target, resolved LEF variable points to absent file | Includes held-out `ADDITIONAL_LEFS` case |
+| `MISSING_MACRO_LIB` | `No rule to make target ... .lib`, missing path in resolved `ADDITIONAL_LIBS`/`SC_LIB`/`MACRO_LIB` | Missing Liberty; also emitted for `not found in library` |
+| `MISSING_MACRO_LEF` | Missing `.lef` target, resolved LEF variable points to absent file | Includes held-out `ADDITIONAL_LEFS` case |
 | `MISSING_TECH_LEF` | Missing technology LEF | Technology/collateral mismatch |
 | `MISSING_SC_LIB` / `MISSING_SC_LEF` | Missing standard-cell Liberty/LEF | Platform collateral incomplete |
 | `MISSING_CONSTRAINT` | Missing `SDC_FILE` target | Constraint absent or misresolved |
 | `MISSING_NETLIST` | Missing netlist / `VERILOG_FILES` / `SYNTH_NETLIST_FILES` target | Input netlist unavailable |
-| `UNKNOWN_LIB_CELL` | `not found in library` | Cell/library mismatch |
-| `PIN_ACCESS` | `No access point`, DRT codes, LEF/Liberty pin geometry | Macro pin-access investigation |
-| `INSUFFICIENT_EVIDENCE` | No bounded rule matches | Correct answer is to abstain, not guess |
+| `UNKNOWN` | No bounded rule matched | Emit `UNKNOWN`; do not guess a mechanism |
+| `PIN_ACCESS` | `No access point` or `DRT-0073` hit | Historical pin-access investigation; other DRT codes are not pinned to this family |
+| `insufficient_evidence` | No bounded correction rule applies | Proposal **status**, not a family; abstain rather than guess |
 
 ## Cross-cutting failure mechanisms
 
