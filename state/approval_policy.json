@@ -31,8 +31,38 @@
   ],
   "ledger": "$SATTVA_ROOT/state/approval_ledger.jsonl",
   "recovery_profiles": {
+    "nangate_macro_control": {
+      "manifest_profile": "nangate_macro_control",
+      "input_files": [
+        "config.mk",
+        "constraint.sdc",
+        "rtl/sattva_macro_top.v",
+        "rtl/fakeram45_64x32_bb.v",
+        "netlist/sattva_macro_top_synth.v"
+      ],
+      "fingerprint_files_absolute": [
+        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/fakeram45_64x32.lib",
+        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/fakeram45_64x32.lef",
+        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib",
+        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/NangateOpenCellLibrary.tech.lef",
+        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/rcx_patterns.rules"
+      ],
+      "stage_inputs": {
+        "synth": [],
+        "floorplan": ["1_synth.odb"],
+        "place": ["2_floorplan.odb"],
+        "cts": ["3_place.odb"],
+        "route": ["4_cts.odb"],
+        "finish": ["5_route.odb"]
+      }
+    },
     "nangate_macro_attempt": {
+      "manifest_profile": "nangate_macro_control",
       "input_files": ["constraint.sdc", "netlist/sattva_macro_top_synth.v"],
+      "fingerprint_files_absolute": [
+        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/fakeram45_64x32.lib",
+        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/fakeram45_64x32.lef"
+      ],
       "stage_inputs": {
         "synth": [],
         "floorplan": [],

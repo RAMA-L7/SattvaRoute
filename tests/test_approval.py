@@ -109,6 +109,48 @@ class ApprovalTestBase(unittest.TestCase):
         return str(ctx.exception)
 
 
+class TestExtendedApprovalBinding(ApprovalTestBase):
+    def test_candidate_id_change_rejected(self):
+        doc = dict(self.approval)
+        doc["candidate_id"] = "CAND-A"
+        doc["operation_id"] = ap.operation_id(doc)  # stored binding
+        self.validate(doc)  # valid as created
+        doc["candidate_id"] = "CAND-B"
+        msg = self.rejected(self.validate, doc)
+        self.assertIn("operation_id", msg)
+
+    def test_expired_approval_rejected(self):
+        doc = dict(self.approval)
+        doc["expires_at"] = "2020-01-01T00:00:00+00:00"
+        self.assertIn("expired", self.rejected(self.validate, doc))
+
+    def test_expected_final_hash_binding(self):
+        doc = dict(self.approval)
+        doc["expected_final_hash"] = ap.sha256_bytes(b"different")
+        self.assertIn("final hash", self.rejected(self.validate, doc))
+
+    def test_profile_scoped_fingerprint(self):
+        policy = dict(self.policy)
+        policy["recovery_profiles"] = {"attempt": {"input_files": ["config.mk"]}}
+        path = self.state / "profile_policy.json"
+        ap.atomic_write_json(path, policy)
+        fp = ap.compute_input_fingerprint(self.design, ap.load_policy(path), "attempt")
+        self.assertNotEqual(fp, ap.compute_input_fingerprint(
+            self.design, ap.load_policy(path)))
+
+    def test_env_policy_paths_expanded(self):
+        os.environ["SATTVA_ROOT"] = str(self.base)
+        policy = dict(self.policy)
+        policy["allowed_roots"] = ["$SATTVA_ROOT/mirror/flow/scripts"]
+        policy["ledger"] = "$SATTVA_ROOT/state/ledger.jsonl"
+        path = self.state / "env_policy.json"
+        ap.atomic_write_json(path, policy)
+        loaded = ap.load_policy(path)
+        self.assertEqual(loaded["ledger"], str(self.base / "state" / "ledger.jsonl"))
+        self.assertEqual(loaded["allowed_roots"], [str(self.scripts)])
+        os.environ.pop("SATTVA_ROOT", None)
+
+
 class TestValidationFailures(ApprovalTestBase):
     def test_missing_approval_file(self):
         msg = self.rejected(ap.load_json, self.base / "no-such-approval.json")

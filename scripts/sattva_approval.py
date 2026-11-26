@@ -106,17 +106,37 @@ def load_policy(path: Path) -> dict:
 
 def compute_input_fingerprint(design_root: Path, policy: dict,
                               profile: str | None = None) -> str:
-    """Fingerprint the design inputs named by policy (relative to design_root)."""
+    """Fingerprint the design inputs named by policy (relative to design_root).
+
+    `input_files` are design-relative. `fingerprint_files_absolute` (and
+    `fingerprint_files_absolute` per recovery profile) names extra files with
+    absolute or project-relative-to-SATTVA_ROOT paths -- e.g. the platform
+    macro Liberty/LEF or technology LEF -- so a macro-model or technology
+    change invalidates approval/resume even though it lives outside the design
+    root. The patch target itself is never listed here, so applying an approved
+    operation does not invalidate its own revalidation.
+    """
     files = policy["input_files"]
+    extra = list(policy.get("fingerprint_files_absolute", []))
     if profile:
-        files = policy.get("recovery_profiles", {}).get(profile, {}).get(
-            "input_files", files)
+        prof = policy.get("recovery_profiles", {}).get(profile, {})
+        files = prof.get("input_files", files)
+        extra += list(prof.get("fingerprint_files_absolute", []))
     items = []
     for rel in files:
         p = design_root / rel
         if not p.is_file():
             raise ApprovalError(f"input file missing for fingerprint: {p}")
         items.append(f"{rel}\0{sha256_file(p)}")
+    root_env = os.environ.get("SATTVA_ROOT", "")
+    for raw in extra:
+        expanded = os.path.expandvars(str(raw))
+        p = Path(expanded)
+        if not p.is_absolute():
+            p = Path(root_env) / expanded if root_env else (design_root / expanded)
+        if not p.is_file():
+            raise ApprovalError(f"fingerprint file missing: {p}")
+        items.append(f"{p}\0{sha256_file(p)}")
     return sha256_bytes("\0".join(items).encode("utf-8"))
 
 
@@ -365,7 +385,10 @@ def apply_patch(approval: dict, patch_path: Path, policy: dict, evidence_dir: Pa
         record = dict(operation_id=op_id, phase="started", target=str(target),
                       before_sha256=current, after_sha256=final_hash,
                       backup=str(backup), backup_sha256=sha256_file(backup),
-                      started_at=utc_now())
+                      started_at=utc_now(),
+                      rerun_scope=approval.get("rerun_scope"),
+                      earliest_affected_stage=approval.get("earliest_affected_stage"),
+                      approval_id=approval.get("approval_id"))
         atomic_write_json(state_path, record)
 
         fd, tmp = tempfile.mkstemp(prefix=f".{target.name}.", dir=str(target.parent))

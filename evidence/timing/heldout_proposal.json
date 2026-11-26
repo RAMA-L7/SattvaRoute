@@ -1,0 +1,49 @@
+{
+  "applies": false,
+  "approval_status": "PENDING",
+  "candidate_id": "RESTORE_ADDITIONAL_LEFS",
+  "current_bad_reference": "/mnt/d/SattvaRoute/experiments/PNR-RECOVERY/heldout_additional_lefs_20261126T131626Z/design/lef/no_such_macro_widget.lef",
+  "current_resolved_value": [
+    "/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/fakeram45_64x32.lef",
+    "/mnt/d/SattvaRoute/experiments/PNR-RECOVERY/heldout_additional_lefs_20261126T131626Z/design/lef/no_such_macro_widget.lef"
+  ],
+  "downstream_invalidation": [
+    "synth",
+    "floorplan",
+    "place",
+    "cts",
+    "route",
+    "finish"
+  ],
+  "earliest_affected_stage": "synth",
+  "exact_diff": "--- /mnt/d/SattvaRoute/experiments/PNR-RECOVERY/heldout_additional_lefs_20261126T131626Z/design/config.mk\n+++ /mnt/d/SattvaRoute/experiments/PNR-RECOVERY/heldout_additional_lefs_20261126T131626Z/design/config.mk\n@@ -27,4 +27,6 @@\n \n # HELD-OUT injected fault (attempt-local only; originals untouched):\n # ADDITIONAL_LEFS references a nonexistent macro LEF -> fails at floorplan.\n-export ADDITIONAL_LEFS = /mnt/d/SattvaRoute/experiments/PNR-RECOVERY/heldout_additional_lefs_20261126T131626Z/design/lef/no_such_macro_widget.lef\n+\n+# recovery: restore compatible pinned reference\n+export ADDITIONAL_LEFS = $(PLATFORM_DIR)/lef/fakeram45_64x32.lef\n",
+  "family": "MISSING_MACRO_LEF",
+  "intended_value": "$(PLATFORM_DIR)/lef/fakeram45_64x32.lef",
+  "intended_value_resolved": "/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/fakeram45_64x32.lef",
+  "intended_value_sha256": "7b7ee9ce7519684b4430b407d333ab23621fc725b9615480121ecf8c32e35ee3",
+  "intended_value_source": "compatible baseline /mnt/d/SattvaRoute/benchmark/design/nangate_macro_control/config.mk",
+  "mechanism": "MISSING_MACRO_LEF: $ADDITIONAL_LEFS references collateral that cannot be resolved; restoring the compatible pinned value declared by the baseline",
+  "note": "Propose a textual correction for review; do not execute or apply it.",
+  "original_sha256": "addb5ef67bea8e5953f1d6ca828628689f781505c81fa4137175022ece7ae7b1",
+  "patch": "--- /mnt/d/SattvaRoute/experiments/PNR-RECOVERY/heldout_additional_lefs_20261126T131626Z/design/config.mk\n+++ /mnt/d/SattvaRoute/experiments/PNR-RECOVERY/heldout_additional_lefs_20261126T131626Z/design/config.mk\n@@ -27,4 +27,6 @@\n \n # HELD-OUT injected fault (attempt-local only; originals untouched):\n # ADDITIONAL_LEFS references a nonexistent macro LEF -> fails at floorplan.\n-export ADDITIONAL_LEFS = /mnt/d/SattvaRoute/experiments/PNR-RECOVERY/heldout_additional_lefs_20261126T131626Z/design/lef/no_such_macro_widget.lef\n+\n+# recovery: restore compatible pinned reference\n+export ADDITIONAL_LEFS = $(PLATFORM_DIR)/lef/fakeram45_64x32.lef\n",
+  "patch_sha256": "66d13d49529f374b6a8e2eff60d505e346d72d5c4f1bc22b1dcd816ae9428984",
+  "requires_human_approval": true,
+  "risks": [
+    "restoring collateral does not guarantee timing closure or DRC=0",
+    "macro/corner identity must remain the pinned one; no corner substitution",
+    "downstream routing/extraction/timing results are invalidated and must rerun"
+  ],
+  "source": "deterministic_evidence_rule",
+  "status": "proposal",
+  "target_file": "/mnt/d/SattvaRoute/experiments/PNR-RECOVERY/heldout_additional_lefs_20261126T131626Z/design/config.mk",
+  "target_original_hash": "addb5ef67bea8e5953f1d6ca828628689f781505c81fa4137175022ece7ae7b1",
+  "variable": "ADDITIONAL_LEFS",
+  "verification_criteria": [
+    "patch is reviewed and explicitly approved before application",
+    "approved operation reaches the executed configuration",
+    "targeted failure disappears from recovery evidence",
+    "affected downstream stages rerun or are validly reused",
+    "no collateral regression against the frozen baseline",
+    "original design inputs and historical runs unchanged"
+  ]
+}

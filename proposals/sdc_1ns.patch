@@ -1,0 +1,36 @@
+PROPOSED (NOT APPLIED) — requires explicit user approval of this exact diff.
+
+Two-part change. Original benchmark/design/nangate_macro_control/constraint.sdc
+is preserved. Historical runs are preserved. No RTL change, no rule change,
+no violation suppression, no silent relaxation.
+
+================================================================
+Part 1: new file benchmark/design/nangate_macro_control/constraint_1ns.sdc
+================================================================
+--- /dev/null
++++ benchmark/design/nangate_macro_control/constraint_1ns.sdc
++# SattvaRoute control benchmark: 1 ns clock target (proposed, NOT applied).
++# Identical structure to constraint.sdc; only the numeric period changes from
++# 1000 ns to 1 ns. ORFS/OpenSTA Liberty time unit is 1ns; a bare number is
++# nanoseconds. Original constraint.sdc is preserved unchanged.
++create_clock -name clk -period 1 [get_ports clk]
++set clk_io_pct 0.1
++set clk_period 1
++set_input_delay  [expr {$clk_period*$clk_io_pct}] -clock clk [all_inputs]
++set_output_delay [expr {$clk_period*$clk_io_pct}] -clock clk [all_outputs]
+
+================================================================
+Part 2: benchmark/design/nangate_macro_control/config.mk  (single target)
+================================================================
+--- benchmark/design/nangate_macro_control/config.mk
++++ benchmark/design/nangate_macro_control/config.mk
+@@
+-export SDC_FILE = $(DESIGN_DIR)/constraint.sdc
++export SDC_FILE = $(DESIGN_DIR)/constraint_1ns.sdc
+
+Note on application through scripts/sattva_approval.py:
+  `apply_unified_diff` applies ONE target per approval. A real application
+  would be two steps, each separately approved:
+    (a) add constraint_1ns.sdc (or commit it), then
+    (b) apply the single-line SDC_FILE repoint to config.mk.
+  This document only presents the diff; nothing is applied here.

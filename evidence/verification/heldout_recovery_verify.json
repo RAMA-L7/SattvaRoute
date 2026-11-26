@@ -1,0 +1,234 @@
+{
+  "baseline": {
+    "audit_supplied": true,
+    "checks": [
+      {
+        "detail": "8 stages rc=0; logs present",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/evidence/run.json"
+        ],
+        "name": "execution",
+        "status": "PASS"
+      },
+      {
+        "detail": "10 endpoint artifacts present and non-empty",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/1_2_yosys.sdc",
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/1_2_yosys.v",
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/1_synth.odb",
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/1_synth.sdc",
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/2_1_floorplan.odb"
+        ],
+        "name": "artifacts",
+        "status": "PASS"
+      },
+      {
+        "detail": "all endpoint reports are newer than the run start",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/reports"
+        ],
+        "name": "report_freshness",
+        "status": "PASS"
+      },
+      {
+        "detail": "DRT-0199 sequence [164, 40, 25, 2, 2, 0]; final=0; route_completion_marker=True; drc_report_bytes=0; empty DRC report corroborated by final count 0",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/evidence/stage_route.log"
+        ],
+        "name": "routing",
+        "status": "PASS"
+      },
+      {
+        "detail": "units=1ns; clock_period.txt=1000.0; audit_clock_period=1000.0; worst_slack=899.75; period_min=100.25 fmax=9.97; setup=0 hold=0; declared checks met at the executed target",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/reports/nangate45/nangate_macro_control/base/6_finish.rpt"
+        ],
+        "name": "timing",
+        "status": "PASS"
+      },
+      {
+        "detail": "inputs=73 outputs=32 registers=1 clocks=1 unconstrained=0",
+        "evidence": [],
+        "name": "timing_coverage",
+        "status": "PASS"
+      },
+      {
+        "detail": "SPEF 201261 bytes; RCX 209 nets; 0 unannotated drivers",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/6_final.spef"
+        ],
+        "name": "extraction",
+        "status": "PASS"
+      }
+    ],
+    "overall": "PASS",
+    "run_dir": "/mnt/d/SattvaRoute/runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464",
+    "run_id": "orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464"
+  },
+  "failure": {
+    "audit_supplied": false,
+    "checks": [
+      {
+        "detail": "overall_rc=2; first_failed_stage=synth",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_additional_lefs_20261126T131626892892371Z_3737/evidence/run.json"
+        ],
+        "name": "execution",
+        "status": "FAIL"
+      },
+      {
+        "detail": "missing endpoint artifacts: ['5_route.odb', '5_route_drc.rpt', '6_final.def', '6_final.gds', '6_final.odb', '6_final.sdc', '6_final.spef', '6_final.v', '6_finish.rpt', 'route.guide']; present=[]",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_additional_lefs_20261126T131626892892371Z_3737/work/results/nangate45/nangate_macro_control/base/1_2_yosys.sdc",
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_additional_lefs_20261126T131626892892371Z_3737/work/results/nangate45/nangate_macro_control/base/1_2_yosys.v",
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_additional_lefs_20261126T131626892892371Z_3737/work/results/nangate45/nangate_macro_control/base/clock_period.txt"
+        ],
+        "name": "artifacts",
+        "status": "FAIL"
+      },
+      {
+        "detail": "no endpoint reports to date-check",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_additional_lefs_20261126T131626892892371Z_3737/work/reports"
+        ],
+        "name": "report_freshness",
+        "status": "NOT_EVALUATED"
+      },
+      {
+        "detail": "stage_route.log missing",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_additional_lefs_20261126T131626892892371Z_3737/evidence/stage_route.log"
+        ],
+        "name": "routing",
+        "status": "UNKNOWN"
+      },
+      {
+        "detail": "6_finish.rpt missing",
+        "evidence": [],
+        "name": "timing",
+        "status": "UNKNOWN"
+      },
+      {
+        "detail": "no timing-unit audit; coverage and unconstrained endpoints unknown",
+        "evidence": [],
+        "name": "timing_coverage",
+        "status": "UNKNOWN"
+      },
+      {
+        "detail": "6_final.spef missing",
+        "evidence": [],
+        "name": "extraction",
+        "status": "FAIL"
+      }
+    ],
+    "overall": "FAIL",
+    "run_dir": "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_additional_lefs_20261126T131626892892371Z_3737",
+    "run_id": "orfs_baseline_heldout_additional_lefs_20261126T131626892892371Z_3737"
+  },
+  "recovery": {
+    "audit_supplied": true,
+    "checks": [
+      {
+        "detail": "6 stages rc=0; logs present",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250/evidence/run.json"
+        ],
+        "name": "execution",
+        "status": "PASS"
+      },
+      {
+        "detail": "10 endpoint artifacts present and non-empty",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250/work/results/nangate45/nangate_macro_control/base/1_2_yosys.sdc",
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250/work/results/nangate45/nangate_macro_control/base/1_2_yosys.v",
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250/work/results/nangate45/nangate_macro_control/base/1_synth.odb",
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250/work/results/nangate45/nangate_macro_control/base/1_synth.sdc",
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250/work/results/nangate45/nangate_macro_control/base/2_1_floorplan.odb"
+        ],
+        "name": "artifacts",
+        "status": "PASS"
+      },
+      {
+        "detail": "all endpoint reports are newer than the run start",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250/work/reports"
+        ],
+        "name": "report_freshness",
+        "status": "PASS"
+      },
+      {
+        "detail": "DRT-0199 sequence [164, 40, 25, 2, 2, 0]; final=0; route_completion_marker=True; drc_report_bytes=0; empty DRC report corroborated by final count 0",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250/evidence/stage_route.log"
+        ],
+        "name": "routing",
+        "status": "PASS"
+      },
+      {
+        "detail": "units=1ns; clock_period.txt=1000.0; audit_clock_period=1000.0; worst_slack=899.75; period_min=100.25 fmax=9.97; setup=0 hold=0; declared checks met at the executed target",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250/work/reports/nangate45/nangate_macro_control/base/6_finish.rpt"
+        ],
+        "name": "timing",
+        "status": "PASS"
+      },
+      {
+        "detail": "inputs=73 outputs=32 registers=1 clocks=1 unconstrained=0",
+        "evidence": [],
+        "name": "timing_coverage",
+        "status": "PASS"
+      },
+      {
+        "detail": "SPEF 201260 bytes; RCX 209 nets; 0 unannotated drivers",
+        "evidence": [
+          "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250/work/results/nangate45/nangate_macro_control/base/6_final.spef"
+        ],
+        "name": "extraction",
+        "status": "PASS"
+      }
+    ],
+    "overall": "PASS",
+    "run_dir": "/mnt/d/SattvaRoute/runs/orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250",
+    "run_id": "orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250"
+  },
+  "recovery_verdict": {
+    "baseline": "orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464",
+    "checks": [
+      {
+        "detail": "phase=verified; after_sha256=83c2d7a09c03deee",
+        "evidence": [
+          "/mnt/d/SattvaRoute/experiments/PNR-RECOVERY/heldout_additional_lefs_20261126T131626Z/design/config.mk"
+        ],
+        "name": "approved_change_reached",
+        "status": "PASS"
+      },
+      {
+        "detail": "marker 'no_such_macro_widget' absent from recovery logs",
+        "evidence": [],
+        "name": "target_failure_cleared",
+        "status": "PASS"
+      },
+      {
+        "detail": "all 6 affected stages rc=0: ['synth', 'floorplan', 'place', 'cts', 'route', 'finish']",
+        "evidence": [],
+        "name": "downstream_scope",
+        "status": "PASS"
+      },
+      {
+        "detail": "recovery passes every check the baseline passes",
+        "evidence": [],
+        "name": "collateral_regression",
+        "status": "PASS"
+      },
+      {
+        "detail": "failure overall=FAIL",
+        "evidence": [],
+        "name": "failure_is_real",
+        "status": "PASS"
+      }
+    ],
+    "failure": "orfs_baseline_heldout_additional_lefs_20261126T131626892892371Z_3737",
+    "overall": "PASS",
+    "recovery": "orfs_baseline_heldout_recovered_20261126T135313595854554Z_8250"
+  }
+}
