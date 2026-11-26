@@ -1,0 +1,178 @@
+{
+  "capture_set": "sattvaroute-real-run-physical-design-gallery",
+  "run_id": "orfs_baseline_control_1ns_20261126T133241476241945Z_4600",
+  "source_root": "D:/SattvaRoute/runs/orfs_baseline_control_1ns_20261126T133241476241945Z_4600",
+  "source_results": "work/results/nangate45/nangate_macro_control/base",
+  "design_profile": "nangate_macro_control",
+  "design_top": "sattva_macro_top",
+  "sdc": {
+    "filename": "constraint_1ns.sdc",
+    "path": "D:/SattvaRoute/benchmark/design/nangate_macro_control/constraint_1ns.sdc",
+    "sha256": "56c8b4b6e74748d33a4c152f1b89fb42184815ab884f5e7e2d0cff9532ee67a1",
+    "clock_period_ns": 1
+  },
+  "orfs": {
+    "revision": "25b6429c1644a8682852646bebf19ff164402c76",
+    "verified_by": "git -C /mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts rev-parse HEAD",
+    "local_patches": [
+      {
+        "path": "flow/scripts/global_route.tcl",
+        "sha256": "cd86b58724f6c401b40d2cb464118d86590fa86b60cbe953eb4de53514d08099"
+      },
+      {
+        "path": "flow/scripts/synth_stdcells.tcl",
+        "sha256": "5a94e9d66a98d2e8f831cbb41146fd3d6853e94620c3ad71c7f1849f8e47bfba"
+      }
+    ]
+  },
+  "tools": {
+    "openroad": {
+      "version": "bazel-nostamp",
+      "path": "/usr/local/bin/openroad",
+      "sha256": "c1b90e0af69bc9779cde8fd1579a92a10738ddebb9ea16e459f280556c349ee9",
+      "verified_by": "sha256sum in WSL, matches config/sattva_manifest.json and run preflight"
+    },
+    "yosys": {
+      "version": "Yosys 0.33 (git sha1 2584903a060)",
+      "path": "/usr/bin/yosys",
+      "sha256": "88c0a12bb814a1a8716b1ae10b482e35d3005ed558e1f5f626b3dc983ea3abd0",
+      "verified_by": "sha256sum in WSL, matches config/sattva_manifest.json and run preflight"
+    },
+    "viewer": "OpenROAD web viewer (built without Qt GUI: '-GUI' in feature list) rendered by Chromium via Playwright"
+  },
+  "capture": {
+    "method": "openroad -no_init -web -web_no_browser -web_bind 0.0.0.0 -web_port <port> capture_stage.tcl; CAPTURE_DB and CAPTURE_SDC supplied via environment; browser screenshot of the #pane-main layout element with viewer side panels and status banner hidden by CSS",
+    "script": "capture_stage.tcl",
+    "script_sha256": "2dbc054b21a5be04e61e64571b809ce513f4624cd14d0de8f380fc7a3399c2a0",
+    "script_commands": ["read_db $::env(CAPTURE_DB)", "read_sdc $::env(CAPTURE_SDC)"],
+    "engineering_commands_invoked": [],
+    "note": "The installed OpenROAD has no Qt GUI (-GUI), so save_image was unavailable. The web viewer rendered static layout tiles from the saved database. Its WebSocket upgrade failed, producing a transient 'disconnected' banner which was hidden for the capture; layout tiles were already rendered from the loaded ODB. No source database was modified; post-capture hashes match pre-capture hashes."
+  },
+  "presentation": {
+    "purpose": "Display-only derivatives of the immutable raw captures; no geometry, colour or layer data was altered.",
+    "directory": "presentation",
+    "crop_xywh": [10, 48, 800, 694],
+    "source_canvas": [1012, 751],
+    "method": "1:1 lossless crop, nearest-neighbour interpolation, PNG output via System.Drawing",
+    "raw_directory": "original",
+    "note": "Raw full-view images remain under original/ with the original hashes unchanged. Scale-bar labels differ in the routing image (100 um) from the other four (20 um) although the die footprint is identical in pixels; this is a viewer artefact and no physical distance is inferred from these bars in captions."
+  },
+  "presentation_detail": {
+    "directory": "presentation/detail",
+    "method": "OpenROAD save_image -web rendered directly from each saved ODB at stage-specific micron areas (1200 px width), composited onto opaque black. No crop-only upscaling, no geometry or layer-colour changes.",
+    "render_command_form": "read_db <stage>.odb; save_image -web -area {x0 y0 x1 y1} -width 1200 -display_option {...} <out>.png; exit",
+    "areas_microns": {
+      "floorplan": [2, 8, 32, 75],
+      "placement": [0, 2, 42, 79],
+      "routing": [0, 2, 39, 78]
+    },
+    "included": ["floorplan_detail.png", "placement_detail.png", "routing_detail.png"],
+    "omitted": {
+      "cts": "A clock-only detail render was produced from 4_cts.odb with net_clock/routing visibility enabled, but no distinct clock topology is visible; publishing a near-duplicate of placement would overstate CTS evidence. Full-die CTS view retained.",
+      "final": "Final detail is visually redundant with routing detail (the ODB differs only subtly after routing); full-die final view retained."
+    }
+  },
+  "run": {
+    "overall_rc": 0,
+    "first_failed_stage": null,
+    "engineering_verdict": "NOT EVALUATED — report-level review required (D-007)",
+    "stage_rc": {
+      "check-yosys": 0,
+      "check-openroad": 0,
+      "synth": 0,
+      "floorplan": 0,
+      "place": 0,
+      "cts": 0,
+      "route": 0,
+      "finish": 0
+    },
+    "verified_by": "independent verification record baseline_1ns_verify.json: overall PASS, DRT final 0"
+  },
+  "source_commit_status": "NOT_AVAILABLE",
+  "provenance_notes": [
+    "No SattvaRoute source commit SHA was recorded in the run evidence; do not infer one.",
+    "evidence/manifest.json records digest 2be5f3ae0f7381c05532d822af5ac1b0450e1be282373de84ea3fda8212a3bd6 while the on-disk file hashes to 00b697384e7060505a14d51381171c7a32a8b68353638f101e93c82f0507072d (UNKNOWN reason; recorded, not resolved).",
+    "Images originate from one run only; no artifacts from other runs or upstream ORFS examples were used.",
+    "Clock-tree-only rendering was investigated from the saved 4_cts.odb (read-only). save_clocktree_image is not usable in this non-GUI build (GUI-0001); no better CTS visualization is available without rebuilding the tool, so the original CTS view is retained with an explicit limitation."
+  ],
+  "stages": [
+    {
+      "stage": "floorplan",
+      "odb": "2_floorplan.odb",
+      "odb_sha256": "9461226bae581770bb4fa2e3e67a0ff7e4b6929201bce1d10d4b69ad1aba9fbc",
+      "image": "floorplan.png",
+      "original_path": "original/floorplan.png",
+      "image_sha256": "02182b75019f8642ff0e8df1892ded92480432be8410a14697469d541412de54",
+      "presentation_path": "presentation/floorplan.png",
+      "presentation_sha256": "80a729df9444bada18b0ee37605044d4f3226ec73c4ed96b9ef0c54fccf6521b",
+      "detail_path": "presentation/detail/floorplan_detail.png",
+      "detail_sha256": "1fc2ee1fa587f2aeadd958e1d9341836b81fd232d1fc26f739c48cdb11e74763",
+      "captured_at": "2026-11-26T18:05:37Z",
+      "original_stage_rc": 0,
+      "report": "work/reports/nangate45/nangate_macro_control/base/2_floorplan_final.rpt",
+      "caption": "Floorplan: abstract fakeram45_64x32 macro and power straps in the saved 2_floorplan.odb."
+    },
+    {
+      "stage": "placement",
+      "odb": "3_place.odb",
+      "odb_sha256": "4481ce2e14bd775b8bb8d08ef37189dcbeed33dce8df6777252629a4f46f3c32",
+      "image": "placement.png",
+      "original_path": "original/placement.png",
+      "image_sha256": "97db98aeef75b359d0e4df0e9cc0cd6beb260035a8ba5ce6b3a6fa944b20984e",
+      "presentation_path": "presentation/placement.png",
+      "presentation_sha256": "200b7bf890e36b357639d2fe7a0650e5e76d8160b03e0ed575eaf1852ea4dc70",
+      "detail_path": "presentation/detail/placement_detail.png",
+      "detail_sha256": "9bbb1bf4794971876e999f0a7d7401f9da128163b0bb9d8d0e1fa5b1d85c3437",
+      "captured_at": "2026-11-26T18:07:20Z",
+      "original_stage_rc": 0,
+      "report": "evidence/stage_place.log",
+      "supporting_report": "work/reports/nangate45/nangate_macro_control/base/3_detailed_place.rpt",
+      "caption": "Placement: legalized standard cells around the macro in the saved 3_place.odb. The placement log reports an INFO-level congestion concern ('could not reach target', final weighted congestion 1.5015) despite stage rc=0."
+    },
+    {
+      "stage": "cts",
+      "odb": "4_cts.odb",
+      "odb_sha256": "d1a01d0a33945f063fe41512981c489b7c1c9c882fb50c78492cc3de7d2ab5f1",
+      "image": "cts.png",
+      "original_path": "original/cts.png",
+      "image_sha256": "67bfeb618e0cf53a5b2ed331ad47e4ff7885f7f9aab2879127613335eaa3b2ad",
+      "presentation_path": "presentation/cts.png",
+      "presentation_sha256": "628471eff34ade9abd03f5b284a44e337bf845c4c8f6a473c0d24781e4d6eef0",
+      "captured_at": "2026-11-26T18:08:42Z",
+      "original_stage_rc": 0,
+      "report": "work/reports/nangate45/nangate_macro_control/base/4_cts_final.rpt",
+      "caption": "Clock-tree synthesis: saved 4_cts.odb. At this zoom the image differs from placement by 2,451 pixels inside the die (0.71% of the die rectangle, exact-colour comparison); no legible clock tree is claimed. CTS metrics are authoritative in 4_cts_final.rpt (which reports 'No launch/capture paths found')."
+    },
+    {
+      "stage": "routing",
+      "odb": "5_route.odb",
+      "odb_sha256": "729eb73d8df557d79502aad59b935522e30e57f204c009910c5b9686353a51ac",
+      "image": "routing.png",
+      "original_path": "original/routing.png",
+      "image_sha256": "62cb5c472d3682d8aa2862daf1bb702930017afcb148e34e51b24b26fc315629",
+      "presentation_path": "presentation/routing.png",
+      "presentation_sha256": "d83b8b3efb44568d049dac779b123efd57a00f0a16c8018a0edb7fcbb551d458",
+      "detail_path": "presentation/detail/routing_detail.png",
+      "detail_sha256": "d0ce8737c7bc63ddc095719e6a12bbd048c6295f5e1bae2c46bc786c2cb10ba7",
+      "captured_at": "2026-11-26T18:10:01Z",
+      "original_stage_rc": 0,
+      "report": "evidence/stage_route.log",
+      "supporting_report": "work/reports/nangate45/nangate_macro_control/base/5_global_route.rpt",
+      "caption": "Detailed routing: routed nets in the saved 5_route.odb; the routing log records DRT-0199 counts [159,37,32,6,6,0], final 0."
+    },
+    {
+      "stage": "final",
+      "odb": "6_final.odb",
+      "odb_sha256": "a739bcc2eafa202517779c64d5f5aded9ca61c0632584e3dc711d16381a25da7",
+      "image": "final.png",
+      "original_path": "original/final.png",
+      "image_sha256": "4f785b9735c685403e6f7233e1b3f900eca9424e75a545fa63d732e0c09942c1",
+      "presentation_path": "presentation/final.png",
+      "presentation_sha256": "b502dc55ffc88aad4c773a34d0497a2509b9f6de93ee42e4ed7585d139fcbfaa",
+      "captured_at": "2026-11-26T18:11:34Z",
+      "original_stage_rc": 0,
+      "report": "work/reports/nangate45/nangate_macro_control/base/6_finish.rpt",
+      "caption": "Final tool-generated implementation state from 6_final.odb. Tool-level results only: no foundry DRC/LVS or signoff."
+    }
+  ]
+}
