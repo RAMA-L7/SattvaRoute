@@ -154,3 +154,7 @@ foundry signoff, functional verification, or external independent reproduction.
 See `docs/TIMING_AUDIT.md`. Pass-through wrapper; abstract FakeRAM; single
 typical corner; trivial timing; not representative; no signoff; no functional
 correctness. Remaining gaps in `docs/` + `PROJECT_STATE.md`.
+
+## Documentation QA correction (2026-11-26)
+
+The statement "No /mnt/d/... in published config" above is inaccurate for `benchmark/design/nangate_macro_control/config.mk`: `WORK_HOME` and `KLAYOUT_CMD` retain overridable `?=` defaults containing `/mnt/d/...`. Set these variables in your environment when reproducing. The config file was **not** changed in this documentation-only milestone, and no historical claim in this report was rewritten. Recorded in `docs/audit/QA_FINAL.md`.

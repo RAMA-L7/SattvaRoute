@@ -1,3 +1,5 @@
+> **Historical / superseded for current documentation.** This note is preserved verbatim as engineering history. For the authoritative current recovery model, use `docs/architecture/RECOVERY.md`, `docs/architecture/APPROVAL.md`, and `docs/diagrams/RECOVERY_LIFECYCLE.md`. No technical meaning in this record was changed.
+
 # Approval-gated recovery model
 
 ## Sequence

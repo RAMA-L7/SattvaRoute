@@ -83,3 +83,12 @@
 - D-012 macro_placement.tcl with -exact bypasses MPL-0005 (floorplan rc=0)
 - D-013: `set_special_nets [list zero_]` in `global_route.tcl` — FAILED/RETIRED; command does not exist in this build, wrong checkout, wrong order; retained as failed execution attempt
 - D-014: mark `zero_` SPECIAL via OpenDB `$net setSpecial` in the execution mirror before `pin_access` — APPLIED; DRT-0305 RESOLVED; new blocker DRT-0073; no second fix applied
+## Documentation and product identity overhaul (2026-11-26, documentation-only)
+
+- Status: COMPLETE (documentation-only). Branch `main`, base `783d7655af36b084fe958c216a54a0b7a58f58d8`.
+- Coordinator authored serially; Agents A-E failed due to inference service overload / free usage limits (recorded in `coordination/DOC_OVERHAUL_PLAN.md`). Local skills inspected; `graphify` used read-only for codebase mapping; no installs.
+- Created 66 new documentation files across 12 directories; rewrote `README.md` and `CONTRIBUTING.md`; supplemented `SECURITY.md`, `CITATION.cff`, `THIRD_PARTY_NOTICES.md`; added `CODE_OF_CONDUCT.md`, `SUPPORT.md`; marked three legacy notes superseded with headers only.
+- Authoritative sources: `docs/product/PRODUCT.md`, `docs/reference/GLOSSARY.md`, `docs/reference/CAPABILITIES.md`, `docs/DOCUMENTATION_INDEX.md`, `docs/REPRODUCIBILITY.md`.
+- QA: 249 Markdown files scanned; 0 broken relative links; 6 Mermaid diagrams; balanced fences. Evidence mapping, QA, and scope integrity in `docs/audit/`.
+- No production source, benchmark, SDC, LEF/Liberty, evidence, Git history, LICENSE, PR/merge, experiments, or recovery changed. No push/PR/merge.
+- Open: live AI unavailable without credentials; external independent reproduction not performed; DRT-0073 unresolved; license recommendation awaits owner decision; offline suite not re-executed here (Python interpreter unavailable in shell); an unsupported "166 passed" figure was corrected to 157 counted test methods after independent QA.

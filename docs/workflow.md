@@ -1,3 +1,5 @@
+> **Historical / superseded for current documentation.** This note is preserved verbatim as engineering history. For the current verified user journey and commands, use `docs/workflow/WORKFLOW.md` and `docs/workflow/GETTING_STARTED.md`. No technical meaning in this record was changed.
+
 # Workflow and stage status
 
 ## Intended pipeline

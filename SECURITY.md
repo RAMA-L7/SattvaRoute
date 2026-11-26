@@ -16,3 +16,13 @@ Include: affected file/path, impact, reproduction steps, and suggested remediati
 ## Scope
 
 This is a research prototype. It does not implement an authentication service, a network daemon, or a dashboard backend. No credentials are required to inspect or reproduce the documented flow beyond standard tool installations.
+
+## Further reading
+
+- Threat model and verified controls: `docs/security/THREAT_MODEL.md`
+- Trust boundaries: `docs/security/TRUST_BOUNDARIES.md`
+- Safety, approval model, and patch policy: `docs/security/SAFETY.md`
+- Untrusted inputs, AI risks, and credential hygiene: `docs/security/INPUT_AND_AI_RISKS.md`
+- Evidence integrity: `docs/security/EVIDENCE_INTEGRITY.md`
+
+These documents are documentation-level audits; they do not add security controls.

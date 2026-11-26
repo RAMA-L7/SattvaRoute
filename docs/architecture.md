@@ -1,3 +1,5 @@
+> **Historical / superseded for current documentation.** This T-PNR-001 architecture note is preserved verbatim as engineering history. For the authoritative current architecture, use `docs/architecture/ARCHITECTURE.md` and `docs/diagrams/SYSTEM_ARCHITECTURE.md`. No technical meaning in this record was changed.
+
 # SattvaRoute — Current Architecture (T-PNR-001)
 
 ## Control boundary
