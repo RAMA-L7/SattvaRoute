@@ -42,10 +42,11 @@ def cmd_status(_args: argparse.Namespace) -> int:
     return 0
 
 
-def _run_runner(design: Path, tag: str, env_extra: dict[str, str] | None = None) -> dict[str, Any]:
+def _run_runner(design: Path, tag: str, env_extra: dict[str, str] | None = None,
+                profile: str = "nangate_macro_control") -> dict[str, Any]:
     env = os.environ.copy()
     env.update({"SATTVA_ROOT": str(ROOT), "SATTVA_DESIGN": str(design),
-                "SATTVA_DESIGN_PROFILE": "upstream", "RUN_TAG": tag})
+                "SATTVA_DESIGN_PROFILE": profile, "RUN_TAG": tag})
     env.update(env_extra or {})
     proc = subprocess.run(["bash", str(RUNNER)], cwd=str(ROOT), env=env,
                           capture_output=True, text=True)
@@ -77,7 +78,7 @@ def cmd_failure_demo(args: argparse.Namespace) -> int:
     # Copy only the readonly control collateral needed by the attempt-local
     # config; originals remain unchanged.
     import shutil
-    for rel in ("rtl", "constraint.sdc", "netlist"):
+    for rel in ("rtl", "constraint.sdc", "constraint_1ns.sdc", "netlist"):
         src = CONTROL / rel
         dst = design / rel
         if src.is_dir():
@@ -134,13 +135,15 @@ def cmd_live_diagnose(args: argparse.Namespace) -> int:
 
 
 def cmd_propose(args: argparse.Namespace) -> int:
-    from diagnosis_agent import propose_patch
+    import diagnosis_agent as da
     diag = json.loads(Path(args.diagnosis).read_text(encoding="utf-8"))
-    proposal = propose_patch(diag, args.target)
+    proposal = da.propose_patch(diag, args.target, baseline=args.baseline,
+                                mirror=args.mirror)
     if proposal is None:
         _out({"status": "NO_PROPOSAL", "reason": "no bounded rule applies"})
         return 1
-    proposal["approval_status"] = "PENDING_HUMAN"
+    if proposal["status"] != da.INSUFFICIENT and proposal.get("status") != "insufficient_evidence":
+        proposal["approval_status"] = "PENDING_HUMAN"
     if args.out:
         Path(args.out).write_text(json.dumps(proposal, indent=2, sort_keys=True) + "\n",
                                   encoding="utf-8")
@@ -151,22 +154,30 @@ def cmd_propose(args: argparse.Namespace) -> int:
 def cmd_approve_view(args: argparse.Namespace) -> int:
     proposal = json.loads(Path(args.proposal).read_text(encoding="utf-8"))
     print("=== RECOVERY PROPOSAL (PENDING - nothing applied) ===")
-    print(f"failure:      {proposal['mechanism']}")
-    print(f"target:       {proposal['target_file']}")
-    print(f"candidate:    {proposal['candidate_id']}")
-    print(f"patch sha256: {proposal['patch_sha256']}")
-    print(f"stages:       {', '.join(proposal['affected_stages'])}")
+    print(f"status:       {proposal.get('status','proposal')}")
+    print(f"failure:      {proposal.get('mechanism', proposal.get('family',''))}")
+    print(f"target:       {proposal.get('target_file','')}")
+    print(f"variable:     {proposal.get('variable','')}")
+    print(f"candidate:    {proposal.get('candidate_id','')}")
+    print(f"current:      {proposal.get('current_resolved_value','')}")
+    print(f"intended:     {proposal.get('intended_value','')}")
+    print(f"intended->:   {proposal.get('intended_value_resolved','')}")
+    print(f"orig sha256:  {proposal.get('target_original_hash', proposal.get('original_sha256',''))}")
+    print(f"patch sha256: {proposal.get('patch_sha256','')}")
+    print(f"earliest:     {proposal.get('earliest_affected_stage','')}")
+    print(f"downstream:   {', '.join(proposal.get('downstream_invalidation') or proposal.get('affected_stages') or [])}")
     print("--- exact diff ---")
-    print(proposal["patch"])
+    print(proposal.get("exact_diff") or proposal.get("patch") or "(none)")
     print("--- expected effect / risks ---")
-    print(proposal["expected_effect"])
-    for risk in proposal["risks"]:
+    print(proposal.get("expected_effect", proposal.get("mechanism","")))
+    for risk in proposal.get("risks") or []:
         print(f"  RISK: {risk}")
     print("--- verification criteria ---")
-    for c in proposal["verification_criteria"]:
+    for c in proposal.get("verification_criteria") or []:
         print(f"  - {c}")
     print("--- approval status ---")
-    print(proposal["approval_status"])
+    print(proposal.get("approval_status", "PENDING"))
+    print("note: " + proposal.get("note", "textual correction for review; not applied"))
     return 0
 
 
@@ -216,6 +227,8 @@ def build_parser() -> argparse.ArgumentParser:
     q = sub.add_parser("propose")
     q.add_argument("--diagnosis", required=True)
     q.add_argument("--target", required=True)
+    q.add_argument("--baseline")
+    q.add_argument("--mirror")
     q.add_argument("--out")
     q.set_defaults(func=cmd_propose)
     a = sub.add_parser("approve-view")

@@ -1,71 +1,150 @@
 {
-  "manifest_id": "SATTVA-MANIFEST-001",
-  "version": 1,
-  "description": "Authoritative dependency manifest shared by runner preflight, input fingerprinting, approval validation, resume compatibility and evidence bundles. Paths are project-root relative; machine paths are resolved from SATTVA_ROOT.",
-  "project_root_env": "SATTVA_ROOT",
+  "approval_tool": "scripts/sattva_approval.py",
+  "description": "Profile-scoped dependency manifest shared by runner preflight, approval binding, resume checks and evidence bundles. A profile resolves the exact design, platform, flow, extraction and tool inputs it consumes; unrelated inactive profiles are declared but never checked. Declared expectations are kept separate from captured fingerprints.",
+  "manifest_id": "SATTVA-MANIFEST-002",
   "orfs": {
+    "local_patches": [
+      {
+        "path": "flow/scripts/global_route.tcl",
+        "reason": "D-014: mark the zero_ constant net SPECIAL before the first TritonRoute call (DRT-0305)",
+        "sha256": "cd86b58724f6c401b40d2cb464118d86590fa86b60cbe953eb4de53514d08099"
+      },
+      {
+        "path": "flow/scripts/synth_stdcells.tcl",
+        "reason": "SATTVA_YOSYS_COMPAT gate for the pinned Yosys build",
+        "sha256": "5a94e9d66a98d2e8f831cbb41146fd3d6853e94620c3ad71c7f1849f8e47bfba"
+      }
+    ],
     "revision": "25b6429c1644a8682852646bebf19ff164402c76",
+    "root_default": "tools/OpenROAD-flow-scripts",
     "root_env": "SATTVA_MIRROR",
-    "root_default": "tools/OpenROAD-flow-scripts"
+    "verify_revision": true
   },
-  "tools": {
-    "openroad_env": "OPENROAD_EXE",
-    "openroad_default": "/usr/local/bin/openroad",
-    "yosys_env": "YOSYS_EXE",
-    "yosys_default": "/usr/bin/yosys",
-    "klayout_env": "KLAYOUT_CMD",
-    "klayout_default": "/mnt/d/tools/KLayout/bin/klayout.sh"
-  },
-  "designs": {
-    "control_benchmark_nangate": {
-      "path": "benchmark/design/nangate_macro_control",
-      "config": "config.mk",
-      "sdc": "constraint.sdc",
-      "rtl_top": "rtl/sattva_macro_top.v",
-      "rtl_blackbox": "rtl/fakeram45_64x32_bb.v",
-      "netlist": "netlist/sattva_macro_top_synth.v",
-      "provenance": "netlist/synth_provenance.txt",
-      "source": "Nangate45 platform fakeram45_64x32 at ORFS 25b6429"
+  "policy": "state/approval_policy.json",
+  "profiles": {
+    "nangate_macro_control": {
+      "approval_inputs": [
+        "config.mk",
+        "constraint.sdc",
+        "rtl/sattva_macro_top.v",
+        "rtl/fakeram45_64x32_bb.v",
+        "netlist/sattva_macro_top_synth.v",
+        "constraint_1ns.sdc"
+      ],
+      "description": "T-PNR-001 control benchmark: Nangate45 standard cells + platform fakeram45_64x32 macro, prepared gate-level netlist, SDC-driven constraints.",
+      "design_files": [
+        "config.mk",
+        "constraint.sdc",
+        "rtl/sattva_macro_top.v",
+        "rtl/fakeram45_64x32_bb.v",
+        "netlist/sattva_macro_top_synth.v",
+        "netlist/synth_provenance.txt",
+        "constraint_1ns.sdc"
+      ],
+      "design_root": "benchmark/design/nangate_macro_control",
+      "flow_files": [
+        "flow/Makefile",
+        "flow/scripts/global_route.tcl",
+        "flow/scripts/synth_stdcells.tcl",
+        "flow/scripts/synth_preamble.tcl",
+        "flow/scripts/synth.tcl",
+        "flow/scripts/synth_syn.tcl",
+        "flow/scripts/synth_odb.tcl",
+        "flow/scripts/floorplan.tcl",
+        "flow/scripts/global_place.tcl",
+        "flow/scripts/detail_place.tcl",
+        "flow/scripts/cts.tcl",
+        "flow/scripts/detail_route.tcl",
+        "flow/scripts/resize.tcl",
+        "flow/scripts/pdn.tcl",
+        "flow/scripts/final_outputs.tcl",
+        "flow/scripts/final_connect.tcl",
+        "flow/scripts/final_report.tcl",
+        "flow/scripts/report_metrics.tcl",
+        "flow/scripts/load.tcl",
+        "flow/scripts/fillcell.tcl",
+        "flow/scripts/tapcell.tcl",
+        "flow/scripts/macro_place.tcl",
+        "flow/scripts/io_placement.tcl",
+        "flow/scripts/write_def.tcl"
+      ],
+      "platform_dir": "flow/platforms/nangate45",
+      "platform_files": {
+        "config.mk": "1d8e639ccc138e72b5fe02dc0130e167455aee1c53b5aa3ee50ff442dc47d6cc",
+        "lef/NangateOpenCellLibrary.macro.mod.lef": "a43aea339f12a57a63497783e508ba16f3da2dc056d3247dec7d99707c2dedef",
+        "lef/NangateOpenCellLibrary.tech.lef": "834a79295054cd4209178d1bade67c353863c47bb4b3c22ee38b862b7cec37f2",
+        "lef/fakeram45_64x32.lef": "7b7ee9ce7519684b4430b407d333ab23621fc725b9615480121ecf8c32e35ee3",
+        "lib/NangateOpenCellLibrary_typical.lib": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+        "lib/fakeram45_64x32.lib": "bcf9eb40daf072b0fdeb1d98f13b0b9cfebc07e446f3c6dadc5702eaa3e9e8a7",
+        "rcx_patterns.rules": "2f65fafbe2c704b378563c53a680b93cef080c2799997019d43df7d1e5a563e9",
+        "setRC.tcl": "521df813bf4da9d7400df33e3f680c9a328cc720830dbfca1188083741503fa5"
+      }
     },
-    "unresolved_regression": {
-      "path": "benchmark/design/sattva_sram",
-      "config": "config.mk",
-      "sdc": "constraint.sdc",
-      "pdn": "pdn_sattva.tcl",
-      "macro_placement": "macro_placement.tcl",
-      "netlist": "netlist/sattva_ctrl_synth.v",
-      "macro_lef": "macro/sram_x4x4x1.lef",
-      "macro_lib": "macro/sram_x4x4x1.lib",
-      "macro_gds": "macro/sram_x4x4x1.gds",
+    "riscv32i_sattva": {
+      "approval_inputs": [
+        "config.mk"
+      ],
+      "description": "Upstream asap7/riscv32i feasibility profile. Inactive; macro views are supplied by the pinned ASAP7 platform.",
+      "design_files": [
+        "config.mk"
+      ],
+      "design_root": "benchmark/design/riscv32i_sattva",
+      "flow_files": [],
+      "platform_dir": "flow/platforms/asap7",
+      "platform_files": {},
+      "status": "FEASIBILITY_FAILED_YOSYS_ASAP7"
+    },
+    "sattva_sram": {
+      "approval_inputs": [
+        "config.mk",
+        "constraint.sdc",
+        "pdn_sattva.tcl",
+        "rtl/sattva_ctrl.v",
+        "rtl/sram_x4x4x1_bb.v",
+        "netlist/sattva_ctrl_synth.v",
+        "macro/sram_x4x4x1.lef",
+        "macro/sram_x4x4x1.lib",
+        "macro/sram_x4x4x1.gds"
+      ],
+      "description": "Historical ASAP7 SRAM regression. Inactive for the control benchmark; preserved but never resolved unless explicitly selected.",
+      "design_files": [
+        "config.mk",
+        "constraint.sdc",
+        "pdn_sattva.tcl",
+        "macro_placement.tcl",
+        "rtl/sattva_ctrl.v",
+        "rtl/sram_x4x4x1_bb.v",
+        "netlist/sattva_ctrl_synth.v",
+        "macro/sram_x4x4x1.lef",
+        "macro/sram_x4x4x1.lib",
+        "macro/sram_x4x4x1.gds"
+      ],
+      "design_root": "benchmark/design/sattva_sram",
+      "flow_files": [],
+      "platform_dir": "flow/platforms/asap7",
+      "platform_files": {},
       "status": "UNRESOLVED_DRT0073_PRESERVED"
-    },
-    "control_benchmark": {
-      "path": "benchmark/design/riscv32i_sattva",
-      "config": "config.mk",
-      "source": "upstream asap7/riscv32i at ORFS 25b6429",
-      "status": "FEASIBILITY_FAILED_YOSYS_ASAP7",
-      "note": "macro views are supplied by the pinned ASAP7 platform, listed under flow_files"
     }
   },
-  "flow_files": [
-    "tools/OpenROAD-flow-scripts/flow/Makefile",
-    "tools/OpenROAD-flow-scripts/flow/scripts/global_route.tcl",
-    "tools/OpenROAD-flow-scripts/flow/scripts/synth_preamble.tcl",
-    "tools/OpenROAD-flow-scripts/flow/scripts/synth_stdcells.tcl",
-    "tools/OpenROAD-flow-scripts/flow/scripts/final_outputs.tcl",
-    "tools/OpenROAD-flow-scripts/flow/platforms/asap7/config.mk",
-    "tools/OpenROAD-flow-scripts/flow/platforms/asap7/rcx_patterns.rules",
-    "tools/OpenROAD-flow-scripts/flow/platforms/asap7/lef/fakeram7_256x32.lef",
-    "tools/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/fakeram7_256x32.lib",
-    "tools/OpenROAD-flow-scripts/flow/platforms/asap7/verilog/fakeram7_256x32.v"
-  ],
-  "policy": "state/approval_policy.json",
-  "approval_tool": "scripts/sattva_approval.py",
-  "runner": "scripts/run_baseline_orfs.sh",
+  "project_root_env": "SATTVA_ROOT",
   "recovery": {
-    "controller": "scripts/remedy_engine.py",
-    "kb": "scripts/remedy_kb.py",
     "budgets": "config/remedy_budgets.json",
-    "cli": "scripts/pnr_cli.py"
-  }
+    "cli": "scripts/pnr_cli.py",
+    "controller": "scripts/remedy_engine.py",
+    "kb": "scripts/remedy_kb.py"
+  },
+  "runner": "scripts/run_baseline_orfs.sh",
+  "tools": {
+    "openroad": {
+      "default": "/usr/local/bin/openroad",
+      "env": "OPENROAD_EXE",
+      "expected_sha256": "c1b90e0af69bc9779cde8fd1579a92a10738ddebb9ea16e459f280556c349ee9"
+    },
+    "yosys": {
+      "default": "/usr/bin/yosys",
+      "env": "YOSYS_EXE",
+      "expected_sha256": "88c0a12bb814a1a8716b1ae10b482e35d3005ed558e1f5f626b3dc983ea3abd0"
+    }
+  },
+  "version": 2
 }

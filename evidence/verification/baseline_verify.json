@@ -1,0 +1,66 @@
+{
+  "audit_supplied": true,
+  "checks": [
+    {
+      "detail": "8 stages rc=0; logs present",
+      "evidence": [
+        "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/evidence/run.json"
+      ],
+      "name": "execution",
+      "status": "PASS"
+    },
+    {
+      "detail": "10 endpoint artifacts present and non-empty",
+      "evidence": [
+        "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/1_2_yosys.sdc",
+        "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/1_2_yosys.v",
+        "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/1_synth.odb",
+        "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/1_synth.sdc",
+        "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/2_1_floorplan.odb"
+      ],
+      "name": "artifacts",
+      "status": "PASS"
+    },
+    {
+      "detail": "all endpoint reports are newer than the run start",
+      "evidence": [
+        "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/reports"
+      ],
+      "name": "report_freshness",
+      "status": "PASS"
+    },
+    {
+      "detail": "DRT-0199 sequence [164, 40, 25, 2, 2, 0]; final=0; route_completion_marker=True; drc_report_bytes=0; empty DRC report corroborated by final count 0",
+      "evidence": [
+        "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/evidence/stage_route.log"
+      ],
+      "name": "routing",
+      "status": "PASS"
+    },
+    {
+      "detail": "units=1ns; clock_period.txt=1000.0; audit_clock_period=1000.0; worst_slack=899.75; period_min=100.25 fmax=9.97; setup=0 hold=0; declared checks met at the executed target",
+      "evidence": [
+        "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/reports/nangate45/nangate_macro_control/base/6_finish.rpt"
+      ],
+      "name": "timing",
+      "status": "PASS"
+    },
+    {
+      "detail": "inputs=73 outputs=32 registers=1 clocks=1 unconstrained=0",
+      "evidence": [],
+      "name": "timing_coverage",
+      "status": "PASS"
+    },
+    {
+      "detail": "SPEF 201261 bytes; RCX 209 nets; 0 unannotated drivers",
+      "evidence": [
+        "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464/work/results/nangate45/nangate_macro_control/base/6_final.spef"
+      ],
+      "name": "extraction",
+      "status": "PASS"
+    }
+  ],
+  "overall": "PASS",
+  "run_dir": "runs/orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464",
+  "run_id": "orfs_baseline_nangate_macro_control_20261125T144339456871595Z_11464"
+}

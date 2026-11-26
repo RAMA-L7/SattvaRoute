@@ -1,0 +1,138 @@
+OpenROAD bazel-nostamp 
+Features included (+) or not (-): -GPU -GUI
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+===== LIBERTY =====
+===== LOAD =====
+===== RC_CORNER =====
+===== SPEF =====
+===== UPDATE_TIMING =====
+SECTION_ERROR UPDATE_TIMING: invalid command name "update_timing"
+===== REPORT_UNITS =====
+ time 1ns
+ capacitance 1fF
+ resistance 1kohm
+ voltage 1v
+ current 1mA
+ power 1nW
+ distance 1um
+===== CLOCK_PROPERTIES =====
+Clock                   Period          Waveform
+----------------------------------------------------
+clk                    1000.00        0.00    500.00
+===== WORST_SLACK =====
+worst slack max 899.75
+worst slack min 99.98
+===== MIN_PERIOD_REG_TO_REG =====
+clk period_min = 0.00 fmax = inf
+===== MIN_PERIOD_INCLUDING_PORTS =====
+clk period_min = 100.25 fmax = 9.97
+===== CHECK_SETUP =====
+===== CHECKS_MAX =====
+Startpoint: u_macro (rising edge-triggered flip-flop clocked by clk)
+Endpoint: rd_out[7] (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout       Cap      Slew     Delay      Time   Description
+-------------------------------------------------------------------------------------
+                              0.0000    0.0000   clock clk (rise edge)
+                              0.0000    0.0000   clock source latency
+     1   25.3192    0.0000    0.0000    0.0000 ^ clk (in)
+                    0.0012    0.0004    0.0004 ^ u_macro/clk (fakeram45_64x32)
+     1   11.4273    0.0118    0.2070    0.2074 ^ u_macro/rd_out[7] (fakeram45_64x32)
+                    0.0079    0.0012    0.2086 ^ output102/A (BUF_X1)
+     1   10.0764    0.0248    0.0416    0.2502 ^ output102/Z (BUF_X1)
+                    0.0248    0.0010    0.2511 ^ rd_out[7] (out)
+                                        0.2511   data arrival time
+
+                           1000.0000 1000.0000   clock clk (rise edge)
+                              0.0000 1000.0000   clock network delay (propagated)
+                              0.0000 1000.0000   clock reconvergence pessimism
+                           -100.0000  900.0001   output external delay
+                                      900.0001   data required time
+-------------------------------------------------------------------------------------
+                                      900.0001   data required time
+                                       -0.2511   data arrival time
+-------------------------------------------------------------------------------------
+                                      899.7489   slack (MET)
+
+
+===== CHECKS_MIN =====
+Startpoint: w_mask_in[11] (input port clocked by clk)
+Endpoint: u_macro (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+Fanout       Cap      Slew     Delay      Time   Description
+-------------------------------------------------------------------------------------
+                              0.0000    0.0000   clock clk (rise edge)
+                              0.0000    0.0000   clock network delay (propagated)
+                            100.0000  100.0000 ^ input external delay
+     1    3.0186    0.0000    0.0000  100.0000 ^ w_mask_in[11] (in)
+                    0.0001    0.0001  100.0001 ^ input10/A (BUF_X1)
+     1    5.9583    0.0159    0.0288  100.0289 ^ input10/Z (BUF_X1)
+                    0.0239    0.0003  100.0292 ^ u_macro/w_mask_in[11] (fakeram45_64x32)
+                                      100.0292   data arrival time
+
+                              0.0000    0.0000   clock clk (rise edge)
+                              0.0000    0.0000   clock source latency
+     1   25.3192    0.0000    0.0000    0.0000 ^ clk (in)
+                    0.0012    0.0004    0.0004 ^ u_macro/clk (fakeram45_64x32)
+                              0.0000    0.0004   clock reconvergence pessimism
+                              0.0500    0.0504   library hold time
+                                        0.0504   data required time
+-------------------------------------------------------------------------------------
+                                        0.0504   data required time
+                                     -100.0292   data arrival time
+-------------------------------------------------------------------------------------
+                                       99.9788   slack (MET)
+
+
+===== UNCONSTRAINED =====
+Startpoint: u_macro (rising edge-triggered flip-flop clocked by clk)
+Endpoint: rd_out[7] (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0004    0.0004   clock network delay (propagated)
+   0.0000    0.0004 ^ u_macro/clk (fakeram45_64x32)
+   0.2070    0.2074 ^ u_macro/rd_out[7] (fakeram45_64x32)
+   0.0428    0.2502 ^ output102/Z (BUF_X1)
+   0.0010    0.2511 ^ rd_out[7] (out)
+             0.2511   data arrival time
+
+1000.0000 1000.0000   clock clk (rise edge)
+   0.0000 1000.0000   clock network delay (propagated)
+   0.0000 1000.0000   clock reconvergence pessimism
+-100.0000  900.0001   output external delay
+           900.0001   data required time
+-------------------------------------------------------------
+           900.0001   data required time
+            -0.2511   data arrival time
+-------------------------------------------------------------
+           899.7489   slack (MET)
+
+
+===== CLOCK_SKEW =====
+Clock clk
+No launch/capture paths found.
+
+===== CHECK_TYPES =====
+===== PARASITICS =====
+Found 0 unannotated drivers.
+Found 0 partially unannotated drivers.
+===== COVERAGE =====
+input_ports 73
+output_ports 32
+register_clock_pins 1
+registers 1
+clocks 1
+clock _e07cbcbcde330000_p_Clock period 1000.000000
+===== LIBS =====
+LIB _80e5dfbfde330000_p_LibertyLibrary
+LIB _00ebdfbfde330000_p_LibertyLibrary
+===== AUDIT_DONE =====

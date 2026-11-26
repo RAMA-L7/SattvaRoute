@@ -60,8 +60,29 @@ SOURCE_RUN_ID=${SATTVA_SOURCE_RUN_ID:-}
 DECISION_ID=${SATTVA_DECISION_ID:-}
 APPROVAL_ACTIVE=0
 JOB_TIMEOUT_SECS=${SATTVA_JOB_TIMEOUT_SECS:-0}
-RESULTS_ROOT=${SATTVA_RESULTS_ROOT:-$SOURCE_RUN/work/results/asap7/sattva_sram/base}
 STAGES=(check-yosys check-openroad synth floorplan place cts route finish)
+
+# The active design profile selects which collateral preflight checks and the
+# shared manifest resolve. Infer it from the design path unless explicitly set.
+if [ -z "${SATTVA_DESIGN_PROFILE:-}" ]; then
+  case "$DESIGN" in
+    *nangate_macro_control*) DESIGN_PROFILE=nangate_macro_control ;;
+    *riscv32i*)              DESIGN_PROFILE=riscv32i_sattva ;;
+    *)                       DESIGN_PROFILE=sattva_sram ;;
+  esac
+else
+  DESIGN_PROFILE=$SATTVA_DESIGN_PROFILE
+fi
+PLATFORM_NG=$FLOW/platforms/nangate45
+PLATFORM_ASAP7=$FLOW/platforms/asap7
+
+# Resolve the source-run results directory for the active profile instead of
+# assuming the historical ASAP7 path.
+RESULTS_ROOT=${SATTVA_RESULTS_ROOT:-}
+if [ -z "$RESULTS_ROOT" ] && [ -n "$SOURCE_RUN" ] && [ -d "$SOURCE_RUN/work/results" ]; then
+  RESULTS_ROOT=$(find "$SOURCE_RUN/work/results" -type d -name base 2>/dev/null | head -1)
+fi
+RESULTS_ROOT=${RESULTS_ROOT:-$SOURCE_RUN/work/results/asap7/sattva_sram/base}
 
 if [ -n "$APPROVAL$PATCH_FILE$POLICY$SOURCE_RUN$SOURCE_RUN_ID$DECISION_ID" ]; then
   for pair in "approval:$APPROVAL" "patch:$PATCH_FILE" "policy:$POLICY" \
@@ -105,24 +126,40 @@ check_cmd() {
 check_dir  mirror_flow            "$FLOW"                                  required
 check_file mirror_makefile        "$FLOW/Makefile"                         required
 check_file patched_flow_script    "$MIRROR/flow/scripts/global_route.tcl"   required
-DESIGN_PROFILE=${SATTVA_DESIGN_PROFILE:-sattva_sram}
 check_file design_config          "$CFG"                                   required
-if [ "$DESIGN_PROFILE" = "sattva_sram" ]; then
-  check_file constraint           "$DESIGN/constraint.sdc"                 required
-  check_file pdn                  "$DESIGN/pdn_sattva.tcl"                  required
-  check_file netlist              "$DESIGN/netlist/sattva_ctrl_synth.v"     required
-  check_file rtl_controller       "$DESIGN/rtl/sattva_ctrl.v"               required
-  check_file macro_lef            "$DESIGN/macro/sram_x4x4x1.lef"           required
-  check_file macro_lib            "$DESIGN/macro/sram_x4x4x1.lib"           required
-  check_file macro_gds            "$DESIGN/macro/sram_x4x4x1.gds"           optional
-else
-  # Upstream-style config: all collateral lives in the pinned ORFS tree and
-  # is fingerprinted by the shared manifest.
-  check_dir upstream_rtl          "$FLOW/designs/src/riscv32i"              required
-  check_file upstream_sdc         "$FLOW/designs/asap7/riscv32i/constraint.sdc" required
-  check_file platform_macro_lef   "$FLOW/platforms/asap7/lef/fakeram7_256x32.lef" required
-  check_file platform_macro_lib   "$FLOW/platforms/asap7/lib/NLDM/fakeram7_256x32.lib" required
-fi
+case "$DESIGN_PROFILE" in
+  nangate_macro_control)
+    check_file constraint          "$DESIGN/constraint.sdc"                 required
+    check_file prepared_netlist    "$DESIGN/netlist/sattva_macro_top_synth.v" required
+    check_file rtl_top             "$DESIGN/rtl/sattva_macro_top.v"         required
+    check_file rtl_blackbox        "$DESIGN/rtl/fakeram45_64x32_bb.v"       required
+    check_file tech_lef            "$PLATFORM_NG/lef/NangateOpenCellLibrary.tech.lef" required
+    check_file sc_lef              "$PLATFORM_NG/lef/NangateOpenCellLibrary.macro.mod.lef" required
+    check_file sc_lib              "$PLATFORM_NG/lib/NangateOpenCellLibrary_typical.lib" required
+    check_file macro_lef           "$PLATFORM_NG/lef/fakeram45_64x32.lef"   required
+    check_file macro_lib           "$PLATFORM_NG/lib/fakeram45_64x32.lib"   required
+    check_file rcx_rules           "$PLATFORM_NG/rcx_patterns.rules"        required
+    check_file rc_setup            "$PLATFORM_NG/setRC.tcl"                 required
+    ;;
+  riscv32i_sattva)
+    # Upstream-style config: all collateral lives in the pinned ORFS tree and
+    # is fingerprinted by the shared manifest.
+    check_dir upstream_rtl         "$FLOW/designs/src/riscv32i"             required
+    check_file upstream_sdc        "$FLOW/designs/asap7/riscv32i/constraint.sdc" required
+    check_file platform_macro_lef  "$PLATFORM_ASAP7/lef/fakeram7_256x32.lef" required
+    check_file platform_macro_lib  "$PLATFORM_ASAP7/lib/NLDM/fakeram7_256x32.lib" required
+    ;;
+  *)
+    # Historical sattva_sram profile (ASAP7 + project-owned SRAM macro).
+    check_file constraint          "$DESIGN/constraint.sdc"                 required
+    check_file pdn                 "$DESIGN/pdn_sattva.tcl"                 required
+    check_file netlist             "$DESIGN/netlist/sattva_ctrl_synth.v"    required
+    check_file rtl_controller      "$DESIGN/rtl/sattva_ctrl.v"              required
+    check_file macro_lef           "$DESIGN/macro/sram_x4x4x1.lef"          required
+    check_file macro_lib           "$DESIGN/macro/sram_x4x4x1.lib"          required
+    check_file macro_gds           "$DESIGN/macro/sram_x4x4x1.gds"          optional
+    ;;
+esac
 check_cmd  openroad               "$OPENROAD_EXE"                           required
 check_cmd  yosys                  "$YOSYS_EXE"                              required
 check_cmd  make                   "$(command -v make || echo /nonexistent)" required
@@ -151,10 +188,31 @@ check_cmd  klayout                "$(command -v klayout || echo /nonexistent)" o
   echo "--- system ---"
   free -h
   df -h "$ROOT" | tail -1
+  echo "--- profile ---"
+  echo "SATTVA_DESIGN_PROFILE=$DESIGN_PROFILE"
   echo "--- input + patch sha256 ---"
-  sha256sum "$CFG" "$DESIGN/constraint.sdc" "$DESIGN/pdn_sattva.tcl" \
-    "$DESIGN"/rtl/*.v "$DESIGN"/netlist/sattva_ctrl_synth.v \
-    "$DESIGN"/macro/sram_x4x4x1.lef "$DESIGN"/macro/sram_x4x4x1.lib 2>&1
+  case "$DESIGN_PROFILE" in
+    nangate_macro_control)
+      sha256sum "$CFG" "$DESIGN/constraint.sdc" \
+        "$DESIGN"/rtl/sattva_macro_top.v "$DESIGN"/rtl/fakeram45_64x32_bb.v \
+        "$DESIGN"/netlist/sattva_macro_top_synth.v \
+        "$PLATFORM_NG"/lef/fakeram45_64x32.lef \
+        "$PLATFORM_NG"/lib/fakeram45_64x32.lib \
+        "$PLATFORM_NG"/lib/NangateOpenCellLibrary_typical.lib \
+        "$PLATFORM_NG"/lef/NangateOpenCellLibrary.tech.lef \
+        "$PLATFORM_NG"/lef/NangateOpenCellLibrary.macro.mod.lef \
+        "$PLATFORM_NG"/rcx_patterns.rules "$PLATFORM_NG"/setRC.tcl 2>&1
+      ;;
+    riscv32i_sattva)
+      sha256sum "$CFG" "$PLATFORM_ASAP7"/lef/fakeram7_256x32.lef \
+        "$PLATFORM_ASAP7"/lib/NLDM/fakeram7_256x32.lib 2>&1
+      ;;
+    *)
+      sha256sum "$CFG" "$DESIGN/constraint.sdc" "$DESIGN/pdn_sattva.tcl" \
+        "$DESIGN"/rtl/*.v "$DESIGN"/netlist/sattva_ctrl_synth.v \
+        "$DESIGN"/macro/sram_x4x4x1.lef "$DESIGN"/macro/sram_x4x4x1.lib 2>&1
+      ;;
+  esac
   sha256sum "$MIRROR/flow/scripts/global_route.tcl" "$0" 2>&1
   [ -x "$OPENROAD_EXE" ] && sha256sum "$OPENROAD_EXE" 2>&1 || true
   [ -x "$YOSYS_EXE" ] && sha256sum "$YOSYS_EXE" 2>&1 || true
@@ -167,9 +225,10 @@ MANIFEST=${SATTVA_MANIFEST:-$ROOT/config/sattva_manifest.json}
 MANIFEST_SHA=$(sha256sum "$MANIFEST" 2>/dev/null | awk '{print $1}')
 if [ -f "$MANIFEST" ] && [ "${SATTVA_MANIFEST_CHECK:-1}" != "0" ]; then
   if ! python3 "$SCRIPT_DIR/manifest.py" --manifest "$MANIFEST" --check \
+      --profile "$DESIGN_PROFILE" --mirror "$MIRROR" --design-root "$DESIGN" \
       > "$EV/manifest.json" 2>&1; then
     required_fail=1
-    echo "MANIFEST CHECK FAILED; see $EV/manifest.json" >> "$EV/preflight.txt"
+    echo "MANIFEST CHECK FAILED (profile $DESIGN_PROFILE); see $EV/manifest.json" >> "$EV/preflight.txt"
   fi
 else
   echo '{"status":"SKIPPED","reason":"manifest absent or check disabled"}' > "$EV/manifest.json"
