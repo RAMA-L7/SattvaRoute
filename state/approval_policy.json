@@ -2,7 +2,7 @@
   "policy_id": "SATTVA-APPROVAL-POLICY-001",
   "description": "Explicit boundary and stage facts for exact-patch approval enforcement. Stage inputs are derived from flow/Makefile do-step rules (floorplan<=1_synth.odb, place<=2_floorplan.odb, cts<=3_place.odb, route<=4_cts.odb via 5_1_grt, finish<=5_route.odb).",
   "allowed_roots": [
-    "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/scripts",
+    "$SATTVA_MIRROR/flow/scripts",
     "$SATTVA_ROOT/experiments/PNR-RECOVERY"
   ],
   "stages": [
@@ -41,11 +41,11 @@
         "netlist/sattva_macro_top_synth.v"
       ],
       "fingerprint_files_absolute": [
-        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/fakeram45_64x32.lib",
-        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/fakeram45_64x32.lef",
-        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib",
-        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/NangateOpenCellLibrary.tech.lef",
-        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/rcx_patterns.rules"
+        "$SATTVA_MIRROR/flow/platforms/nangate45/lib/fakeram45_64x32.lib",
+        "$SATTVA_MIRROR/flow/platforms/nangate45/lef/fakeram45_64x32.lef",
+        "$SATTVA_MIRROR/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib",
+        "$SATTVA_MIRROR/flow/platforms/nangate45/lef/NangateOpenCellLibrary.tech.lef",
+        "$SATTVA_MIRROR/flow/platforms/nangate45/rcx_patterns.rules"
       ],
       "stage_inputs": {
         "synth": [],
@@ -60,8 +60,8 @@
       "manifest_profile": "nangate_macro_control",
       "input_files": ["constraint.sdc", "netlist/sattva_macro_top_synth.v"],
       "fingerprint_files_absolute": [
-        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/fakeram45_64x32.lib",
-        "$SATTVA_ROOT/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/fakeram45_64x32.lef"
+        "$SATTVA_MIRROR/flow/platforms/nangate45/lib/fakeram45_64x32.lib",
+        "$SATTVA_MIRROR/flow/platforms/nangate45/lef/fakeram45_64x32.lef"
       ],
       "stage_inputs": {
         "synth": [],

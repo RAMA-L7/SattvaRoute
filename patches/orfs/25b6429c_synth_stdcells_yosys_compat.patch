@@ -1,0 +1,21 @@
+diff --git a/flow/scripts/synth_stdcells.tcl b/flow/scripts/synth_stdcells.tcl
+index 5fb2039..0336fc4 100644
+--- a/flow/scripts/synth_stdcells.tcl
++++ b/flow/scripts/synth_stdcells.tcl
+@@ -1,7 +1,14 @@
+ # Read standard cells and macros as blackbox inputs
+ read_liberty -overwrite -setattr liberty_cell -lib {*}$::env(LIB_FILES)
+-read_liberty -overwrite -setattr liberty_cell \
+-  -unit_delay -wb -ignore_miss_func -ignore_buses {*}$::env(LIB_FILES)
++# SattvaRoute compatibility gate: installed Yosys 0.33 does not support the
++# newer -unit_delay/-wb/-ignore_miss_func/-ignore_buses options. The first
++# read above already imported the cells; skip only this second annotation
++# read when SATTVA_YOSYS_COMPAT=1. No design constraint or technology rule
++# is relaxed.
++if { ![info exists ::env(SATTVA_YOSYS_COMPAT)] } {
++  read_liberty -overwrite -setattr liberty_cell \
++    -unit_delay -wb -ignore_miss_func -ignore_buses {*}$::env(LIB_FILES)
++}
+ if { [info exists ::env(UNSET_ABC9_BOX_CELLS)] } {
+   setattr -mod -unset abc9_box {*}$::env(UNSET_ABC9_BOX_CELLS)
+ }

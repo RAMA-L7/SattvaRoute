@@ -92,3 +92,10 @@
 - QA: 254 Markdown files scanned; 0 broken relative links; 6 Mermaid diagrams; balanced fences. Evidence mapping, QA, and scope integrity in `docs/audit/`.
 - No production source, benchmark, SDC, LEF/Liberty, evidence, Git history, LICENSE, PR/merge, experiments, or recovery changed. No push/PR/merge.
 - Open: live AI unavailable without credentials; external independent reproduction not performed; DRT-0073 unresolved; license recommendation awaits owner decision; offline suite not re-executed here (Python interpreter unavailable in shell); an unsupported "166 passed" figure was corrected to 157 counted test methods after independent QA.
+## Evidence-to-verdict qualification (2026-11-27)
+- Timing audit v2: fail-closed sections, run/artifact binding, non-finite guards; unsupported `update_timing` reported explicitly as UNKNOWN.
+- Verifier: reject wrong-run/tampered audits, forged approval records, missing failure markers, changed target; v3 evaluator successor created; v2 frozen.
+- Setup: two ORFS patch files with applicability checker `scripts/check_setup_patches.py`; portable paths; `scripts/setup_preflight.py`.
+- Clean-environment 1 ns baseline: `orfs_baseline_clean_1ns_validation2_20261127T155308953691633Z_332`, rc=0; report checks PASS except `timing_update` UNKNOWN (tool limitation).
+- Isolated 1 ns missing-LEF failure: rc=2 at synth; approved patch hash `02ebf21a...` applied under AP-CLEAN-1NS-LEF-005; recovery run `orfs_baseline_recovery_1ns_lef6_20261127T164249693060081Z_361` rc=0, all six approved stages.
+- Recovery verdict: FAIL solely because baseline overall is UNKNOWN (`timing_update` unsupported). Recovery passes every executable check but remains unqualified for collateral timing regression; UNKNOWN is never downgraded. Open acceptance item; no signoff or functional-correctness claim. Documented boundary accepted for this milestone in `docs/TIMING_AUDIT.md`.

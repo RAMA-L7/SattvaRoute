@@ -30,7 +30,7 @@ Capture → fingerprint → store → reference → validate → audit → repro
 4. **Reference:** diagnoses carry `evidence_refs`; verification checks carry `evidence` lists.
 5. **Validate:** preflight fails on mismatch; verification fails when evidence is missing.
 6. **Audit:** approvals and ledger records are append-only; history is preserved.
-7. **Reproduce:** documented commands plus pinned inputs aim at reconstruction without author-specific paths (goal; the published `config.mk` still has overridable `/mnt/d/...` defaults to set locally).
+7. **Reproduce:** documented commands plus pinned inputs aim at reconstruction without author-specific paths (goal; the published `config.mk` now uses portable defaults with environment overrides, though curated evidence records retain absolute provenance paths).
 
 ## Integrity rules
 

@@ -1,0 +1,19 @@
+diff --git a/flow/scripts/global_route.tcl b/flow/scripts/global_route.tcl
+index 45f3852..e46d694 100644
+--- a/flow/scripts/global_route.tcl
++++ b/flow/scripts/global_route.tcl
+@@ -63,6 +63,14 @@ proc global_route_helper { } {
+   append_env_var additional_args VIA_IN_PIN_MIN_LAYER -via_in_pin_bottom_layer 1
+   append_env_var additional_args VIA_IN_PIN_MAX_LAYER -via_in_pin_top_layer 1
+ 
++  # D-014: zero_ is a constant-tie net that OpenROAD's Verilog reader typed
++  # GROUND without the SPECIAL bit required by TritonRoute (DRT-0305).
++  # Mark only this net SPECIAL before the first DRT call (pin_access).
++  set d014_zero_net [[ord::get_db_block] findNet zero_]
++  if {$d014_zero_net ne "NULL"} {
++    $d014_zero_net setSpecial
++  }
++
+   log_cmd pin_access {*}$additional_args
+ 
+   if { ![do_global_route $res_aware $use_cugr] } {

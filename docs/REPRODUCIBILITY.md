@@ -163,3 +163,10 @@ correctness. Remaining gaps in `docs/` + `PROJECT_STATE.md`.
 ## Documentation QA correction (2026-11-26)
 
 The statement "No /mnt/d/... in published config" above is inaccurate for `benchmark/design/nangate_macro_control/config.mk`: `WORK_HOME` and `KLAYOUT_CMD` retain overridable `?=` defaults containing `/mnt/d/...`. Set these variables in your environment when reproducing. The config file was **not** changed in this documentation-only milestone, and no historical claim in this report was rewritten. Recorded in `docs/audit/QA_FINAL.md`.
+## Published setup inputs (2026-11-27)
+- Exact ORFS patch diffs: `patches/orfs/25b6429c_global_route_D014.patch`, `patches/orfs/25b6429c_synth_stdcells_yosys_compat.patch`, with `patches/orfs/manifest.json` (base revision, patch hashes, resulting file hashes). Readers no longer reconstruct patches from hashes.
+- Applicability checker: `python3 scripts/check_setup_patches.py --mirror <orfs>` verifies HEAD, patch hashes, `git apply --check --cached`, and in-memory result hashes without modifying the mirror. Verified PASS against `25b6429c…`.
+- Portable preflight: `python3 scripts/setup_preflight.py --mirror <orfs>` checks tools, collateral, paths and the GDS/KLayout dependency with actionable failures. Author-specific `WORK_HOME`/`KLAYOUT_CMD` defaults were removed.
+- Runtime identity: tool binary hashes (OpenROAD `c1b90e0a…`, Yosys `88c0a12b…`) are verified; byte-identical locally built binaries are NOT promised. OpenROAD source revision is historical evidence only, not an authoritative published pin.
+- Update (2026-11-27): the config.mk defaults were subsequently made portable (`runs/orfs`, `klayout`) with environment overrides; the historical correction note above is preserved. Curated evidence records from the executed runs retain absolute provenance paths and are not required setup paths.
+- Setup checker/preflight outputs are recorded in `evidence/verification/setup_checks.txt` (`SETUP_PATCHES_PASS`, `SETUP_PREFLIGHT_PASS`). Preflight requires an LF, execution-equivalent `--mirror` and a `KLAYOUT_CMD`/`SATTVA_KLAYOUT` override because GDS is a required endpoint artifact.

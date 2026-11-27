@@ -1,0 +1,23 @@
+{
+  "approval_id": "AP-CLEAN-1NS-LEF-003",
+  "approver": "project-owner",
+  "decision_id": "DEC-CLEAN-1NS-LEF-003",
+  "earliest_affected_stage": "synth",
+  "expected_original_hash": "d15c0478094960f6c05b7bcd9987333973d90d3046a52990409276c77af5d886",
+  "input_fingerprint": "86b9eda812c1866f917baf84b06bf103af997f236ce0a260701e1b181bdc7e9e",
+  "operation_id": "e49f7b6b5bc7251cfa8be2e10c732fa04bef6b6e4dbd4b15b5517e0f928346a0",
+  "patch_sha256": "02ebf21a75511a6ac594c635a9f4fd4db3782d362d6d861c800273f1e65818d2",
+  "profile": "nangate_macro_control",
+  "rerun_scope": [
+    "synth",
+    "floorplan",
+    "place",
+    "cts",
+    "route",
+    "finish"
+  ],
+  "source_run_id": "orfs_baseline_failure_1ns_lef2_20261127T160852041068605Z_393",
+  "status": "APPROVED",
+  "target_file": "/mnt/d/SattvaRoute_publish/experiments/PNR-RECOVERY/missing_macro_lef_1ns_20261127T160000Z/design/config.mk",
+  "timestamp": "2026-11-27T16:35:59+00:00"
+}

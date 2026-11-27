@@ -1,3 +1,5 @@
+> **Historical snapshot (2026-11-18).** Preserved verbatim from the ASAP7/OpenFinRAM milestone. It is superseded by `PROJECT_STATE.md`, `docs/evidence/README.md` and `docs/reference/CAPABILITIES.md` for the active Nangate45 1 ns control profile. Do not read "baseline not complete" as the current state.
+
 # Current status (2026-11-18)
 
 ## Milestones

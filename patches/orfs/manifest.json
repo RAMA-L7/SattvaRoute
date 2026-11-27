@@ -1,0 +1,22 @@
+{
+  "base_revision": "25b6429c1644a8682852646bebf19ff164402c76",
+  "source_repository": "https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts",
+  "derived_from": "orfs_baseline_control_1ns_20261126T133241476241945Z_4600/evidence/mirror.patch",
+  "note": "Unified diffs extracted verbatim from the validated run's recorded mirror.patch. Applying both to the base revision produces the file hashes pinned in config/sattva_manifest.json.",
+  "patches": [
+    {
+      "file": "25b6429c_global_route_D014.patch",
+      "sha256": "d1c00dec2c9ee89be55d88b1b2e678f22eeff9555344e9f66f8849385383f1a8",
+      "target": "flow/scripts/global_route.tcl",
+      "expected_result_sha256": "cd86b58724f6c401b40d2cb464118d86590fa86b60cbe953eb4de53514d08099",
+      "reason": "D-014: mark the zero_ constant net SPECIAL before the first TritonRoute pin_access call (DRT-0305)."
+    },
+    {
+      "file": "25b6429c_synth_stdcells_yosys_compat.patch",
+      "sha256": "a24de7218d054d208c08a46dd7b6f5aed764ab3c176a8ab16b669145ab68a8bd",
+      "target": "flow/scripts/synth_stdcells.tcl",
+      "expected_result_sha256": "5a94e9d66a98d2e8f831cbb41146fd3d6853e94620c3ad71c7f1849f8e47bfba",
+      "reason": "SATTVA_YOSYS_COMPAT gate for the pinned Yosys 0.33 build; no constraint or technology rule is relaxed."
+    }
+  ]
+}

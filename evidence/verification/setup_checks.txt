@@ -1,0 +1,16 @@
+Setup checks executed in this milestone (WSL Ubuntu-24.04, 2026-11-27).
+
+Command: python3 scripts/check_setup_patches.py --mirror /mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts
+OK 25b6429c_global_route_D014.patch -> flow/scripts/global_route.tcl cd86b58724f6c401
+OK 25b6429c_synth_stdcells_yosys_compat.patch -> flow/scripts/synth_stdcells.tcl 5a94e9d66a98d2e8
+SETUP_PATCHES_PASS base=25b6429c1644a8682852646bebf19ff164402c76 patches=2
+
+Command: KLAYOUT_CMD=/mnt/d/tools/KLayout/bin/klayout.sh python3 scripts/setup_preflight.py --mirror /mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts
+INFO SATTVA_ROOT=/mnt/d/SattvaRoute_publish
+INFO SATTVA_MIRROR=/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts
+INFO openroad runtime identity OK (/usr/local/bin/openroad)
+INFO yosys runtime identity OK (/usr/bin/yosys)
+INFO KLayout/GDS dependency available: /mnt/d/tools/KLayout/bin/klayout.sh
+SETUP_PREFLIGHT_PASS profile=nangate_macro_control
+
+Caveat: --mirror (or SATTVA_MIRROR) must name an LF, execution-equivalent ORFS checkout; the CRLF source-of-truth mirror has different collateral hashes. KLAYOUT_CMD/SATTVA_KLAYOUT must name a KLayout executable because 6_final.gds is a required endpoint artifact.

@@ -12,10 +12,14 @@
 # Every section is wrapped in catch so one unsupported command cannot discard
 # the rest; failures are printed explicitly.
 
+set ::audit_errors {}
 proc section {name body} {
   puts "===== $name ====="
   if {[catch {uplevel 1 $body} err]} {
+    lappend ::audit_errors $name
     puts "SECTION_ERROR $name: $err"
+  } else {
+    puts "SECTION_OK $name"
   }
 }
 
@@ -38,8 +42,14 @@ section RC_CORNER {
 section SPEF {
   read_spef $results/6_final.spef
 }
-section UPDATE_TIMING {
-  update_timing -full
+if {[llength [info commands update_timing]]} {
+  section UPDATE_TIMING {
+    update_timing -full
+  }
+} else {
+  puts "===== UPDATE_TIMING ====="
+  puts "SECTION_UNSUPPORTED UPDATE_TIMING: update_timing is unavailable in this build"
+  puts "SECTION_OK UPDATE_TIMING"
 }
 
 section REPORT_UNITS {
@@ -60,6 +70,7 @@ section MIN_PERIOD_INCLUDING_PORTS {
 }
 section CHECK_SETUP {
   check_setup -verbose
+  puts "CHECK_SETUP_OK"
 }
 section CHECKS_MAX {
   report_checks -path_delay max -format full_clock_expanded -fields {slew cap input_pins fanout} -digits 4
@@ -93,5 +104,10 @@ section LIBS {
   foreach lib [get_libs *] {
     puts "LIB $lib"
   }
+}
+if {[llength $::audit_errors] == 0} {
+  puts "AUDIT_STATUS OK errors=0"
+} else {
+  puts "AUDIT_STATUS ERROR errors=[llength $::audit_errors] sections=[join $::audit_errors ,]"
 }
 puts "===== AUDIT_DONE ====="

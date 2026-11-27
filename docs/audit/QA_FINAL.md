@@ -44,3 +44,4 @@ Documentation structure, navigation, links, terminology, evidence mapping, histo
 ## Related
 
 `docs/audit/CLAIM_EVIDENCE.md`, `docs/audit/DOC_AUDIT.md`, `docs/audit/SCOPE_INTEGRITY.md`, `docs/DOCUMENTATION_INDEX.md`.
+Note (2026-11-27, evidence-to-verdict milestone): the `config.mk` machine-path default was subsequently replaced with portable defaults (`runs/orfs`, `klayout`) and `SATTVA_MIRROR`-aware overrides. The historical finding above is preserved; `docs/REPRODUCIBILITY.md` and `docs/workflow/GETTING_STARTED.md` reflect the current state.

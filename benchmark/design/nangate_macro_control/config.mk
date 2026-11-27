@@ -19,8 +19,12 @@ export CORE_AREA = 2 2 98 98
 export PLACE_DENSITY = 0.70
 export MACRO_PLACE_HALO = 2 2
 export TNS_END_PERCENT = 100
-export WORK_HOME ?= /mnt/d/SattvaRoute/runs/orfs
-export KLAYOUT_CMD ?= /mnt/d/tools/KLayout/bin/klayout.sh
+# Portable defaults. The runner overrides WORK_HOME directly and accepts
+# KLAYOUT_CMD / SATTVA_KLAYOUT as environment overrides; no author-specific
+# absolute path is required. Keep these as plain values: diagnosis treats
+# Make functions in declarations as ambiguous.
+export WORK_HOME ?= runs/orfs
+export KLAYOUT_CMD ?= klayout
 # Environment compatibility only: skip a Yosys frontend annotation read whose
 # flags do not exist in the installed Yosys 0.33. No design/data change.
 export SATTVA_YOSYS_COMPAT = 1

@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -36,6 +37,9 @@ from pathlib import Path
 from typing import Any, Iterable
 
 PASS, FAIL, UNKNOWN, NOT_EVALUATED = "PASS", "FAIL", "UNKNOWN", "NOT_EVALUATED"
+TIMING_AUDIT_SCHEMA = "timing_audit/v2"
+AUDIT_ARTIFACTS = ("6_final.odb", "6_final.sdc", "6_final.spef",
+                   "6_finish.rpt", "5_route_drc.rpt")
 
 # Endpoint products a completed control-benchmark run must contain.
 ENDPOINT_ARTIFACTS = (
@@ -67,6 +71,58 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: fh.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def audit_binding_error(view: RunView, audit: dict[str, Any]) -> str | None:
+    """Return a reason why an audit cannot be applied to this run, else None."""
+    if not isinstance(audit, dict):
+        return "audit is not an object"
+    if audit.get("schema") != TIMING_AUDIT_SCHEMA:
+        return f"unsupported audit schema {audit.get('schema')!r}"
+    if audit.get("audit_complete") is not True:
+        return "audit is incomplete or has failed sections"
+    if audit.get("returncode") != 0:
+        return "audit tool return code is nonzero"
+    if audit.get("section_errors"):
+        return "audit records SECTION_ERROR entries"
+    binding = audit.get("binding") or {}
+    declared_run = binding.get("run_id")
+    actual_run = view.run.get("run_id") or view.run_dir.name
+    if not declared_run or declared_run != actual_run:
+        return f"audit run_id {declared_run!r} does not match {actual_run!r}"
+    ev_manifest = view.evidence / "manifest.json"
+    if not ev_manifest.is_file():
+        return "run evidence has no manifest.json to bind a fingerprint"
+    try:
+        fingerprint = json.loads(ev_manifest.read_text(encoding="utf-8")).get("digest")
+    except (ValueError, OSError):
+        fingerprint = None
+    if not fingerprint or fingerprint != binding.get("dependency_fingerprint"):
+        return "audit dependency fingerprint does not match the run"
+    declared = binding.get("artifacts") or {}
+    for name in AUDIT_ARTIFACTS:
+        row = declared.get(name) or {}
+        want = row.get("sha256")
+        hits = sorted(view.run_dir.rglob(name))
+        if not want or not hits:
+            return f"audit has no bound hash for {name}"
+        if sha256_file(hits[0]) != str(want).lower():
+            return f"{name} hash does not match the audit binding"
+    return None
+
+
+def sdc_period(view: RunView) -> float | None:
+    """Read the executed final SDC clock period, not an intermediate file."""
+    for sdc in sorted(view.run_dir.rglob("6_final.sdc")):
+        m = re.search(r"create_clock\b[^;]*?-period\s+([0-9.eE+-]+)",
+                      read_text(sdc))
+        if m:
+            try:
+                value = float(m.group(1))
+            except ValueError:
+                return None
+            return value if math.isfinite(value) else None
+    return None
 
 
 def read_text(path: Path) -> str:
@@ -282,22 +338,45 @@ def check_timing(view: RunView, audit: dict[str, Any] | None) -> Check:
     declared = None
     if clock_period_file:
         try:
-            declared = float(read_text(clock_period_file[0]).strip())
+            raw = float(read_text(clock_period_file[0]).strip())
+            declared = raw if math.isfinite(raw) else None
         except ValueError:
             declared = None
     executed = (audit.get("clock") or {}).get("period")
-    detail = (f"units={units.get('time')}; clock_period.txt={declared}; "
-              f"audit_clock_period={executed}; worst_slack={worst.group(1)}; "
+    if not isinstance(executed, (int, float)) or not math.isfinite(float(executed)):
+        return Check("timing", UNKNOWN,
+                     "timing audit has no finite clock period; non-finite/missing "
+                     "clock values cannot bypass target comparison", [str(report[0])])
+    sdc = sdc_period(view)
+    if sdc is None:
+        return Check("timing", UNKNOWN,
+                     "executed 6_final.sdc clock period missing or non-finite",
+                     [str(report[0])])
+    detail = (f"units={units.get('time')}; sdc_period={sdc}; "
+              f"clock_period.txt={declared}; audit_clock_period={executed}; "
+              f"worst_slack={worst.group(1)}; "
               f"period_min={period.group(1)} fmax={period.group(2)}; "
               f"setup={setup.group(1)} hold={hold.group(1)}")
-    if declared is not None and executed is not None and abs(declared - float(executed)) > 1e-9:
+    if abs(sdc - float(executed)) > 1e-9:
         return Check("timing", FAIL,
-                     detail + "; executed clock differs from recorded clock period",
+                     detail + "; audit clock differs from the executed SDC",
+                     [str(report[0])])
+    if declared is None:
+        return Check("timing", UNKNOWN,
+                     detail + "; clock_period.txt missing/non-finite; no silent skip",
+                     [str(report[0])])
+    if abs(declared - sdc) > 1e-9:
+        return Check("timing", FAIL,
+                     detail + "; recorded clock differs from executed SDC",
+                     [str(report[0])])
+    slack = float(worst.group(1))
+    if not math.isfinite(slack) or not math.isfinite(float(period.group(1))):
+        return Check("timing", UNKNOWN, detail + "; non-finite report value",
                      [str(report[0])])
     if int(setup.group(1)) != 0 or int(hold.group(1)) != 0:
         return Check("timing", FAIL, detail + "; reported violations nonzero",
                      [str(report[0])])
-    if float(worst.group(1)) < 0:
+    if slack < 0:
         return Check("timing", FAIL, detail + "; negative worst slack",
                      [str(report[0])])
     return Check("timing", PASS, detail + "; declared checks met at the executed target",
@@ -358,13 +437,30 @@ def check_parasitics(view: RunView, audit: dict[str, Any] | None) -> Check:
                  f"0 unannotated drivers", [str(spef[0])])
 
 
+def check_timing_update(audit: dict[str, Any] | None) -> Check:
+    if audit is None:
+        return Check("timing_update", UNKNOWN, "no timing-unit audit supplied")
+    unsupported = audit.get("unsupported_sections") or []
+    if unsupported:
+        names = ", ".join(str(row.get("section")) for row in unsupported)
+        return Check("timing_update", UNKNOWN,
+                     f"unsupported audit commands: {names}; timing evidence is not fully updated")
+    return Check("timing_update", PASS, "all timing audit sections executed")
+
+
 # --------------------------------------------------------------------------
 # aggregate
 # --------------------------------------------------------------------------
 def verify_run(run_dir: str | Path, audit: dict[str, Any] | None = None,
                require_endpoint: bool = True) -> dict[str, Any]:
     view = load_run(run_dir)
-    checks = [
+    binding_problem = audit_binding_error(view, audit) if audit is not None else None
+    if binding_problem:
+        audit = None
+    checks = []
+    if binding_problem:
+        checks.append(Check("audit_binding", FAIL, binding_problem))
+    checks += [
         check_execution(view),
         check_artifacts(view) if require_endpoint else
         Check("artifacts", NOT_EVALUATED, "endpoint artifacts not required"),
@@ -372,6 +468,7 @@ def verify_run(run_dir: str | Path, audit: dict[str, Any] | None = None,
         check_routing(view),
         check_timing(view, audit),
         check_timing_coverage(audit),
+        check_timing_update(audit),
         check_parasitics(view, audit),
     ]
     statuses = [c.status for c in checks]
@@ -386,7 +483,9 @@ def verify_run(run_dir: str | Path, audit: dict[str, Any] | None = None,
     return {"run_id": view.run.get("run_id") or view.run_dir.name,
             "run_dir": str(view.run_dir), "overall": overall,
             "checks": [c.as_dict() for c in checks],
-            "audit_supplied": audit is not None}
+            "audit_supplied": audit is not None,
+            "audit_fingerprint": ((audit or {}).get("binding") or {}).get("dependency_fingerprint"),
+            "audit_clock": ((audit or {}).get("clock") or {}).get("period")}
 
 
 # --------------------------------------------------------------------------
@@ -397,27 +496,78 @@ def verify_recovery(baseline: dict[str, Any], failure: dict[str, Any],
                     approval_apply: dict[str, Any] | None = None,
                     targeted_marker: str | None = None) -> dict[str, Any]:
     checks: list[Check] = []
+    failure_view = load_run(failure.get("run_dir", ""))
+    recovery_view = load_run(recovery.get("run_dir", ""))
 
-    # 1. The approved operation reached the executed configuration.
+    # 1. The approved operation reached the executed configuration. A phase
+    # string plus a hash is not sufficient; the guard record and the target's
+    # actual content must agree with it.
     if approval_apply is None:
         checks.append(Check("approved_change_reached", UNKNOWN,
                             "no approval_apply.json supplied"))
     else:
         phase = approval_apply.get("phase")
         after = approval_apply.get("after_sha256")
+        before = approval_apply.get("before_sha256")
+        approval_id = approval_apply.get("approval_id")
+        operation_id = approval_apply.get("operation_id")
+        target = Path(approval_apply.get("target") or "")
+        guard_path = recovery_view.evidence / "approval_guard.json"
+        guard = None
+        if guard_path.is_file():
+            try:
+                guard = json.loads(guard_path.read_text(encoding="utf-8"))
+            except (ValueError, OSError):
+                guard = None
+        reasons = []
         if phase not in ("applied", "verified") or not after:
-            checks.append(Check("approved_change_reached", FAIL,
-                                f"apply phase={phase!r}; after_sha256={after!r}"))
+            reasons.append(f"phase={phase!r} after_sha256={after!r}")
+        if not approval_id or not operation_id:
+            reasons.append("missing approval_id/operation_id")
+        if not before or before == after:
+            reasons.append("before_sha256 missing or equal to after_sha256")
+        if guard is None:
+            reasons.append("recovery run has no approval_guard.json")
         else:
-            checks.append(Check("approved_change_reached", PASS,
-                                f"phase={phase}; after_sha256={after[:16]}",
-                                [str(approval_apply.get("target"))]))
+            if guard.get("status") != "PASS":
+                reasons.append("guard status is not PASS")
+            for key in ("approval_id", "operation_id"):
+                if guard.get(key) != approval_apply.get(key):
+                    reasons.append(f"guard {key} mismatch")
+            # The guard is recorded against the approved source-failure run.
+            if guard.get("run_id") and guard.get("run_id") != failure.get("run_id"):
+                reasons.append("guard run_id mismatch")
+            if guard.get("rerun_scope") != approval_apply.get("rerun_scope"):
+                reasons.append("guard rerun_scope mismatch")
+        if target.is_file() and sha256_file(target) != str(after).lower():
+            reasons.append("target content does not match after_sha256")
+        if reasons:
+            checks.append(Check("approved_change_reached", FAIL,
+                                "; ".join(reasons), [str(guard_path)]))
+        else:
+            detail = (f"phase={phase}; approval_id={approval_id}; "
+                      f"operation_id={operation_id}; after_sha256={str(after)[:16]}; "
+                      "guard and target hash agree")
+            if not target.is_file():
+                detail += "; target file not available offline (guard record accepted)"
+                checks.append(Check("approved_change_reached", UNKNOWN, detail,
+                                    [str(guard_path)]))
+            else:
+                checks.append(Check("approved_change_reached", PASS, detail,
+                                    [str(guard_path), str(target)]))
 
     # 2. The targeted failure disappeared from the recovery evidence.
-    failure_view = load_run(failure.get("run_dir", ""))
-    recovery_view = load_run(recovery.get("run_dir", ""))
     if targeted_marker:
         marker = targeted_marker.lower()
+        present_in_failure = [log.name for log in sorted(failure_view.evidence.glob("stage_*.log"))
+                              if marker in read_text(log).lower()]
+        if not present_in_failure:
+            checks.append(Check("failure_marker_present", FAIL,
+                                f"marker {targeted_marker!r} never appeared in failing logs; "
+                                "absence in recovery is insufficient"))
+        else:
+            checks.append(Check("failure_marker_present", PASS,
+                                f"marker present in failing logs: {present_in_failure}"))
         still = []
         for log in sorted(recovery_view.evidence.glob("stage_*.log")):
             if marker in read_text(log).lower():
@@ -488,6 +638,27 @@ def verify_recovery(baseline: dict[str, Any], failure: dict[str, Any],
     else:
         checks.append(Check("failure_is_real", PASS,
                             f"failure overall={failure.get('overall')}"))
+
+    # 6. Baseline and recovery must be the same configured target (1 ns here).
+    fps = {name: row.get("audit_fingerprint") for name, row in
+           (("baseline", baseline), ("failure", failure), ("recovery", recovery))}
+    clocks = {name: row.get("audit_clock") for name, row in
+              (("baseline", baseline), ("failure", failure), ("recovery", recovery))}
+    if not fps["baseline"] or not fps["recovery"] or fps["baseline"] != fps["recovery"]:
+        checks.append(Check("same_target", FAIL,
+                            f"baseline fingerprint={fps['baseline']}; "
+                            f"recovery fingerprint={fps['recovery']}"))
+    elif clocks["baseline"] is None or clocks["recovery"] is None:
+        checks.append(Check("same_target", UNKNOWN,
+                            f"clock values unavailable: {clocks}"))
+    elif not math.isfinite(float(clocks["baseline"])) or not math.isfinite(float(clocks["recovery"])):
+        checks.append(Check("same_target", FAIL, f"non-finite clock values: {clocks}"))
+    elif abs(float(clocks["baseline"]) - float(clocks["recovery"])) > 1e-9:
+        checks.append(Check("same_target", FAIL,
+                            f"clock changed between baseline and recovery: {clocks}"))
+    else:
+        checks.append(Check("same_target", PASS,
+                            f"same fingerprint {fps['baseline']}; clock {clocks['baseline']} ns"))
 
     statuses = [c.status for c in checks]
     if FAIL in statuses:

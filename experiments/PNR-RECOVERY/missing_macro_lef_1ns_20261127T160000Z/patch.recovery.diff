@@ -1,0 +1,17 @@
+--- /mnt/d/SattvaRoute_publish/experiments/PNR-RECOVERY/missing_macro_lef_1ns_20261127T160000Z/design/config.mk
++++ /mnt/d/SattvaRoute_publish/experiments/PNR-RECOVERY/missing_macro_lef_1ns_20261127T160000Z/design/config.mk
+@@ -11,7 +11,6 @@
+ # starts from this cached gate-level netlist, no re-synthesis during recovery.
+ export SYNTH_NETLIST_FILES = $(DESIGN_DIR)/netlist/sattva_macro_top_synth.v
+ # Isolated 1 ns regression fault: macro LEF reference points to a missing file.
+-export ADDITIONAL_LEFS = $(PLATFORM_DIR)/lef/missing_fakeram45_64x32.lef
+ export ADDITIONAL_LIBS = $(PLATFORM_DIR)/lib/fakeram45_64x32.lib
+ # Explicit die/core area sized for the 20.14 x 61.60 um platform macro;
+ # utilization/margin floorplan initialization is intentionally not combined.
+@@ -29,3 +28,6 @@
+ # Environment compatibility only: skip a Yosys frontend annotation read whose
+ # flags do not exist in the installed Yosys 0.33. No design/data change.
+ export SATTVA_YOSYS_COMPAT = 1
++
++# recovery: restore compatible pinned reference
++export ADDITIONAL_LEFS = $(PLATFORM_DIR)/lef/fakeram45_64x32.lef
