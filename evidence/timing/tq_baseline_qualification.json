@@ -1,0 +1,44 @@
+{
+  "active_profile": "nangate_macro_control",
+  "binding": {
+    "design_fingerprint": "1ef2f74b13fccf7a2613a6b94527a2bd854c085c610972872e1bb528ea408116",
+    "liberty_macro_sha256": "bcf9eb40daf072b0fdeb1d98f13b0b9cfebc07e446f3c6dadc5702eaa3e9e8a7",
+    "liberty_std_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "odb_sha256": "a739bcc2eafa202517779c64d5f5aded9ca61c0632584e3dc711d16381a25da7",
+    "opensta_revision": "UNKNOWN",
+    "orfs_revision": "25b6429c1644a8682852646bebf19ff164402c76",
+    "raw_output_sha256": "7d11b8cefcac0ec4a6006b02cb1ba276f8b8f4571679eda91ecb98120867b77e",
+    "rc_set_sha256": "521df813bf4da9d7400df33e3f680c9a328cc720830dbfca1188083741503fa5",
+    "rcx_rules_sha256": "2f65fafbe2c704b378563c53a680b93cef080c2799997019d43df7d1e5a563e9",
+    "sdc_sha256": "400481d412ee81cb53e40c57b13d3ed37fec297f2e07976745e8187b2fb6ea99",
+    "spef_sha256": "659a296bf47ca4eea22b04b5f9bb640fc2a2b40f977c1295787fc536dbf17b4b",
+    "tool": {
+      "exe_sha256": "c1b90e0af69bc9779cde8fd1579a92a10738ddebb9ea16e459f280556c349ee9",
+      "id": "openroad",
+      "invocation": "/usr/local/bin/openroad -no_init -exit /mnt/d/SattvaRoute_publish/scripts/audit_timing.tcl",
+      "version": "bazel-nostamp"
+    }
+  },
+  "capability": {
+    "available": true,
+    "id": "sta_find_timing",
+    "invocation": "::sta::find_timing -full_update",
+    "rc": 0,
+    "status": "AVAILABLE"
+  },
+  "metrics": {
+    "clock_period": 1.0,
+    "partially_unannotated_drivers": 0,
+    "timing_paths": 1,
+    "tns": 0.0,
+    "unannotated_drivers": 0,
+    "unconstrained_paths": 0,
+    "wns": 0.0,
+    "worst_slack_max": 0.64,
+    "worst_slack_min": 0.08
+  },
+  "raw_output": "/mnt/d/SattvaRoute_publish/evidence/timing/tq_baseline_qualification.raw.txt",
+  "run_id": "orfs_baseline_tq_baseline_20261127T182953827165824Z_335",
+  "schema": "timing_qualification/v1",
+  "status": "PASS"
+}

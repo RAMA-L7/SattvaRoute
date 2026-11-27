@@ -4,6 +4,12 @@
 # the numbers reproduce the flow's own final report, then dumps the tool's
 # unit, clock, corner and coverage view. It never writes design data.
 #
+# Timing update uses the supported ::sta::find_timing -full_update API. The
+# legacy update_timing command is deliberately not required: when the supported
+# capability is absent or uninvokable the stream says CAPABILITY_UNAVAILABLE and
+# SECTION_UNSUPPORTED TIMING_UPDATE, and no SECTION_OK is emitted for that
+# section (the result is UNKNOWN, never PASS).
+#
 # Required environment:
 #   AUDIT_RESULTS   directory holding 6_final.odb, 6_final.sdc, 6_final.spef
 #   AUDIT_PLATFORM  platform directory (lef/lib/...)
@@ -42,14 +48,28 @@ section RC_CORNER {
 section SPEF {
   read_spef $results/6_final.spef
 }
-if {[llength [info commands update_timing]]} {
-  section UPDATE_TIMING {
-    update_timing -full
-  }
+# Capability probe + invocation (must follow Liberty/db/SDC/RC/SPEF loads).
+puts "===== TIMING_UPDATE ====="
+set cap_id "sta_find_timing"
+set cap_invocation "::sta::find_timing -full_update"
+if {![llength [info commands ::sta::find_timing]]} {
+  puts "CAPABILITY_UNAVAILABLE $cap_id"
+  puts "CAPABILITY_STATUS UNKNOWN"
+  puts "CAPABILITY_DETAIL $cap_id: ::sta::find_timing is not present in this build"
+  puts "SECTION_UNSUPPORTED TIMING_UPDATE: ::sta::find_timing is unavailable in this build"
 } else {
-  puts "===== UPDATE_TIMING ====="
-  puts "SECTION_UNSUPPORTED UPDATE_TIMING: update_timing is unavailable in this build"
-  puts "SECTION_OK UPDATE_TIMING"
+  set rc [catch {::sta::find_timing -full_update} err]
+  if {$rc != 0} {
+    puts "CAPABILITY_UNAVAILABLE $cap_id"
+    puts "CAPABILITY_STATUS UNKNOWN"
+    puts "CAPABILITY_DETAIL $cap_id: invocation rc=$rc: $err"
+    puts "SECTION_UNSUPPORTED TIMING_UPDATE: ::sta::find_timing -full_update returned rc=$rc"
+  } else {
+    puts "CAPABILITY_AVAILABLE $cap_id"
+    puts "CAPABILITY_STATUS AVAILABLE"
+    puts "CAPABILITY_INVOCATION $cap_id: $cap_invocation"
+    puts "SECTION_OK TIMING_UPDATE"
+  }
 }
 
 section REPORT_UNITS {
@@ -61,6 +81,10 @@ section CLOCK_PROPERTIES {
 section WORST_SLACK {
   report_worst_slack -max
   report_worst_slack -min
+}
+section WNS_TNS {
+  report_wns -max
+  report_tns -max
 }
 section MIN_PERIOD_REG_TO_REG {
   report_clock_min_period

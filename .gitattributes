@@ -11,3 +11,7 @@
 *.txt text eol=lf
 *.v text eol=lf
 *.mk text eol=lf
+
+# Byte-exact approval-bound artifacts: never normalize these on commit/checkout.
+experiments/PNR-RECOVERY/missing_macro_lef_tq_20261127T183500Z/design/config.mk binary
+experiments/PNR-RECOVERY/missing_macro_lef_tq_20261127T183500Z/patch.recovery.diff binary

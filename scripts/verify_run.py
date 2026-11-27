@@ -30,14 +30,19 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
+ROOT = Path(__file__).resolve().parent.parent
+
 PASS, FAIL, UNKNOWN, NOT_EVALUATED = "PASS", "FAIL", "UNKNOWN", "NOT_EVALUATED"
 TIMING_AUDIT_SCHEMA = "timing_audit/v2"
+TIMING_QUAL_SCHEMA = "timing_qualification/v1"
+TOLERANCE_PATH = ROOT / "config" / "timing_tolerances.json"
 AUDIT_ARTIFACTS = ("6_final.odb", "6_final.sdc", "6_final.spef",
                    "6_finish.rpt", "5_route_drc.rpt")
 
@@ -109,6 +114,158 @@ def audit_binding_error(view: RunView, audit: dict[str, Any]) -> str | None:
         if sha256_file(hits[0]) != str(want).lower():
             return f"{name} hash does not match the audit binding"
     return None
+
+
+def load_tolerances() -> dict[str, Any] | None:
+    if not TOLERANCE_PATH.is_file():
+        return None
+    try:
+        doc = json.loads(TOLERANCE_PATH.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return None
+    return doc.get("comparison") if isinstance(doc, dict) else None
+
+
+def qualification_binding_error(view: RunView, q: dict[str, Any]) -> str | None:
+    """Return why a timing qualification cannot be accepted for this run."""
+    if not isinstance(q, dict):
+        return "qualification is not an object"
+    if q.get("schema") != TIMING_QUAL_SCHEMA:
+        return f"unsupported qualification schema {q.get('schema')!r}"
+    binding = q.get("binding") or {}
+    run_id = view.run.get("run_id") or view.run_dir.name
+    if q.get("run_id") != run_id:
+        return f"qualification run_id {q.get('run_id')!r} != {run_id!r}"
+    profile = str(q.get("active_profile") or "")
+    if not profile or profile == "UNKNOWN":
+        return "qualification has no active profile"
+    cfg_path = ROOT / "config" / "sattva_manifest.json"
+    try:
+        cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return "cannot read pinned manifest"
+    ev_manifest = view.evidence / "manifest.json"
+    try:
+        ev = json.loads(ev_manifest.read_text(encoding="utf-8")) if ev_manifest.is_file() else {}
+    except (ValueError, OSError):
+        ev = {}
+    expected_profile = (view.run.get("active_profile") or ev.get("profile")
+                        or os.environ.get("SATTVA_DESIGN_PROFILE"))
+    if expected_profile and expected_profile != profile:
+        return f"active profile mismatch: {profile} != {expected_profile}"
+    prof = cfg.get("profiles", {}).get(profile, {})
+    pinned = prof.get("platform_files") or {}
+    if not pinned:
+        return f"active profile {profile} has no pinned platform collateral"
+
+    if binding.get("orfs_revision") != cfg.get("orfs", {}).get("revision"):
+        return "ORFS revision mismatch"
+    tool = binding.get("tool") or {}
+    expected_tool = cfg.get("tools", {}).get("openroad", {}).get("expected_sha256")
+    if not expected_tool or str(tool.get("exe_sha256")).lower() != expected_tool:
+        return "OpenROAD tool identity mismatch"
+    if tool.get("id") != "openroad" or tool.get("version") != "bazel-nostamp":
+        return "tool id/version mismatch"
+    if not str(tool.get("invocation") or ""):
+        return "qualification does not record the exact tool invocation"
+
+    if not ev_manifest.is_file():
+        return "run evidence manifest missing"
+    declared_digest = view.run.get("manifest_sha256")
+    if declared_digest and ev.get("digest") and str(ev.get("digest")).lower() != \
+            str(declared_digest).lower():
+        return "run evidence manifest digest does not match run.json"
+    canonical = ev.get("fingerprint")
+    if not canonical or canonical != binding.get("design_fingerprint"):
+        return "design fingerprint mismatch (canonical manifest fingerprint required)"
+
+    for field, key in (("liberty_std_sha256", "lib/NangateOpenCellLibrary_typical.lib"),
+                       ("liberty_macro_sha256", "lib/fakeram45_64x32.lib"),
+                       ("rc_set_sha256", "setRC.tcl"),
+                       ("rcx_rules_sha256", "rcx_patterns.rules")):
+        want = pinned.get(key)
+        if not want or str(binding.get(field)).lower() != str(want).lower():
+            return f"timing input mismatch: {key}"
+
+    def first(name: str) -> Path | None:
+        hits = sorted(view.run_dir.rglob(name))
+        return hits[0] if hits else None
+    for field, name in (("sdc_sha256", "6_final.sdc"), ("spef_sha256", "6_final.spef"),
+                        ("odb_sha256", "6_final.odb")):
+        path = first(name)
+        if not path:
+            return f"qualification artifact missing in run: {name}"
+        if sha256_file(path) != str(binding.get(field)).lower():
+            return f"qualification artifact hash mismatch: {name}"
+
+    raw = Path(str(q.get("raw_output") or ""))
+    if not raw.is_file():
+        return "qualification raw output missing"
+    if sha256_file(raw) != str(binding.get("raw_output_sha256")).lower():
+        return "qualification raw output hash mismatch"
+    raw_text = read_text(raw)
+    for marker in ("CAPABILITY_AVAILABLE sta_find_timing", "SECTION_OK TIMING_UPDATE",
+                   "AUDIT_STATUS OK errors=0", "===== AUDIT_DONE ====="):
+        if marker not in raw_text:
+            return f"qualification raw output lacks {marker!r}"
+    return None
+
+
+def check_timing_qualification(view: RunView, q: dict[str, Any] | None) -> Check:
+    if q is None:
+        return Check("timing_qualification", NOT_EVALUATED,
+                     "no timing qualification supplied")
+    status = q.get("status")
+    if status == FAIL:
+        return Check("timing_qualification", FAIL,
+                     "qualification record status is FAIL")
+    if status != PASS:
+        return Check("timing_qualification", UNKNOWN,
+                     f"qualification record status {status!r} is not PASS; "
+                     "UNKNOWN cannot be upgraded")
+    problem = qualification_binding_error(view, q)
+    if problem:
+        return Check("timing_qualification", FAIL, problem)
+    cap = q.get("capability") or {}
+    if cap.get("status") != "AVAILABLE" or cap.get("available") is not True:
+        return Check("timing_qualification", UNKNOWN,
+                     f"timing capability {cap.get('status')!r}; missing capability stays UNKNOWN")
+    cap_inv = str(cap.get("invocation") or "")
+    if cap.get("id") != "sta_find_timing" or "::sta::find_timing" not in cap_inv \
+            or "-full_update" not in cap_inv:
+        return Check("timing_qualification", FAIL,
+                     "capability identity/invocation is not the supported STA update")
+    raw_text = read_text(Path(str(q.get("raw_output") or "")))
+    for marker in ("CAPABILITY_AVAILABLE sta_find_timing", "SECTION_OK TIMING_UPDATE",
+                   "AUDIT_STATUS OK errors=0", "===== AUDIT_DONE ====="):
+        if marker not in raw_text:
+            return Check("timing_qualification", FAIL,
+                         f"qualification raw output lacks {marker!r}")
+    metrics = q.get("metrics") or {}
+    numeric = ("wns", "tns", "worst_slack_max", "worst_slack_min", "clock_period")
+    for name in numeric:
+        value = metrics.get(name)
+        if not isinstance(value, (int, float)) or not math.isfinite(float(value)):
+            return Check("timing_qualification", UNKNOWN,
+                         f"metric {name} missing or non-finite")
+        if name != "clock_period" and float(value) < 0:
+            return Check("timing_qualification", FAIL,
+                         f"metric {name} is negative with status PASS")
+    for name in ("unconstrained_paths", "unannotated_drivers",
+                 "partially_unannotated_drivers"):
+        value = metrics.get(name)
+        if not isinstance(value, int):
+            return Check("timing_qualification", UNKNOWN,
+                         f"metric {name} missing or non-integer")
+        if value != 0:
+            return Check("timing_qualification", FAIL, f"{name} present")
+    paths = metrics.get("timing_paths")
+    if not isinstance(paths, int) or paths < 1:
+        return Check("timing_qualification", UNKNOWN,
+                     "timing path coverage missing or insufficient")
+    return Check("timing_qualification", PASS,
+                 f"engine={cap.get('id')}; wns={metrics['wns']}; tns={metrics['tns']}; "
+                 f"slack={metrics['worst_slack_max']}; period={metrics['clock_period']}")
 
 
 def sdc_period(view: RunView) -> float | None:
@@ -441,10 +598,24 @@ def check_timing_update(audit: dict[str, Any] | None) -> Check:
     if audit is None:
         return Check("timing_update", UNKNOWN, "no timing-unit audit supplied")
     unsupported = audit.get("unsupported_sections") or []
+    if "capability" not in audit and "section_ok" not in audit:
+        # Legacy v2 audit without capability fields: preserve historical
+        # behavior, but never accept recorded unsupported sections.
+        if unsupported:
+            return Check("timing_update", UNKNOWN,
+                         "legacy audit records unsupported timing commands")
+        return Check("timing_update", PASS, "legacy audit has no unsupported sections")
+    cap = audit.get("capability") or {}
+    if cap and cap.get("status") != "AVAILABLE":
+        return Check("timing_update", UNKNOWN,
+                     f"audit capability {cap.get('status')!r}; missing capability stays UNKNOWN")
     if unsupported:
         names = ", ".join(str(row.get("section")) for row in unsupported)
         return Check("timing_update", UNKNOWN,
                      f"unsupported audit commands: {names}; timing evidence is not fully updated")
+    if "TIMING_UPDATE" not in set(audit.get("section_ok") or []):
+        return Check("timing_update", UNKNOWN,
+                     "audit does not record a successful supported timing update")
     return Check("timing_update", PASS, "all timing audit sections executed")
 
 
@@ -452,7 +623,8 @@ def check_timing_update(audit: dict[str, Any] | None) -> Check:
 # aggregate
 # --------------------------------------------------------------------------
 def verify_run(run_dir: str | Path, audit: dict[str, Any] | None = None,
-               require_endpoint: bool = True) -> dict[str, Any]:
+               require_endpoint: bool = True,
+               qualification: dict[str, Any] | None = None) -> dict[str, Any]:
     view = load_run(run_dir)
     binding_problem = audit_binding_error(view, audit) if audit is not None else None
     if binding_problem:
@@ -469,14 +641,15 @@ def verify_run(run_dir: str | Path, audit: dict[str, Any] | None = None,
         check_timing(view, audit),
         check_timing_coverage(audit),
         check_timing_update(audit),
+        check_timing_qualification(view, qualification),
         check_parasitics(view, audit),
     ]
-    statuses = [c.status for c in checks]
+    statuses = [c.status for c in checks if c.status != NOT_EVALUATED]
     if FAIL in statuses:
         overall = FAIL
     elif UNKNOWN in statuses:
         overall = UNKNOWN
-    elif all(s == PASS for s in statuses):
+    elif statuses and all(s == PASS for s in statuses):
         overall = PASS
     else:
         overall = NOT_EVALUATED
@@ -485,16 +658,125 @@ def verify_run(run_dir: str | Path, audit: dict[str, Any] | None = None,
             "checks": [c.as_dict() for c in checks],
             "audit_supplied": audit is not None,
             "audit_fingerprint": ((audit or {}).get("binding") or {}).get("dependency_fingerprint"),
-            "audit_clock": ((audit or {}).get("clock") or {}).get("period")}
+            "audit_clock": ((audit or {}).get("clock") or {}).get("period"),
+            "qualification_status": ((qualification or {}).get("capability") or {}).get("status"),
+            "qualification_digest": ((qualification or {}).get("binding") or {}).get(
+                "design_fingerprint")}
 
 
 # --------------------------------------------------------------------------
 # recovery
 # --------------------------------------------------------------------------
+def compare_timing_qualifications(baseline_q: dict[str, Any] | None,
+                                  recovery_q: dict[str, Any] | None,
+                                  required: bool = False,
+                                  baseline_view: RunView | None = None,
+                                  recovery_view: RunView | None = None,
+                                  baseline_run_id: str | None = None,
+                                  recovery_run_id: str | None = None) -> Check:
+    if required and (baseline_q is None or recovery_q is None):
+        return Check("numeric_timing_comparison", UNKNOWN,
+                     "timing qualification required for recovery but missing")
+    tol = load_tolerances()
+    if tol is None:
+        return Check("numeric_timing_comparison", UNKNOWN,
+                     "no frozen timing tolerances available")
+    if baseline_q is None or recovery_q is None:
+        return Check("numeric_timing_comparison", NOT_EVALUATED,
+                     "baseline/recovery timing qualification not supplied")
+    if baseline_q.get("run_id") == recovery_q.get("run_id"):
+        return Check("numeric_timing_comparison", FAIL,
+                     "baseline and recovery qualification claim the same run")
+    for label, q, view, expected_id in (
+            ("baseline", baseline_q, baseline_view, baseline_run_id),
+            ("recovery", recovery_q, recovery_view, recovery_run_id)):
+        if q.get("status") == FAIL:
+            return Check("numeric_timing_comparison", FAIL,
+                         f"{label} qualification status is FAIL")
+        if q.get("status") != PASS:
+            return Check("numeric_timing_comparison", UNKNOWN,
+                         f"{label} qualification status {q.get('status')!r} is not PASS")
+        if expected_id and q.get("run_id") != expected_id:
+            return Check("numeric_timing_comparison", FAIL,
+                         f"{label} qualification run_id mismatch")
+        if view is not None:
+            problem = qualification_binding_error(view, q)
+            if problem:
+                return Check("numeric_timing_comparison", FAIL,
+                             f"{label} qualification binding failed: {problem}")
+    bb, rb = baseline_q.get("binding") or {}, recovery_q.get("binding") or {}
+    for key in ("orfs_revision", "sdc_sha256", "liberty_std_sha256",
+                "liberty_macro_sha256", "rc_set_sha256", "rcx_rules_sha256"):
+        if not bb.get(key) or bb.get(key) != rb.get(key):
+            return Check("numeric_timing_comparison", UNKNOWN,
+                         f"baseline/recovery disagree on {key}")
+    if (bb.get("tool") or {}).get("exe_sha256") != (rb.get("tool") or {}).get("exe_sha256"):
+        return Check("numeric_timing_comparison", UNKNOWN,
+                     "baseline/recovery tool identity differs")
+    for label, q in (("baseline", baseline_q), ("recovery", recovery_q)):
+        cap = q.get("capability") or {}
+        inv = str(cap.get("invocation") or "")
+        if cap.get("id") != "sta_find_timing" or "::sta::find_timing" not in inv \
+                or "-full_update" not in inv:
+            return Check("numeric_timing_comparison", FAIL,
+                         f"{label} capability identity/invocation is not the supported STA update")
+    reasons = []
+    for label, q in (("baseline", baseline_q), ("recovery", recovery_q)):
+        if q.get("capability", {}).get("status") != "AVAILABLE":
+            reasons.append(f"{label} capability unavailable")
+        bb = q.get("binding") or {}
+        for key in ("tool", "design_fingerprint", "sdc_sha256", "liberty_std_sha256",
+                    "liberty_macro_sha256", "rc_set_sha256", "rcx_rules_sha256"):
+            if not bb.get(key):
+                reasons.append(f"{label} missing binding field {key}")
+    if reasons:
+        return Check("numeric_timing_comparison", UNKNOWN, "; ".join(reasons))
+    b = baseline_q.get("metrics") or {}
+    r = recovery_q.get("metrics") or {}
+    bad = []
+    for key, limit in (("wns", "wns_abs"), ("tns", "tns_abs"),
+                       ("worst_slack_max", "worst_slack_abs")):
+        bv, rv = b.get(key), r.get(key)
+        if not isinstance(bv, (int, float)) or not isinstance(rv, (int, float)) \
+                or not math.isfinite(float(bv)) or not math.isfinite(float(rv)):
+            return Check("numeric_timing_comparison", UNKNOWN,
+                         f"metric {key} missing or non-finite")
+        bound = float(tol.get(limit, 0.0))
+        if abs(float(rv) - float(bv)) > bound:
+            bad.append(f"{key} {bv}->{rv} exceeds {bound}")
+    bperiod, rperiod = b.get("clock_period"), r.get("clock_period")
+    if not isinstance(bperiod, (int, float)) or not isinstance(rperiod, (int, float)) \
+            or not math.isfinite(float(bperiod)) or not math.isfinite(float(rperiod)):
+        return Check("numeric_timing_comparison", UNKNOWN, "clock period missing or non-finite")
+    if abs(float(rperiod) - float(bperiod)) > float(tol.get("clock_period_abs", 0.0)):
+        bad.append(f"clock period {bperiod}->{rperiod} changed")
+    for key, limit in (("unconstrained_paths", "unconstrained_paths_max"),
+                       ("unannotated_drivers", "unannotated_drivers_max"),
+                       ("partially_unannotated_drivers", "partially_unannotated_drivers_max")):
+        for label, metrics in (("baseline", b), ("recovery", r)):
+            value = metrics.get(key)
+            if not isinstance(value, int):
+                return Check("numeric_timing_comparison", UNKNOWN,
+                             f"{label} count {key} missing")
+            if value > int(tol.get(limit, 0)):
+                bad.append(f"{label} {key}={value} exceeds {limit}")
+    paths = r.get("timing_paths")
+    if not isinstance(paths, int) or paths < int(tol.get("timing_paths_min", 1)):
+        return Check("numeric_timing_comparison", UNKNOWN, "timing path coverage insufficient")
+    if bad:
+        return Check("numeric_timing_comparison", FAIL, "; ".join(bad))
+    return Check("numeric_timing_comparison", PASS,
+                 "wns/tns/slack/clock and coverage within frozen tolerances")
+
+
 def verify_recovery(baseline: dict[str, Any], failure: dict[str, Any],
                     recovery: dict[str, Any], *,
                     approval_apply: dict[str, Any] | None = None,
-                    targeted_marker: str | None = None) -> dict[str, Any]:
+                    targeted_marker: str | None = None,
+                    baseline_qualification: dict[str, Any] | None = None,
+                    recovery_qualification: dict[str, Any] | None = None,
+                    require_qualification: bool = False,
+                    require_approval_chain: bool = False) -> dict[str, Any]:
     checks: list[Check] = []
     failure_view = load_run(failure.get("run_dir", ""))
     recovery_view = load_run(recovery.get("run_dir", ""))
@@ -541,6 +823,54 @@ def verify_recovery(baseline: dict[str, Any], failure: dict[str, Any],
                 reasons.append("guard rerun_scope mismatch")
         if target.is_file() and sha256_file(target) != str(after).lower():
             reasons.append("target content does not match after_sha256")
+        if require_approval_chain and approval_id and operation_id:
+            apply_path = recovery_view.evidence / "approval_apply.json"
+            if not apply_path.is_file():
+                reasons.append("recovery evidence has no approval_apply.json")
+            else:
+                try:
+                    stored = json.loads(apply_path.read_text(encoding="utf-8"))
+                except (ValueError, OSError):
+                    stored = {}
+                if stored != approval_apply:
+                    reasons.append("supplied apply record differs from stored apply evidence")
+            ledger_path = ROOT / "state" / "approval_ledger.jsonl"
+            rows = []
+            if ledger_path.is_file():
+                for line in ledger_path.read_text(encoding="utf-8").splitlines():
+                    if not line.strip():
+                        continue
+                    try:
+                        rows.append(json.loads(line))
+                    except ValueError:
+                        continue
+            match = [row for row in rows if row.get("approval_id") == approval_id
+                     and row.get("operation_id") == operation_id]
+            if not match:
+                reasons.append("approval/operation pair absent from approval ledger")
+            records = []
+            for candidate in (ROOT / "experiments" / "PNR-RECOVERY").glob("*/approval*.json"):
+                try:
+                    record = json.loads(candidate.read_text(encoding="utf-8"))
+                except (ValueError, OSError):
+                    continue
+                if record.get("approval_id") == approval_id:
+                    records.append(record)
+            if not records:
+                reasons.append("no stored approval record for approval_id")
+            else:
+                record = records[0]
+                if record.get("status") != "APPROVED":
+                    reasons.append("approval record is not APPROVED")
+                if str(record.get("expected_original_hash")).lower() != str(before).lower():
+                    reasons.append("before_sha256 differs from approved original hash")
+                if match and str(record.get("patch_sha256")).lower() != \
+                        str(match[0].get("patch_sha256")).lower():
+                    reasons.append("approval patch hash differs from ledger")
+                def norm_path(value: Any) -> str:
+                    return str(value or "").replace("\\", "/").lstrip("/")
+                if norm_path(record.get("target_file")) != norm_path(target):
+                    reasons.append("approved target differs from applied target")
         if reasons:
             checks.append(Check("approved_change_reached", FAIL,
                                 "; ".join(reasons), [str(guard_path)]))
@@ -660,13 +990,23 @@ def verify_recovery(baseline: dict[str, Any], failure: dict[str, Any],
         checks.append(Check("same_target", PASS,
                             f"same fingerprint {fps['baseline']}; clock {clocks['baseline']} ns"))
 
-    statuses = [c.status for c in checks]
+    baseline_view = load_run(baseline.get("run_dir", ""))
+    checks.append(compare_timing_qualifications(
+        baseline_qualification, recovery_qualification,
+        required=require_qualification,
+        baseline_view=baseline_view, recovery_view=recovery_view,
+        baseline_run_id=baseline.get("run_id"),
+        recovery_run_id=recovery.get("run_id")))
+
+    statuses = [c.status for c in checks if c.status != NOT_EVALUATED]
     if FAIL in statuses:
         overall = FAIL
     elif UNKNOWN in statuses:
         overall = UNKNOWN
-    else:
+    elif statuses and all(s == PASS for s in statuses):
         overall = PASS
+    else:
+        overall = NOT_EVALUATED
     return {"overall": overall, "checks": [c.as_dict() for c in checks],
             "baseline": baseline.get("run_id"),
             "failure": failure.get("run_id"),
@@ -693,13 +1033,21 @@ def main() -> int:
     p.add_argument("--recovery")
     p.add_argument("--audit-map",
                    help="JSON {run_id_or_path: audit_path} for the recovery mode")
+    p.add_argument("--qualification", help="timing_qualification/v1 JSON for --run")
+    p.add_argument("--qualification-map",
+                   help="JSON {run_id_or_path: qualification_path} for recovery mode")
+    p.add_argument("--require-qualification", action="store_true",
+                   help="fail closed with UNKNOWN if recovery timing qualification is missing")
+    p.add_argument("--require-approval-chain", action="store_true",
+                   help="verify approval record, ledger and stored apply evidence")
     p.add_argument("--approval-apply")
     p.add_argument("--targeted-marker")
     p.add_argument("--out")
     args = p.parse_args()
 
     if args.run:
-        out: dict[str, Any] = verify_run(args.run, _load_audit(args.audit))
+        out: dict[str, Any] = verify_run(args.run, _load_audit(args.audit),
+                                         qualification=_load_audit(args.qualification))
     else:
         if not (args.baseline and args.failure and args.recovery):
             p.error("--run, or all of --baseline/--failure/--recovery, is required")
@@ -710,15 +1058,27 @@ def main() -> int:
             entry = amap.get(path) or amap.get(Path(path).name)
             return _load_audit(entry) if entry else None
 
-        b = verify_run(args.baseline, audit_for(args.baseline))
+        qmap = json.loads(Path(args.qualification_map).read_text(encoding="utf-8")) \
+            if args.qualification_map else {}
+
+        def qualification_for(path: str) -> dict[str, Any] | None:
+            entry = qmap.get(path) or qmap.get(Path(path).name)
+            return _load_audit(entry) if entry else None
+
+        bq = qualification_for(args.baseline)
+        rq = qualification_for(args.recovery)
+        b = verify_run(args.baseline, audit_for(args.baseline), qualification=bq)
         f = verify_run(args.failure, audit_for(args.failure))
-        r = verify_run(args.recovery, audit_for(args.recovery))
+        r = verify_run(args.recovery, audit_for(args.recovery), qualification=rq)
         ap = json.loads(Path(args.approval_apply).read_text(encoding="utf-8")) \
             if args.approval_apply else None
         out = {"baseline": b, "failure": f, "recovery": r,
                "recovery_verdict": verify_recovery(
                    b, f, r, approval_apply=ap,
-                   targeted_marker=args.targeted_marker)}
+                   targeted_marker=args.targeted_marker,
+                   baseline_qualification=bq, recovery_qualification=rq,
+                   require_qualification=args.require_qualification,
+                   require_approval_chain=args.require_approval_chain)}
 
     text = json.dumps(out, indent=2, sort_keys=True)
     if args.out:

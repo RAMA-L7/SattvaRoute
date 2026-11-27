@@ -1,0 +1,20 @@
+{
+  "schema": "timing_tolerances/v1",
+  "declared_before_experiments": "2026-11-27T18:28:45Z",
+  "note": "Frozen before the new requalification experiments in this milestone; earlier 1 ns runs predate this file. Tolerances are absolute unless marked relative. Do not change after observing requalification results.",
+  "comparison": {
+    "wns_abs": 0.001,
+    "tns_abs": 0.001,
+    "worst_slack_abs": 0.001,
+    "clock_period_abs": 0.000001,
+    "unconstrained_paths_max": 0,
+    "unannotated_drivers_max": 0,
+    "partially_unannotated_drivers_max": 0,
+    "timing_paths_min": 1,
+    "metric_units": "ns from Liberty time_unit 1ns",
+    "missing_metric": "UNKNOWN",
+    "non_finite_metric": "UNKNOWN"
+  },
+  "status_lattice": ["PASS", "UNKNOWN", "FAIL"],
+  "no_upgrade_from_unknown": true
+}

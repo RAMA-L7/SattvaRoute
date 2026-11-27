@@ -1,0 +1,23 @@
+{
+  "approval_id": "AP-TQ-LEF-001",
+  "approver": "project-owner",
+  "decision_id": "DEC-TQ-LEF-001",
+  "earliest_affected_stage": "synth",
+  "expected_original_hash": "d59c5392e7bf15a0d3b9ffc0e643dc4e3733fb22f1b636d09fee4a34cc87b342",
+  "input_fingerprint": "b62c38e54119b8ebf5f5bbd2efb89b50a026f6ec6003d8664859271e5028a63e",
+  "operation_id": "c58f45307f4708aabc9736fb08e8027bf602ff23c7b2a0603e1509832780790a",
+  "patch_sha256": "cae2a007bf8737bd0ae977b104329c40b4cd6a0b675d891deb4380accbcd5028",
+  "profile": "nangate_macro_control",
+  "rerun_scope": [
+    "synth",
+    "floorplan",
+    "place",
+    "cts",
+    "route",
+    "finish"
+  ],
+  "source_run_id": "orfs_baseline_tq_failure_20261127T184000106056205Z_334",
+  "status": "APPROVED",
+  "target_file": "/mnt/d/SattvaRoute_publish/experiments/PNR-RECOVERY/missing_macro_lef_tq_20261127T183500Z/design/config.mk",
+  "timestamp": "2026-11-27T18:49:46+00:00"
+}
