@@ -48,7 +48,7 @@ Evidence collection & preservation; run isolation & preflight; reproducible mani
 
 ## Supported & validated scope
 
-Offline suite: `python3 -m unittest discover -s tests -p 'test_*.py'` (**157 test methods** defined in `tests/*.py`, counted here; prior milestone records report the suites passing; not re-executed in this shell). Validated **Nangate45 + `fakeram45_64x32` `nangate_macro_control`** control benchmark; **1 ns** `constraint_1ns.sdc` approved; historical **1000 ns** preserved; **ORFS `25b6429c…` + 2 local patches**; **not** multi-corner; **not** signoff. `DRT-0073`/OpenFinRAM **unresolved, not reopened**. See [`docs/research/LIMITATIONS.md`](docs/research/LIMITATIONS.md).
+Offline suite: `python3 -m unittest discover -s tests -p 'test_*.py'` (**176 test methods** defined; targeted qualification suites **81/81 PASS**; full suite has 4 failures + 25 errors from pre-existing fixture/environment gaps — see `coordination/TASK_BOARD.md`). Validated **Nangate45 + `fakeram45_64x32` `nangate_macro_control`** control benchmark; **1 ns** `constraint_1ns.sdc` approved; historical **1000 ns** preserved; **ORFS `25b6429c…` + 2 local patches**; **not** multi-corner; **not** signoff. `DRT-0073`/OpenFinRAM **unresolved, not reopened**. See [`docs/research/LIMITATIONS.md`](docs/research/LIMITATIONS.md).
 
 ## Getting started
 
@@ -81,7 +81,7 @@ Nothing applied without explicit human approval of exact displayed diff; no forc
 
 ## Current limitations
 
-Pass-through wrapper; abstract FakeRAM; single typical corner; trivial timing; not timing-closure-representative; no foundry DRC/LVS/signoff; no functional correctness; no live-AI recovery without credentials; `DRT-0073` unresolved; not another-engineer tested. See [`docs/research/LIMITATIONS.md`](docs/research/LIMITATIONS.md).
+Pass-through wrapper; abstract FakeRAM; single typical corner; trivial timing; not timing-closure-representative; no foundry DRC/LVS/signoff; no functional correctness; no live-AI recovery without credentials; `DRT-0073` unresolved; not another-engineer tested. Curated provenance records for the 1 ns runs contain absolute `/mnt/d/...` paths identifying the executed target and backups; these are evidence identity, not required local setup paths. See [`docs/research/LIMITATIONS.md`](docs/research/LIMITATIONS.md).
 
 ## Research direction
 
@@ -90,6 +90,14 @@ Evidence-grounded EDA agents; cross-stage reasoning; constraint intelligence; ph
 ## Contributing
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) + [`AGENTS.md`](AGENTS.md). Documentation-only vs engineering changes separated. No fabricated results.
+
+## Evidence-to-verdict qualification (2026-11-27)
+
+- Clean-environment 1 ns baseline: `orfs_baseline_clean_1ns_validation2_20261127T155308953691633Z_332` (`rc=0`). Report-level checks PASS; `timing_update` is `UNKNOWN` because the pinned OpenROAD has no `update_timing` command. No signoff or functional-correctness claim.
+- Isolated 1 ns missing-LEF regression: `orfs_baseline_failure_1ns_lef2_20261127T160852041068605Z_393` (`rc=2` at `synth`).
+- Human-approved recovery: patch hash `02ebf21a75511a6ac594c635a9f4fd4db3782d362d6d861c800273f1e65818d2`, applied under `AP-CLEAN-1NS-LEF-005`; recovery run `orfs_baseline_recovery_1ns_lef6_20261127T164249693060081Z_361` (`rc=0`, all six approved stages at 1 ns).
+- Comparison: `evidence/verification/clean_1ns_recovery.json` — every executable check passes (approval, failure marker, target clearing, scope, same-target, routing, extraction, artifacts), but the overall verdict remains **`FAIL`** because the baseline is `UNKNOWN` on `timing_update`. Recovery passed all executable checks and remains **unqualified for collateral timing regression**. This is verifier integrity, not a timing failure; the missing check is never converted to PASS.
+- Setup inputs published: `patches/orfs/` (exact diffs + manifest), `scripts/check_setup_patches.py`, `scripts/setup_preflight.py`. Frozen `evaluate_diagnosis_v2.py` unchanged; `evaluate_diagnosis_v3.py` adds strict correction-identity checks.
 
 ## License
 

@@ -32,7 +32,7 @@ Use `PASS`, `FAIL`, `BLOCKED`, `UNKNOWN`, `INCONCLUSIVE`, `NOT RUN`, `NOT EVALUA
 
 ## 8. Reproducibility
 
-Inputs, dependencies, versions, hashes, and run state are recorded wherever the implementation supports it. Declared expectations are separated from captured fingerprints. Avoiding author-specific paths is a **goal**: the published `config.mk` still has overridable `/mnt/d/...` defaults that readers must override. Avoid reliance on untracked files.
+Inputs, dependencies, versions, hashes, and run state are recorded wherever the implementation supports it. Declared expectations are separated from captured fingerprints. Avoiding author-specific paths is a **goal**: the published `config.mk` now uses portable defaults and `SATTVA_MIRROR`/`KLAYOUT_CMD` overrides. Curated evidence records may still contain absolute provenance paths; those identify the executed run, not required local setup. Avoid reliance on untracked files.
 
 ## Related
 

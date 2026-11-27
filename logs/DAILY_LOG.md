@@ -442,3 +442,13 @@ Next: stop; no further milestone without explicit authorization.
 
 --- SESSION START — T-PNR-001 (2026-11-25, implementation engineer) ---
 Agent: orchestrator/implementation engineer. Starting git state: D:\SattvaRoute_publish main ac40255 (clean, equals origin). Task: close verified controller/integrity gaps, establish compatible public macro PnR benchmark, deliver one human-gated recovery workflow. Files expected: scripts/**, tests/**, config/configs/**, app/**, docs/**, knowledge/**, coordination/**, logs/**, new isolated benchmark/runs; preserve OpenFinRAM case. Audits running read-only in parallel.
+## SESSION START - 2026-11-27T15:08:38Z - T-EVQ-001
+- Task: qualify evidence-to-verdict chain, reproducibility, one approved 1 ns recovery.
+- Branch: engineering/evidence-verdict-qualification from origin/main fa869efa7c0ec02e194b30fee8ede339212e03be.
+- Starting state: clean tracked tree; untracked docs/audit/VISUAL_EVIDENCE_CAPABILITY_AUDIT.md preserved.
+- Phase 0: three read-only audits complete.
+- 2026-11-27T16:09:00Z: recovery gate reached; awaiting explicit human approval of exact ADDITIONAL_LEFS patch before apply.
+## SESSION END - 2026-11-27T17:00:00Z - T-EVQ-001
+- Completed: timing audit v2 + negatives, run/artifact binding, v3 successor, setup patches/checker/preflight, portable config/paths, 1 ns baseline, approved recovery execution, status reconciliation.
+- Blocked: recovery verdict FAIL solely because baseline timing_update is UNKNOWN (pinned OpenROAD lacks update_timing). No signoff/functional claim. All work uncommitted; no publication performed.
+- 2026-11-27T17:30:00Z: final commit prepared locally (fc9ca0b). Not pushed; PR not created; no publication authorization.

@@ -47,6 +47,29 @@ AUDIT = {
 }
 
 
+def bound_audit(run: Path, base: dict | None = None) -> dict:
+    """Build a run-bound v2 audit so verifier binding cannot be bypassed."""
+    import hashlib
+    audit = json.loads(json.dumps(base or AUDIT))
+    audit.update({"schema": "timing_audit/v2", "audit_complete": True,
+                  "audit_status": "OK", "section_errors": [], "returncode": 0})
+    artifacts = {}
+    for name in ("6_final.odb", "6_final.sdc", "6_final.spef",
+                 "6_finish.rpt", "5_route_drc.rpt"):
+        hits = sorted(run.rglob(name))
+        artifacts[name] = {
+            "path": str(hits[0]) if hits else None,
+            "sha256": hashlib.sha256(hits[0].read_bytes()).hexdigest() if hits else None,
+        }
+    (run / "evidence" / "manifest.json").write_text(
+        json.dumps({"digest": "test-fingerprint"}), encoding="utf-8")
+    audit["binding"] = {"run_id": run.name, "active_profile": "nangate_macro_control",
+                        "dependency_fingerprint": "test-fingerprint",
+                        "tool_identity": "test", "tool_sha256": None,
+                        "artifacts": artifacts}
+    return audit
+
+
 def make_run(root: Path, *, name="run", stages_rc=0, artifacts=True,
              drt_counts=(0,), drc_bytes=0, slack=899.75, setup=0, hold=0,
              finish=True, period_min=100.25, spef=True, rcx_nets=209,
@@ -83,8 +106,10 @@ def make_run(root: Path, *, name="run", stages_rc=0, artifacts=True,
 
     if artifacts:
         for n in ("5_route.odb", "route.guide", "6_final.odb", "6_final.def",
-                  "6_final.gds", "6_final.v", "6_final.sdc"):
+                  "6_final.gds", "6_final.v"):
             (res / n).write_bytes(b"x" * 16)
+        (res / "6_final.sdc").write_text(
+            "create_clock -name clk -period 1000 [get_ports clk]\n", encoding="utf-8")
         if spef:
             (res / "6_final.spef").write_bytes(b"x" * 16)
         (res / "clock_period.txt").write_text("1000\n", encoding="utf-8")
@@ -109,8 +134,8 @@ class VerifierTests(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
-    def status(self, run, audit=AUDIT):
-        return verify_run(run, audit)
+    def status(self, run, audit=None):
+        return verify_run(run, bound_audit(run) if audit is None else audit)
 
     def check(self, out, name):
         return next(c for c in out["checks"] if c["name"] == name)["status"]
@@ -155,7 +180,7 @@ class VerifierTests(unittest.TestCase):
 
     def test_audit_without_time_unit_is_unknown(self):
         run = make_run(self.root)
-        audit = json.loads(json.dumps(AUDIT))
+        audit = bound_audit(run)
         audit["units"] = {}
         out = verify_run(run, audit)
         self.assertEqual(self.check(out, "timing"), UNKNOWN)
@@ -163,7 +188,7 @@ class VerifierTests(unittest.TestCase):
     # ---- unconstrained ----------------------------------------------------
     def test_unconstrained_endpoints_fail_coverage(self):
         run = make_run(self.root)
-        audit = json.loads(json.dumps(AUDIT))
+        audit = bound_audit(run)
         audit["coverage"]["unconstrained_endpoints"] = 4
         out = verify_run(run, audit)
         self.assertEqual(self.check(out, "timing_coverage"), FAIL)
@@ -191,7 +216,7 @@ class VerifierTests(unittest.TestCase):
 
     def test_unannotated_parasitics_fail(self):
         run = make_run(self.root)
-        audit = json.loads(json.dumps(AUDIT))
+        audit = bound_audit(run)
         audit["parasitics"]["unannotated_drivers"] = 12
         out = verify_run(run, audit)
         self.assertEqual(self.check(out, "extraction"), FAIL)
@@ -207,17 +232,36 @@ class VerifierTests(unittest.TestCase):
         self.assertEqual(self.check(out, "timing"), UNKNOWN)
 
     # ---- recovery ---------------------------------------------------------
+    def _apply(self, rec, scope=None, after=None):
+        import hashlib
+        target = self.root / "config.mk"
+        before = "export ADDITIONAL_LEFS = old\n"
+        final = "export ADDITIONAL_LEFS = new\n"
+        target.write_text(final, encoding="utf-8")
+        after_hash = hashlib.sha256(final.encode()).hexdigest()
+        apply = {"phase": "verified", "approval_id": "AP-TEST", "operation_id": "op-test",
+                 "before_sha256": hashlib.sha256(before.encode()).hexdigest(),
+                 "after_sha256": after or after_hash,
+                 "rerun_scope": scope or ["synth", "route"], "target": str(target)}
+        (Path(rec["run_dir"]) / "evidence" / "approval_guard.json").write_text(
+            json.dumps({"status": "PASS", "run_id": "fail",
+                        "approval_id": "AP-TEST", "operation_id": "op-test",
+                        "rerun_scope": scope or ["synth", "route"]}), encoding="utf-8")
+        return apply
+
     def _recovery_inputs(self):
         base = self.status(make_run(self.root, name="base"))
-        fail = verify_run(make_run(self.root, name="fail", stages_rc=2,
-                                   artifacts=False, drt_counts=()), None)
+        fail_dir = make_run(self.root, name="fail", stages_rc=2,
+                            artifacts=False, drt_counts=())
+        (fail_dir / "evidence" / "stage_synth.log").write_text(
+            "No such file: missing_fakeram45_64x32.lib\n", encoding="utf-8")
+        fail = verify_run(fail_dir, None)
         rec = self.status(make_run(self.root, name="rec"))
         return base, fail, rec
 
     def test_recovery_passes_when_scope_ran_and_marker_gone(self):
         base, fail, rec = self._recovery_inputs()
-        apply = {"phase": "verified", "after_sha256": "a" * 64,
-                 "rerun_scope": ["synth", "route"], "target": "config.mk"}
+        apply = self._apply(rec)
         out = verify_recovery(base, fail, rec, approval_apply=apply,
                               targeted_marker="missing_fakeram")
         self.assertEqual(out["overall"], PASS, out)
@@ -226,17 +270,14 @@ class VerifierTests(unittest.TestCase):
         base, fail, rec = self._recovery_inputs()
         (Path(rec["run_dir"]) / "evidence" / "stage_synth.log").write_text(
             "No such file: missing_fakeram45_64x32.lib\n", encoding="utf-8")
-        apply = {"phase": "verified", "after_sha256": "a" * 64,
-                 "rerun_scope": ["synth", "route"], "target": "config.mk"}
+        apply = self._apply(rec)
         out = verify_recovery(base, fail, rec, approval_apply=apply,
                               targeted_marker="missing_fakeram")
         self.assertEqual(out["overall"], FAIL)
 
     def test_recovery_fails_when_scope_stage_missing(self):
         base, fail, rec = self._recovery_inputs()
-        apply = {"phase": "verified", "after_sha256": "a" * 64,
-                 "rerun_scope": ["synth", "floorplan", "route"],
-                 "target": "config.mk"}
+        apply = self._apply(rec, scope=["synth", "floorplan", "route"])
         out = verify_recovery(base, fail, rec, approval_apply=apply,
                               targeted_marker="missing_fakeram")
         self.assertEqual(out["overall"], FAIL)
@@ -252,8 +293,7 @@ class VerifierTests(unittest.TestCase):
         fail = verify_run(make_run(self.root, name="fail", stages_rc=2,
                                    artifacts=False, drt_counts=()), None)
         rec = self.status(make_run(self.root, name="rec"))
-        apply = {"phase": "verified", "after_sha256": "a" * 64,
-                 "rerun_scope": ["synth", "route"], "target": "config.mk"}
+        apply = self._apply(rec)
         out = verify_recovery(base, fail, rec, approval_apply=apply,
                               targeted_marker="missing_fakeram")
         self.assertEqual(out["overall"], FAIL)
@@ -262,8 +302,7 @@ class VerifierTests(unittest.TestCase):
         base = self.status(make_run(self.root, name="base"))
         fail = self.status(make_run(self.root, name="fail"))
         rec = self.status(make_run(self.root, name="rec"))
-        apply = {"phase": "verified", "after_sha256": "a" * 64,
-                 "rerun_scope": ["synth", "route"], "target": "config.mk"}
+        apply = self._apply(rec)
         out = verify_recovery(base, fail, rec, approval_apply=apply,
                               targeted_marker="missing_fakeram")
         self.assertEqual(out["overall"], FAIL)

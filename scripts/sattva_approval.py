@@ -92,6 +92,9 @@ def load_policy(path: Path) -> dict:
     if not os.environ.get("SATTVA_ROOT"):
         # Default to the project root containing state/approval_policy.json.
         os.environ["SATTVA_ROOT"] = str(path.resolve().parent.parent)
+    if not os.environ.get("SATTVA_MIRROR"):
+        os.environ["SATTVA_MIRROR"] = str(
+            Path(os.environ["SATTVA_ROOT"]) / "tools" / "OpenROAD-flow-scripts")
     # Resolve project-relative variables instead of hard-coded machine paths.
     for key in ("ledger",):
         if isinstance(policy.get(key), str):
@@ -105,7 +108,8 @@ def load_policy(path: Path) -> dict:
 
 
 def compute_input_fingerprint(design_root: Path, policy: dict,
-                              profile: str | None = None) -> str:
+                              profile: str | None = None,
+                              exclude: Path | None = None) -> str:
     """Fingerprint the design inputs named by policy (relative to design_root).
 
     `input_files` are design-relative. `fingerprint_files_absolute` (and
@@ -125,6 +129,8 @@ def compute_input_fingerprint(design_root: Path, policy: dict,
     items = []
     for rel in files:
         p = design_root / rel
+        if exclude is not None and p.resolve() == exclude.resolve():
+            continue  # the approved patch target cannot invalidate its own revalidation
         if not p.is_file():
             raise ApprovalError(f"input file missing for fingerprint: {p}")
         items.append(f"{rel}\0{sha256_file(p)}")
@@ -233,11 +239,11 @@ def validate_approval(approval: dict, patch_path: Path, policy: dict,
     patch_bytes = patch_path.read_bytes()
     if sha256_bytes(patch_bytes) != approval["patch_sha256"]:
         raise ApprovalError("patch SHA-256 mismatch")
-    if compute_input_fingerprint(design_root, policy, approval.get("profile")) \
-            != approval["input_fingerprint"]:
+    target = Path(approval["target_file"])
+    if compute_input_fingerprint(design_root, policy, approval.get("profile"),
+                                 exclude=target) != approval["input_fingerprint"]:
         raise ApprovalError("input fingerprint mismatch")
 
-    target = Path(approval["target_file"])
     check_path_safety(target, policy)
     if not target.is_file():
         raise ApprovalError(f"target file missing: {target}")
@@ -375,8 +381,10 @@ def apply_patch(approval: dict, patch_path: Path, policy: dict, evidence_dir: Pa
         current = sha256_bytes(original)
         if current != approval["expected_original_hash"]:
             raise ApprovalError("target changed concurrently before apply")
+        # Read patch bytes verbatim: universal-newline translation would turn a
+        # CRLF patch into LF and break byte-exact context against a CRLF target.
         final_text = apply_unified_diff(original.decode("utf-8"),
-                                        patch_path.read_text(encoding="utf-8"))
+                                        patch_path.read_bytes().decode("utf-8"))
         final_bytes = final_text.encode("utf-8")
         final_hash = sha256_bytes(final_bytes)
 
@@ -437,7 +445,8 @@ def cmd_create(args) -> None:
         decision_id=args.decision_id,
         source_run_id=args.source_run_id,
         input_fingerprint=compute_input_fingerprint(design_root, policy,
-                                                     getattr(args, "profile", None)),
+                                                     getattr(args, "profile", None),
+                                                     exclude=target),
         patch_sha256=sha256_file(patch),
         target_file=str(target),
         expected_original_hash=sha256_file(target),
@@ -559,12 +568,25 @@ def cmd_check_source_artifacts(args) -> None:
             stale[stage] = [f for f in needed
                             if f in recorded and (results_root / f).is_file()
                             and sha256_file(results_root / f) != recorded[f]]
-    if any(missing.values()):
+    source_run_json = Path(args.source_work).parent / "evidence" / "run.json"
+    source_failed = False
+    if source_run_json.is_file():
+        try:
+            doc = json.loads(source_run_json.read_text(encoding="utf-8"))
+            stages = doc.get("stages") or []
+            source_failed = bool(stages) and any(int(s.get("rc", 1)) != 0 for s in stages)
+            source_failed = source_failed or bool(doc.get("first_failed_stage"))
+        except (ValueError, TypeError, OSError):
+            source_failed = False
+    if any(missing.values()) and not source_failed:
+        # A fully completed source run must have the declared prerequisites.
+        # A source that failed early has none; those stages are rerun from scratch.
         raise ApprovalError(f"source artifacts missing for rerun scope: {missing}")
     if any(stale.values()):
         raise ApprovalError(f"source artifacts changed since baseline: {stale}")
     print("SOURCE_ARTIFACTS_OK " + json.dumps(
         {"scope": {s: stage_inputs.get(s, []) for s in scope},
+         "source_failed": source_failed, "missing": missing,
          "hash_checked": bool(recorded)}))
 
 

@@ -34,6 +34,11 @@ export SATTVA_MIRROR=<checkout>
 
 ## Verify setup (no flow run)
 
+Before the manifest check, run the documented setup preflight. It checks the pinned ORFS base, published patch applicability, tool runtime identities, active-profile collateral and the GDS/KLayout dependency, and reports actionable failures:
+```
+python3 scripts/setup_preflight.py --mirror <orfs>
+```
+
 ```
 python3 scripts/manifest.py --check --profile nangate_macro_control --mirror "$SATTVA_MIRROR"
 python3 scripts/pnr_cli.py status
@@ -47,7 +52,7 @@ python3 scripts/pnr_cli.py status
 python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-The suite defines 157 test methods across `tests/test_*.py` (counted in this milestone), covering approval integrity, diagnosis, manifest, recovery CLI, verification, KB, remedy engine, and evaluation v2. Prior records report the suites passing; no re-execution occurred here (no Python interpreter in this shell).
+The suite defines 176 test methods across `tests/test_*.py`. Targeted qualification suites pass 81/81; the full suite reports 4 failures and 25 errors from pre-existing fixture/environment gaps (external collateral absent from this publication repo), not from the qualification changes. See `coordination/TASK_BOARD.md`.
 
 ## First baseline run
 

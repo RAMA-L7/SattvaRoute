@@ -14,7 +14,7 @@ Only the project owner may push, open a PR, merge, tag, release, force-push, or 
 
 ## What is publishable
 
-Original source/docs/config/curated evidence. Not published: tool trees, PDKs, licensed collateral, credentials, full run databases, machine-specific paths in evidence/logs. The published `config.mk` retains overridable `/mnt/d/...` `?=` defaults for `WORK_HOME`/`KLAYOUT_CMD` (QA finding); override them locally. See `docs/governance/THIRD_PARTY.md`, `docs/REPRODUCIBILITY.md`.
+Original source/docs/config/curated evidence. Not published: tool trees, PDKs, licensed collateral, credentials, full run databases, machine-specific paths in evidence/logs. The published `config.mk` now uses portable defaults for `WORK_HOME`/`KLAYOUT_CMD`; curated evidence records may still contain absolute provenance paths identifying the executed run. See `docs/governance/THIRD_PARTY.md`, `docs/REPRODUCIBILITY.md`.
 
 ## Release discipline
 

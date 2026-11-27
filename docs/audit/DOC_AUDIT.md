@@ -74,3 +74,4 @@ Independent pre-PR review workstreams reported, and the coordinator corrected:
 - Optional `live-diagnose --gt` grades with v1 `evaluate_diagnosis.py`, not the frozen v2 rubric.
 - Inactive profiles are explicitly selectable via `--profile`, not validated for the control benchmark; proposal `PENDING` (source) vs `PENDING_HUMAN` (CLI) distinguished; recovery verdict labels described as interpretation of `PASS`/`FAIL`/`UNKNOWN`.
 - `docs/VERIFICATION.md` marked historical/superseded; Mermaid node IDs made consistent across diagrams.
+Note (2026-11-27, evidence-to-verdict milestone): the historical statement that `config.mk` was unchanged is superseded. Portable defaults and environment overrides were later applied; see `docs/REPRODUCIBILITY.md` and `evidence/verification/setup_checks.txt`.

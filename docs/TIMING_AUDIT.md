@@ -162,3 +162,8 @@ Documented limitation.
 
 OpenROAD-internal routing DRC=0 + 0 DRT-0199 + clean antenna + extracted STA.
 **Not** foundry DRC/LVS, **not** full signoff, **not** functional verification.
+## Pinned-tool limitation: update_timing (2026-11-27)
+- The pinned OpenROAD binary reports no `update_timing` command. Audit schema v2 records this as `SECTION_UNSUPPORTED` and `timing_update = UNKNOWN`. UNKNOWN is never converted to PASS.
+- The 1 ns baseline and recovery passed every executable report check (execution, artifacts, freshness, routing, timing reports, coverage, extraction, approval/scope/same-target), but timing qualification is unresolved: collateral timing regression cannot be claimed.
+- Recovery verdict therefore remains FAIL on `collateral_regression` in `evidence/verification/clean_1ns_recovery.json`. This is verifier integrity, not a timing failure; no signoff or functional-correctness claim is made.
+- Potential resolution: obtain a compatible OpenROAD build with `update_timing`, then rerun baseline and recovery qualification. Out of scope for this milestone.

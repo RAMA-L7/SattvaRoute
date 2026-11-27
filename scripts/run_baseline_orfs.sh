@@ -18,14 +18,15 @@
 # =============================================================================
 set -u
 
-ROOT=${SATTVA_ROOT:-/mnt/d/SattvaRoute}
+ROOT=${SATTVA_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}
 MIRROR=${SATTVA_MIRROR:-$ROOT/tools/OpenROAD-flow-scripts}
 FLOW=$MIRROR/flow
-DESIGN=${SATTVA_DESIGN:-$ROOT/benchmark/design/sattva_sram}
+DESIGN=${SATTVA_DESIGN:-$ROOT/benchmark/design/nangate_macro_control}
 RUNS_ROOT=${SATTVA_RUNS:-$ROOT/runs}
 CFG=$DESIGN/config.mk
-OPENROAD_EXE=${OPENROAD_EXE:-/usr/local/bin/openroad}
-YOSYS_EXE=${YOSYS_EXE:-/usr/bin/yosys}
+OPENROAD_EXE=${OPENROAD_EXE:-openroad}
+YOSYS_EXE=${YOSYS_EXE:-yosys}
+KLAYOUT_CMD=${KLAYOUT_CMD:-${SATTVA_KLAYOUT:-klayout}}
 RUN_TAG=${RUN_TAG:-}
 
 # High-entropy ID + PID; atomic mkdir is the collision guard.
@@ -98,7 +99,7 @@ if [ -n "$APPROVAL$PATCH_FILE$POLICY$SOURCE_RUN$SOURCE_RUN_ID$DECISION_ID" ]; th
   APPROVAL_ACTIVE=1
 fi
 
-OVERRIDES=(OPENROAD_EXE="$OPENROAD_EXE" YOSYS_EXE="$YOSYS_EXE" "WORK_HOME=$WORK")
+OVERRIDES=(OPENROAD_EXE="$OPENROAD_EXE" YOSYS_EXE="$YOSYS_EXE" KLAYOUT_CMD="$KLAYOUT_CMD" "WORK_HOME=$WORK")
 
 # ------------------------- preflight gate ------------------------------------
 CHECKS="$EV/preflight_checks.tsv"

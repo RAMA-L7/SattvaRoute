@@ -1,0 +1,27 @@
+SattvaRoute control benchmark netlist provenance (T-PNR-001)
+============================================================
+Date: 2026-11-25 (UTC)
+Purpose: separate preparation step; PnR starts from this gate-level netlist.
+
+Source RTL:
+  rtl/fakeram45_64x32_bb.v  (generated synthesis blackbox interface from
+                             platform fakeram45_64x32.lef pin names; not a
+                             memory compiler, no macro geometry/timing invented)
+  rtl/sattva_macro_top.v    (thin pass-through wrapper; one hard macro instance)
+  constraint.sdc            (1000 ps clock, 10% IO delays; not changed after results)
+
+Preparation commands (offline, no production/design file modified):
+  1. ORFS canonicalize stage: yosys 0.33 read_liberty -lib (SATTVA_YOSYS_COMPAT=1
+     skips one unsupported annotation read in the execution mirror), writes
+     1_1_yosys_canonicalize.rtlil.
+  2. yosys 0.33: read_rtlil <canonicalize.rtlil>; hierarchy -check -top
+     sattva_macro_top; synth -top sattva_macro_top; dfflibmap -liberty
+     NangateOpenCellLibrary_typical.lib; abc -liberty same lib; opt_clean -purge;
+     write_verilog -noattr sattva_macro_top_synth.v.
+
+Result: one fakeram45_64x32 instance preserved; no functional RTL change; no
+constraint relaxation; no macro LEF/LIB/geometry edit; no design-rule waiver.
+
+Recovery relevance: the cached netlist is copied with preserved timestamps by
+ORFS synth_preamble.tcl; recovery patches target only the attempt-local config,
+never this netlist or the protected benchmark originals.

@@ -1,0 +1,13 @@
+# Preserve LF for executable scripts and byte-sensitive provenance artifacts.
+# core.autocrlf=true on the author machine would otherwise convert these to
+# CRLF on checkout and invalidate recorded SHA-256 hashes / patch applicability.
+*.sh text eol=lf
+*.tcl text eol=lf
+*.py text eol=lf
+*.patch text eol=lf
+*.diff text eol=lf
+*.json text eol=lf
+*.jsonl text eol=lf
+*.txt text eol=lf
+*.v text eol=lf
+*.mk text eol=lf
