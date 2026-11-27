@@ -1,0 +1,153 @@
+{
+  "audit_complete": true,
+  "audit_status": "OK",
+  "binding": {
+    "active_profile": "UNKNOWN",
+    "artifacts": {
+      "5_route_drc.rpt": {
+        "path": "/mnt/d/SattvaRoute_publish/runs/orfs_baseline_tq_recovery_20261127T185012127158401Z_1604/work/reports/nangate45/nangate_macro_control/base/5_route_drc.rpt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "6_final.odb": {
+        "path": "/mnt/d/SattvaRoute_publish/runs/orfs_baseline_tq_recovery_20261127T185012127158401Z_1604/work/results/nangate45/nangate_macro_control/base/6_final.odb",
+        "sha256": "a739bcc2eafa202517779c64d5f5aded9ca61c0632584e3dc711d16381a25da7"
+      },
+      "6_final.sdc": {
+        "path": "/mnt/d/SattvaRoute_publish/runs/orfs_baseline_tq_recovery_20261127T185012127158401Z_1604/work/results/nangate45/nangate_macro_control/base/6_final.sdc",
+        "sha256": "400481d412ee81cb53e40c57b13d3ed37fec297f2e07976745e8187b2fb6ea99"
+      },
+      "6_final.spef": {
+        "path": "/mnt/d/SattvaRoute_publish/runs/orfs_baseline_tq_recovery_20261127T185012127158401Z_1604/work/results/nangate45/nangate_macro_control/base/6_final.spef",
+        "sha256": "516a0ff34ee4adfd2ed832d490cd49df7f3df2ad53ed74a685918b1ebd2f9130"
+      },
+      "6_finish.rpt": {
+        "path": "/mnt/d/SattvaRoute_publish/runs/orfs_baseline_tq_recovery_20261127T185012127158401Z_1604/work/reports/nangate45/nangate_macro_control/base/6_finish.rpt",
+        "sha256": "3582ae2e1140a8f87ec834b3981f285d1ea1692c79b3dc5d628c9ce1e9b47f29"
+      }
+    },
+    "dependency_fingerprint": "855fd01e86f6f9592ce86f10b8f1d5b1e2fd2be7cc24c5d9bdb26c035bb9b3a4",
+    "run_id": "orfs_baseline_tq_recovery_20261127T185012127158401Z_1604",
+    "tool_identity": "/usr/local/bin/openroad",
+    "tool_sha256": "c1b90e0af69bc9779cde8fd1579a92a10738ddebb9ea16e459f280556c349ee9"
+  },
+  "capability": {
+    "detail": null,
+    "id": "sta_find_timing",
+    "invocation": "::sta::find_timing -full_update",
+    "rc": 0,
+    "section": "TIMING_UPDATE",
+    "status": "AVAILABLE"
+  },
+  "check_setup": "CHECK_SETUP_OK\nSECTION_OK CHECK_SETUP",
+  "clock": {
+    "name": "clk",
+    "period": 1.0,
+    "waveform": [
+      0.0,
+      0.5
+    ]
+  },
+  "coverage": {
+    "check_setup_completed": true,
+    "check_setup_warnings": [],
+    "clock_periods": {
+      "_205abcbcd7520000_p_Clock": 1.0
+    },
+    "clocks": 1,
+    "input_ports": 73,
+    "output_ports": 32,
+    "register_clock_pins": 1,
+    "registers": 1,
+    "unconstrained_endpoints": 0,
+    "unconstrained_report_lines": 1
+  },
+  "liberty": [
+    {
+      "capacitance_unit": null,
+      "default_operating_conditions": "typical",
+      "nom_process": "1.00",
+      "nom_temperature": "25.00",
+      "nom_voltage": "1.10",
+      "path": "/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib",
+      "sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+      "time_unit": "1ns",
+      "voltage_unit": "1V"
+    },
+    {
+      "capacitance_unit": null,
+      "default_operating_conditions": "tt_1.0_25.0",
+      "nom_process": "1",
+      "nom_temperature": "25.000",
+      "nom_voltage": "1.1",
+      "path": "/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/fakeram45_64x32.lib",
+      "sha256": "bcf9eb40daf072b0fdeb1d98f13b0b9cfebc07e446f3c6dadc5702eaa3e9e8a7",
+      "time_unit": "1ns",
+      "voltage_unit": "1V"
+    }
+  ],
+  "openroad": "/usr/local/bin/openroad",
+  "openroad_sha256": "c1b90e0af69bc9779cde8fd1579a92a10738ddebb9ea16e459f280556c349ee9",
+  "parasitics": {
+    "partially_unannotated_drivers": 0,
+    "unannotated_drivers": 0
+  },
+  "period_min": {
+    "including_ports": {
+      "fmax": "2760.00",
+      "period_min": 0.36
+    },
+    "reg_to_reg": {
+      "fmax": null,
+      "period_min": 0.0
+    }
+  },
+  "raw_audit": "evidence/timing/tq_recovery_audit.raw.txt",
+  "raw_audit_sha256": "cc778132b31ca8f092273aac2e107a2d8813ab6a90d2d7652aa5a2c31dbe725d",
+  "rc_corner": {
+    "rcx_rules": "/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/rcx_patterns.rules",
+    "rcx_rules_sha256": "2f65fafbe2c704b378563c53a680b93cef080c2799997019d43df7d1e5a563e9",
+    "setrc": "/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/setRC.tcl",
+    "setrc_sha256": "521df813bf4da9d7400df33e3f680c9a328cc720830dbfca1188083741503fa5"
+  },
+  "results_dir": "/mnt/d/SattvaRoute_publish/runs/orfs_baseline_tq_recovery_20261127T185012127158401Z_1604/work/results/nangate45/nangate_macro_control/base",
+  "returncode": 0,
+  "run": "/mnt/d/SattvaRoute_publish/runs/orfs_baseline_tq_recovery_20261127T185012127158401Z_1604",
+  "schema": "timing_audit/v2",
+  "section_errors": [],
+  "section_ok": [
+    "CHECKS_MAX",
+    "CHECKS_MIN",
+    "CHECK_SETUP",
+    "CHECK_TYPES",
+    "CLOCK_PROPERTIES",
+    "CLOCK_SKEW",
+    "COVERAGE",
+    "LIBERTY",
+    "LIBS",
+    "LOAD",
+    "MIN_PERIOD_INCLUDING_PORTS",
+    "MIN_PERIOD_REG_TO_REG",
+    "PARASITICS",
+    "RC_CORNER",
+    "REPORT_UNITS",
+    "SPEF",
+    "TIMING_UPDATE",
+    "UNCONSTRAINED",
+    "WNS_TNS",
+    "WORST_SLACK"
+  ],
+  "slack": {
+    "max": 0.64,
+    "min": 0.08
+  },
+  "units": {
+    "capacitance": "1fF",
+    "current": "1mA",
+    "distance": "1um",
+    "power": "1nW",
+    "resistance": "1kohm",
+    "time": "1ns",
+    "voltage": "1v"
+  },
+  "unsupported_sections": []
+}

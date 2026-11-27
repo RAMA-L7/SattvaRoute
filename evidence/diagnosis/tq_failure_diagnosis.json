@@ -1,0 +1,30 @@
+{
+  "affected_variable": null,
+  "evidence_refs": [
+    "runs/orfs_baseline_tq_failure_20261127T184000106056205Z_334/evidence/stages.tsv",
+    "runs/orfs_baseline_tq_failure_20261127T184000106056205Z_334/evidence/run.json",
+    "stage_synth.log"
+  ],
+  "failed_rc": "2",
+  "failed_stage": "synth",
+  "family": "MISSING_MACRO_LEF",
+  "log_hits": [
+    {
+      "line": 18,
+      "log": "stage_synth.log",
+      "text": "make: *** No rule to make target '/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/missing_fakeram45_64x32.lef', needed by '/mnt/d/SattvaRoute_publish/runs/orfs_baseline_tq_failure_20261127T184000106056205Z_334/work/results/nangate45/nangate_macro_control/base/1_synth.odb'.  Stop."
+    }
+  ],
+  "missing_file": "/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/missing_fakeram45_64x32.lef",
+  "missing_references": [
+    "/mnt/d/SattvaRoute/tools/OpenROAD-flow-scripts/flow/platforms/nangate45/lef/missing_fakeram45_64x32.lef"
+  ],
+  "model": {
+    "available": false,
+    "note": null,
+    "reason": "SATTVA_MODEL_URL not configured"
+  },
+  "run_dir": "runs/orfs_baseline_tq_failure_20261127T184000106056205Z_334",
+  "signature": "missing macro LEF reference",
+  "source": "deterministic_parser"
+}

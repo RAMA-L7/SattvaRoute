@@ -26,12 +26,18 @@ ROOT = Path(__file__).resolve().parent.parent
 TCL = ROOT / "scripts" / "audit_timing.tcl"
 AUDIT_SCHEMA = "timing_audit/v2"
 MANDATORY_SECTIONS = (
-    "LIBERTY", "LOAD", "RC_CORNER", "SPEF", "UPDATE_TIMING",
+    "LIBERTY", "LOAD", "RC_CORNER", "SPEF", "TIMING_UPDATE",
     "REPORT_UNITS", "CLOCK_PROPERTIES", "WORST_SLACK",
     "CHECK_SETUP", "PARASITICS", "COVERAGE",
 )
+LEGACY_TIMING_SECTION = "UPDATE_TIMING"
+CAPABILITY_ID = "sta_find_timing"
+CAPABILITY_INVOCATION = "::sta::find_timing -full_update"
 
 UNIT_RE = re.compile(r"^\s*(time|capacitance|resistance|voltage|current|power|distance)\s+(\S+)\s*$", re.M)
+CAPABILITY_AVAILABLE_RE = re.compile(r"^CAPABILITY_AVAILABLE\s+(\S+)\s*$", re.M)
+CAPABILITY_UNAVAILABLE_RE = re.compile(r"^CAPABILITY_UNAVAILABLE\s+(\S+)\s*$", re.M)
+CAPABILITY_DETAIL_RE = re.compile(r"^CAPABILITY_DETAIL\s+(\S+):\s*(.*)$", re.M)
 CLOCK_RE = re.compile(r"^(\S+)\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\s*$", re.M)
 WORST_RE = re.compile(r"worst slack (max|min)\s+(-?[0-9.]+)")
 PERIOD_RE = re.compile(r"period_min\s*=\s*([0-9.]+|inf)\s*fmax\s*=\s*(\S+)")
@@ -98,9 +104,47 @@ def parse(raw: str) -> dict[str, Any]:
                    for m in re.finditer(r"^SECTION_UNSUPPORTED (\w+):?\s*(.*)$", raw, re.M)]
     status = re.search(r"^AUDIT_STATUS (\w+) errors=(\d+)", raw, re.M)
     audit_done = "===== AUDIT_DONE =====" in raw
-    mandatory_ok = all(name in section_ok for name in MANDATORY_SECTIONS)
+
+    capability_status = "UNKNOWN"
+    capability_rc: int | None = None
+    capability_detail: str | None = None
+    available = CAPABILITY_AVAILABLE_RE.search(raw)
+    unavailable = CAPABILITY_UNAVAILABLE_RE.search(raw)
+    if available and available.group(1) == CAPABILITY_ID:
+        capability_status = "AVAILABLE"
+        capability_rc = 0
+    elif unavailable and unavailable.group(1) == CAPABILITY_ID:
+        capability_status = "UNAVAILABLE"
+        detail = CAPABILITY_DETAIL_RE.search(raw)
+        if detail and detail.group(1) == CAPABILITY_ID:
+            capability_detail = detail.group(2).strip()
+            rc_m = re.search(r"\brc=(\d+)\b", capability_detail)
+            capability_rc = int(rc_m.group(1)) if rc_m else None
+
+    error_names = {entry["section"] for entry in section_errors}
+    unsupported_names = {entry["section"] for entry in unsupported}
+    timing_ok_names = [name for name in ("TIMING_UPDATE", LEGACY_TIMING_SECTION)
+                       if name in section_ok and name not in error_names
+                       and name not in unsupported_names]
+    if capability_status == "UNAVAILABLE":
+        # Missing or uninvokable capability can never be converted into a pass.
+        timing_ok = False
+    elif capability_status == "AVAILABLE":
+        timing_ok = bool(timing_ok_names)
+    else:
+        # v2 streams captured before the capability contract only used the
+        # legacy UPDATE_TIMING section; keep reading them without upgrading a
+        # stream that never emitted SECTION_OK for that section.
+        timing_ok = LEGACY_TIMING_SECTION in timing_ok_names
+
+    effective_mandatory = tuple(
+        LEGACY_TIMING_SECTION if (name == "TIMING_UPDATE"
+                                  and LEGACY_TIMING_SECTION in section_ok
+                                  and "TIMING_UPDATE" not in section_ok)
+        else name for name in MANDATORY_SECTIONS)
+    mandatory_ok = all(name in section_ok for name in effective_mandatory)
     complete = bool(audit_done and status and status.group(1) == "OK"
-                    and mandatory_ok and not section_errors)
+                    and mandatory_ok and not section_errors and timing_ok)
 
     units = {k: v for k, v in UNIT_RE.findall(section(raw, "REPORT_UNITS"))}
     clock = None
@@ -169,6 +213,16 @@ def parse(raw: str) -> dict[str, Any]:
         "schema": AUDIT_SCHEMA,
         "audit_complete": complete,
         "audit_status": status.group(1) if status else None,
+        "capability": {
+            "id": CAPABILITY_ID,
+            "invocation": CAPABILITY_INVOCATION,
+            "status": capability_status,
+            "rc": capability_rc,
+            "detail": capability_detail,
+            "section": ("TIMING_UPDATE" if "TIMING_UPDATE" in timing_ok_names
+                        else LEGACY_TIMING_SECTION if LEGACY_TIMING_SECTION in timing_ok_names
+                        else None),
+        },
         "section_ok": sorted(section_ok),
         "section_errors": section_errors,
         "unsupported_sections": unsupported,

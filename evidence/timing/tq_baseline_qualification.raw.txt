@@ -1,0 +1,165 @@
+OpenROAD bazel-nostamp 
+Features included (+) or not (-): -GPU -GUI
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+===== LIBERTY =====
+SECTION_OK LIBERTY
+===== LOAD =====
+SECTION_OK LOAD
+===== RC_CORNER =====
+SECTION_OK RC_CORNER
+===== SPEF =====
+SECTION_OK SPEF
+===== TIMING_UPDATE =====
+CAPABILITY_AVAILABLE sta_find_timing
+CAPABILITY_STATUS AVAILABLE
+CAPABILITY_INVOCATION sta_find_timing: ::sta::find_timing -full_update
+SECTION_OK TIMING_UPDATE
+===== REPORT_UNITS =====
+ time 1ns
+ capacitance 1fF
+ resistance 1kohm
+ voltage 1v
+ current 1mA
+ power 1nW
+ distance 1um
+SECTION_OK REPORT_UNITS
+===== CLOCK_PROPERTIES =====
+Clock                   Period          Waveform
+----------------------------------------------------
+clk                       1.00        0.00      0.50
+SECTION_OK CLOCK_PROPERTIES
+===== WORST_SLACK =====
+worst slack max 0.64
+worst slack min 0.08
+SECTION_OK WORST_SLACK
+===== WNS_TNS =====
+wns max 0.00
+tns max 0.00
+SECTION_OK WNS_TNS
+===== MIN_PERIOD_REG_TO_REG =====
+clk period_min = 0.00 fmax = inf
+SECTION_OK MIN_PERIOD_REG_TO_REG
+===== MIN_PERIOD_INCLUDING_PORTS =====
+clk period_min = 0.36 fmax = 2760.00
+SECTION_OK MIN_PERIOD_INCLUDING_PORTS
+===== CHECK_SETUP =====
+CHECK_SETUP_OK
+SECTION_OK CHECK_SETUP
+===== CHECKS_MAX =====
+Startpoint: u_macro (rising edge-triggered flip-flop clocked by clk)
+Endpoint: rd_out[26] (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout       Cap      Slew     Delay      Time   Description
+-------------------------------------------------------------------------------------
+                              0.0000    0.0000   clock clk (rise edge)
+                              0.0000    0.0000   clock source latency
+     1   25.3261    0.0000    0.0000    0.0000 ^ clk (in)
+                    0.0012    0.0004    0.0004 ^ u_macro/clk (fakeram45_64x32)
+     1   10.7948    0.0116    0.2070    0.2074 ^ u_macro/rd_out[26] (fakeram45_64x32)
+                    0.0077    0.0010    0.2084 ^ output91/A (BUF_X1)
+     1   14.1046    0.0329    0.0495    0.2580 ^ output91/Z (BUF_X1)
+                    0.0333    0.0044    0.2623 ^ rd_out[26] (out)
+                                        0.2623   data arrival time
+
+                              1.0000    1.0000   clock clk (rise edge)
+                              0.0000    1.0000   clock network delay (propagated)
+                              0.0000    1.0000   clock reconvergence pessimism
+                             -0.1000    0.9000   output external delay
+                                        0.9000   data required time
+-------------------------------------------------------------------------------------
+                                        0.9000   data required time
+                                       -0.2623   data arrival time
+-------------------------------------------------------------------------------------
+                                        0.6377   slack (MET)
+
+
+SECTION_OK CHECKS_MAX
+===== CHECKS_MIN =====
+Startpoint: w_mask_in[6] (input port clocked by clk)
+Endpoint: u_macro (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+Fanout       Cap      Slew     Delay      Time   Description
+-------------------------------------------------------------------------------------
+                              0.0000    0.0000   clock clk (rise edge)
+                              0.0000    0.0000   clock network delay (propagated)
+                              0.1000    0.1000 ^ input external delay
+     1    1.9536    0.0000    0.0000    0.1000 ^ w_mask_in[6] (in)
+                    0.0001    0.0001    0.1001 ^ input36/A (BUF_X1)
+     1    5.9043    0.0158    0.0287    0.1287 ^ input36/Z (BUF_X1)
+                    0.0237    0.0002    0.1290 ^ u_macro/w_mask_in[6] (fakeram45_64x32)
+                                        0.1290   data arrival time
+
+                              0.0000    0.0000   clock clk (rise edge)
+                              0.0000    0.0000   clock source latency
+     1   25.3261    0.0000    0.0000    0.0000 ^ clk (in)
+                    0.0012    0.0004    0.0004 ^ u_macro/clk (fakeram45_64x32)
+                              0.0000    0.0004   clock reconvergence pessimism
+                              0.0500    0.0504   library hold time
+                                        0.0504   data required time
+-------------------------------------------------------------------------------------
+                                        0.0504   data required time
+                                       -0.1290   data arrival time
+-------------------------------------------------------------------------------------
+                                        0.0786   slack (MET)
+
+
+SECTION_OK CHECKS_MIN
+===== UNCONSTRAINED =====
+Startpoint: u_macro (rising edge-triggered flip-flop clocked by clk)
+Endpoint: rd_out[26] (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0004    0.0004   clock network delay (propagated)
+   0.0000    0.0004 ^ u_macro/clk (fakeram45_64x32)
+   0.2070    0.2074 ^ u_macro/rd_out[26] (fakeram45_64x32)
+   0.0506    0.2580 ^ output91/Z (BUF_X1)
+   0.0044    0.2623 ^ rd_out[26] (out)
+             0.2623   data arrival time
+
+   1.0000    1.0000   clock clk (rise edge)
+   0.0000    1.0000   clock network delay (propagated)
+   0.0000    1.0000   clock reconvergence pessimism
+  -0.1000    0.9000   output external delay
+             0.9000   data required time
+-------------------------------------------------------------
+             0.9000   data required time
+            -0.2623   data arrival time
+-------------------------------------------------------------
+             0.6377   slack (MET)
+
+
+SECTION_OK UNCONSTRAINED
+===== CLOCK_SKEW =====
+Clock clk
+No launch/capture paths found.
+
+SECTION_OK CLOCK_SKEW
+===== CHECK_TYPES =====
+SECTION_OK CHECK_TYPES
+===== PARASITICS =====
+Found 0 unannotated drivers.
+Found 0 partially unannotated drivers.
+SECTION_OK PARASITICS
+===== COVERAGE =====
+input_ports 73
+output_ports 32
+register_clock_pins 1
+registers 1
+clocks 1
+clock _20fababca4330000_p_Clock period 1.000000
+SECTION_OK COVERAGE
+===== LIBS =====
+LIB _80e5dfbfa4330000_p_LibertyLibrary
+LIB _00ebdfbfa4330000_p_LibertyLibrary
+SECTION_OK LIBS
+AUDIT_STATUS OK errors=0
+===== AUDIT_DONE =====

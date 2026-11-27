@@ -99,3 +99,8 @@
 - Clean-environment 1 ns baseline: `orfs_baseline_clean_1ns_validation2_20261127T155308953691633Z_332`, rc=0; report checks PASS except `timing_update` UNKNOWN (tool limitation).
 - Isolated 1 ns missing-LEF failure: rc=2 at synth; approved patch hash `02ebf21a...` applied under AP-CLEAN-1NS-LEF-005; recovery run `orfs_baseline_recovery_1ns_lef6_20261127T164249693060081Z_361` rc=0, all six approved stages.
 - Recovery verdict: FAIL solely because baseline overall is UNKNOWN (`timing_update` unsupported). Recovery passes every executable check but remains unqualified for collateral timing regression; UNKNOWN is never downgraded. Open acceptance item; no signoff or functional-correctness claim. Documented boundary accepted for this milestone in `docs/TIMING_AUDIT.md`.
+## Timing qualification adapter and requalification (2026-11-28)
+- Supported `::sta::find_timing -full_update` replaces legacy `update_timing`; capability probe and fail-closed UNKNOWN preserved.
+- New `timing_qualification/v1` record, frozen tolerances, verifier binding against run fingerprint/tool/inputs/raw hash, and numeric baseline/recovery comparison.
+- Requalified: new 1 ns baseline PASS, real missing-LEF failure FAIL, approval-bound recovery PASS, recovery verdict PASS (`evidence/verification/tq_recovery_comparison.json`).
+- Targeted suites 100/100 PASS; full suite 195 tests with 4 failures + 25 errors from pre-existing fixture/environment gaps. Verifier hardening closed adversarial bypasses; re-audit PASS. No signoff or functional-correctness claim.
